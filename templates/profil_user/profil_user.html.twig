@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+{% if image_current %}
+    {% set image = "uploads/images/" ~ image_current.image %}
+{% else %}
+    {% set image = "images/blank-profil.png"%}
+
+{% endif %}
+
+
+{% block title %}Modifiez votre profil prestataire{% endblock %}
+
+{% block body %}
+    <main class="main-profil">
+        <h1>Votre profil</h1>
+        <img id="profil_img" src="{{ asset(image) }}" alt=""/>
+        {{ form_start(imageForm) }}
+        {{ form_row(imageForm.Image) }}
+        {{ form_row(imageForm.save) }}
+        {{ form_end(imageForm) }}
+    </main>
+
+{% endblock %}

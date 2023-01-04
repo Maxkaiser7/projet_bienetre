@@ -38,6 +38,14 @@ class ImagesRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+    //suppression des photos précédentes du prestataire
+    public function removeImages($id){
+        return $this->createQueryBuilder('i')
+            ->andWhere('i.prestataireId = :val')
+            ->setParameter('val', $id)
+            ->delete()
+            ;
+    }
 
 //    /**
 //     * @return Images[] Returns an array of Images objects

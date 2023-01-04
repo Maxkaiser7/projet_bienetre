@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Prestataires{% endblock %}
+
+{% block body %}
+    <main class="main-prestataire bg">
+        <h1>Liste des prestataires</h1>
+        {% if app.user %}
+            <a class="a-prestataire-form" href="{{ path('app_prestataire_form', {'id': app.user.id}) }}">
+                Devenir prestataire</a>
+        {% endif %}
+
+        <div class="liste-prestataire">
+            {% for p in prestataires %}
+                <div class="prestataire-container">
+                    {% for i in p.images %}
+                        <img id="prestataire_img" src="{{ asset('../uploads/images/' ~ i.image) }}" alt=""/>
+                    {% endfor %}
+                    <div class="side-prestataire-container">
+                        <h2>{{ p.nom }}</h2>
+                        <div class="dates">
+                            <p>date debut</p>
+                            <p>date fin</p>
+                        </div>
+                        <div class="description">
+                            {{ p.siteinternet }}
+                        </div>
+                    </div>
+                </div>
+
+            {% endfor %}
+        </div>
+    </main>
+
+{% endblock %}

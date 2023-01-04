@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ categorie.nom }}{% endblock %}
+
+{% block body %}
+    <div class="example-wrapper">
+        <main>
+            <h1>{{ categorie.nom }}</h1>
+            <div class="show-categorie">
+                <ul class="prestataire-categorie">
+                    {% for p in prestataires %}
+                        <li>{{ p.prestataire.nom }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </main>
+    </div>
+{% endblock %}

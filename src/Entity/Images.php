@@ -15,13 +15,17 @@ class Images
     private ?int $id = null;
 
     #[ORM\Column]
-    private ?int $ordre = null;
+    private ?int $ordre = 0;
 
     #[ORM\Column(length: 255)]
     private ?string $Image = null;
 
     #[ORM\ManyToOne(inversedBy: 'images')]
     private ?Prestataire $prestataire = null;
+
+    #[ORM\Column]
+    private ?int $prestataireId = null;
+
 
     #[ORM\OneToOne(inversedBy: 'images', cascade: ['persist', 'remove'])]
     private ?CategorieDeServices $categorieDeServices = null;

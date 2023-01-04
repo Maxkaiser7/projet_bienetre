@@ -38,6 +38,15 @@ class PrestataireRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+    public function findById($id){
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.id like :id')
+            ->setParameter('id',  $id)
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
 
 //    /**
 //     * @return Prestataire[] Returns an array of Prestataire objects

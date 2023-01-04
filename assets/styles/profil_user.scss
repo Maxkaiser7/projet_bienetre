@@ -1,0 +1,13 @@
+@import 'variables';
+
+#profil_img{
+  width: 5rem;
+  height: 5rem;
+  border-radius: 5rem;
+}
+.main-profil {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+}

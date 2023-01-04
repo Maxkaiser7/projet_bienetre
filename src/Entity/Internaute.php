@@ -19,10 +19,10 @@ class Internaute
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $description = null;
+    private ?string $description = '';
 
     #[ORM\Column]
-    private ?bool $newsletter = null;
+    private ?bool $newsletter = false;
 
     #[ORM\ManyToMany(targetEntity: Favori::class, mappedBy: 'internaute')]
     private Collection $favoris;

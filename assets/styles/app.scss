@@ -1,0 +1,20 @@
+@import '_variables.scss';
+@import 'nav.scss';
+@import 'searchbar.scss';
+@import 'form.scss';
+@import 'accueil.scss';
+@import 'prestataire.scss';
+@import 'profil_user.scss';
+
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: $primary-color;
+}
+ul {
+    list-style: none;
+}
+a {
+    text-decoration: none;
+}

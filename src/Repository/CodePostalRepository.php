@@ -4,7 +4,9 @@ namespace App\Repository;
 
 use App\Entity\CodePostal;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use http\Env\Response;
 
 /**
  * @extends ServiceEntityRepository<CodePostal>
@@ -38,6 +40,16 @@ class CodePostalRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+
+    public function removeAll()
+    {
+        return $this->createQueryBuilder('cp')
+            ->delete()
+            ->where('cp.codePostal = :codePostal')
+            ->getQuery()
+            ->execute();
+    }
+
 
 //    /**
 //     * @return CodePostal[] Returns an array of CodePostal objects

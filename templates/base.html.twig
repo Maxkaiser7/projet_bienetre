@@ -1,19 +1,84 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-        {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
-        {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
-        {% endblock %}
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    <link rel="stylesheet" href="{{ asset('build/app.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;1,400;1,500&display=swap"
+          rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.css">
+    <script src="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/js/all.js"></script>
 
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-        {% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-    </body>
+</head>
+<body>
+<nav>
+    <h1 class="logo">BienÊtre</h1>
+    <div class="nav-links">
+        <div class="nav-a links">
+            <a class="nav-a" href="{{ path('app_accueil') }}">Accueil</a>
+            <a class="nav-a" href="{{ path('app_categories') }}">Categories</a>
+            <a class="nav-a" href="{{ path('app_prestataire') }}">Prestataires</a>
+            <a class="nav-a" href="#">A propos</a>
+            <a class="nav-a" href="#">Contact</a>
+        </div>
+        {% if app.user %}
+            {#  <a href="{{ path('') }}">#}
+                {{ app.user.email }}
+
+        {% else %}
+            <div class="log">
+                <a href="inscription" id="login">S'inscrire</a>
+                <a href="login" id="signin">Se connecter</a>
+            </div>
+        {% endif %}
+
+    </div>
+    <div class="hamburger">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+    </div>
+
+</nav>
+
+{% block body %}
+    <header>
+        <form class="search-form" action="">
+            <input class="searchbar" type="text" placeholder="Cherchez par nom, ville,...">
+            <input class="search-submit" type="submit" value="rechercher">
+        </form>
+        <div class="container-slide">
+            <img src="{{ asset('../images/slider/slider1.jpg') }}" alt="" class="img img-1 show">
+            <img src="{{ asset('../images/slider/slider2.jpg') }}" alt="" class="img img-2">
+        </div>
+    </header>
+    <main class="bg">
+
+        {% if app.user %}
+        {% else %}
+            <div class="last-signed">
+                <h2>Derniers inscrits</h2>
+                {% for p in prestataires %}
+                    <div class="prestataire-container_accueil">
+                        {% for i in p.prestataire.images %}
+                            <a href="#">
+                                <img id="prestataire_img_accueil" src="{{ asset('../uploads/images/' ~ i.image) }}"
+                                     alt=""/>
+                            </a>
+                        {% endfor %}
+                        <a href="#">
+                            <h3>{{ p.prestataire.nom }}</h3>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+
+    </main>
+{% endblock %}
+<script src="{{ asset('js/app.js') }}"></script>
+</body>
 </html>

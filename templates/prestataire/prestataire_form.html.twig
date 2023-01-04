@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <main class="registration-form">
+        <h1>Devenez prestataire</h1>
+        {{ form_start(prestataireForm) }}
+        {{ form_row(prestataireForm.nom, {
+            label: 'Nom',
+        }) }}
+        {{ form_row(prestataireForm.siteinternet, {
+            label: 'Site internet',
+        }) }}
+        {{ form_row(prestataireForm.numtel, {
+            label: 'Numéro de téléphone',
+        }) }}
+        {{ form_row(prestataireForm.numtva, {
+            label: 'Numéro de TVA',
+        }) }}
+        <button type="submit" class="btn-submit">S'enregistrer</button>
+        {{ form_end(prestataireForm) }}
+    </main>
+{% endblock %}

@@ -5,10 +5,12 @@ namespace App\Entity;
 use App\Repository\UtilisateurRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UtilisateurRepository::class)]
+#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
 class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -25,9 +27,9 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var string The hashed password
      */
-    #[ORM\Column]
+/*    #[ORM\Column]
     private ?string $password = null;
-
+*/
     #[ORM\Column(length: 255)]
     private ?string $motdepasse = null;
 
@@ -41,16 +43,14 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     private ?\DateTimeInterface $inscription = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $typeUtilisateur = null;
+    private ?string $typeUtilisateur = 'utilisateur';
 
     #[ORM\Column]
-    private ?int $nbEssaisInfructueux = null;
+    private ?int $nbEssaisInfructueux = 0;
 
     #[ORM\Column]
-    private ?bool $banni = null;
+    private ?bool $banni = false;
 
-    #[ORM\Column]
-    private ?bool $inscriptConf = null;
 
     #[ORM\ManyToOne(inversedBy: 'utilisateurs')]
     #[ORM\JoinColumn(nullable: false)]
@@ -70,6 +70,9 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?Internaute $internaute = null;
+
+    #[ORM\Column(type: 'boolean')]
+    private $isVerified = false;
 
 
 
@@ -125,12 +128,12 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getPassword(): string
     {
-        return $this->password;
+        return $this->motdepasse;
     }
 
-    public function setPassword(string $password): self
+    public function setPassword(string $motdepasse): self
     {
-        $this->password = $password;
+        $this->motdepasse = $motdepasse;
 
         return $this;
     }
@@ -228,17 +231,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function isInscriptConf(): ?bool
-    {
-        return $this->inscriptConf;
-    }
 
-    public function setInscriptConf(bool $inscriptConf): self
-    {
-        $this->inscriptConf = $inscriptConf;
-
-        return $this;
-    }
 
     public function getCommune(): ?Commune
     {
@@ -296,6 +289,18 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     public function setInternaute(Internaute $internaute): self
     {
         $this->internaute = $internaute;
+
+        return $this;
+    }
+
+    public function isVerified(): bool
+    {
+        return $this->isVerified;
+    }
+
+    public function setIsVerified(bool $isVerified): self
+    {
+        $this->isVerified = $isVerified;
 
         return $this;
     }
