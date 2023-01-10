@@ -33,9 +33,22 @@ class CategorieDeServices
     #[ORM\OneToMany(mappedBy: 'categorieDeServices', targetEntity: Promotion::class)]
     private Collection $promotions;
 
+    #[ORM\OneToMany(mappedBy: 'categorieDeServices', targetEntity: Proposer::class)]
+    private  $proposer;
+
+    public function getProposer() : Collection
+    {
+        return $this->proposer;
+    }
+
+    public function setProposer(?Proposer $proposer){
+        $this->proposer = $proposer;
+    }
+
     public function __construct()
     {
         $this->promotions = new ArrayCollection();
+        $this->proposer = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -137,6 +150,40 @@ class CategorieDeServices
             // set the owning side to null (unless already changed)
             if ($promotion->getCategorieDeServices() === $this) {
                 $promotion->setCategorieDeServices(null);
+            }
+        }
+
+        return $this;
+    }
+    public function __toString()
+    {
+        return $this->nom;
+    }
+    /**
+     * @return Collection|Proposer[]
+     */
+    public function getProposers(): Collection
+    {
+        return $this->proposers;
+    }
+
+    public function addProposer(Proposer $proposer): self
+    {
+        if (!$this->proposer->contains($proposer)) {
+            $this->proposer[] = $proposer;
+            $proposer->setPrestataire($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProposer(Proposer $proposer): self
+    {
+        if ($this->proposer->contains($proposer)) {
+            $this->proposer->removeElement($proposer);
+            // set the owning side to null (unless already changed)
+            if ($proposer->getPrestataire() === $this) {
+                $proposer->setPrestataire(null);
             }
         }
 

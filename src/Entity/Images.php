@@ -21,6 +21,7 @@ class Images
     private ?string $Image = null;
 
     #[ORM\ManyToOne(inversedBy: 'images')]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Prestataire $prestataire = null;
 
     #[ORM\Column]

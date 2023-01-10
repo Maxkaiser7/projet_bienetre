@@ -3,5 +3,6 @@
     <div class="success">
         <h1>Enregistration réussie</h1>
         <a href="{{ path('app_accueil') }}">Retour à l'accueil</a>
+        <a href="{{ path('app_profil_user', {id:app.user.prestataire.id}) }}">Modifiez votre profil</a>
     </div>
 {% endblock %}

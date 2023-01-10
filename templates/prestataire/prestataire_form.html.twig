@@ -16,6 +16,9 @@
         {{ form_row(prestataireForm.numtva, {
             label: 'Numéro de TVA',
         }) }}
+        {{ form_row(prestataireForm.categorieDeServices, {
+            label: 'Catégorie de service',
+        }) }}
         <button type="submit" class="btn-submit">S'enregistrer</button>
         {{ form_end(prestataireForm) }}
     </main>

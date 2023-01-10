@@ -22,7 +22,6 @@ class ProfilUserController extends AbstractController
 
         $repository = $entityManager->getRepository(Prestataire::class);
         $user = $repository->find($id);
-
         $image_current = $doctrine->getRepository(Images::class)->findOneBy(['prestataireId' => $id]);
 
         $image = new Images();
@@ -58,7 +57,8 @@ class ProfilUserController extends AbstractController
             'user' => $user,
             'imageForm' => $form->createView(),
             'image' => $image,
-            'image_current' => $image_current
+            'image_current' => $image_current,
+            'prestataire' => $prestataire
         ]);
     }
 }

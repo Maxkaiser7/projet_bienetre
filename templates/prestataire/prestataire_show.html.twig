@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ prestataire.nom }}{% endblock %}
+{% block body %}
+    <main class="solo_prestataire">
+        <div class="solo_prestataire_container">
+            {% for i in prestataire.images %}
+                <img id="prestataire_img" src="{{ asset('../uploads/images/' ~ i.image) }}" alt=""/>
+            {% endfor %}
+            <div id="side_prestataire">
+                <h2>{{ prestataire.nom }}</h2>
+                <a href="#">{{ prestataire.siteinternet }}</a>
+                <p>{{ prestataire.numtel }}</p>
+                <p>{{ prestataire.numtva }}</p>
+                {{ categorie.nom }}
+            </div>
+        </div>
+    </main>
+
+{% endblock %}

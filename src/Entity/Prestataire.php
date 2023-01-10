@@ -27,8 +27,9 @@ class Prestataire
     #[ORM\Column(length: 255)]
     private ?string $numtva = null;
 
-    #[ORM\OneToMany(mappedBy: 'prestataire', targetEntity: Images::class)]
-    private Collection $images;
+    #[ORM\OneToMany(mappedBy: 'prestataire', targetEntity: Images::class, cascade: ['remove', 'persist'], orphanRemoval: true)]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
+    private ?Collection $images = null;
 
     #[ORM\OneToMany(mappedBy: 'prestataire', targetEntity: Promotion::class)]
     private Collection $promotions;
@@ -42,6 +43,25 @@ class Prestataire
     #[ORM\OneToMany(mappedBy: 'prestataire', targetEntity: Commentaire::class)]
     private Collection $commentaires;
 
+    #[ORM\OneToMany(mappedBy: 'prestataire', targetEntity: Proposer::class)]
+    #[ORM\JoinColumn(onDelete: 'CASCADE')]
+    private  $proposer;
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\CategorieDeService", inversedBy="prestataire")
+     * @ORM\JoinTable(name="proposer")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $categorieDeService;
+    public function getProposer()
+    {
+        return $this->proposer;
+    }
+
+    public function setProposer(?Proposer $proposer){
+        $this->proposer = $proposer;
+    }
+
+
     public function __construct()
     {
         $this->images = new ArrayCollection();
@@ -49,6 +69,8 @@ class Prestataire
         $this->stages = new ArrayCollection();
         $this->favoris = new ArrayCollection();
         $this->commentaires = new ArrayCollection();
+        $this->categorieDeServices = new ArrayCollection();
+        $this->proposer = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -250,4 +272,35 @@ class Prestataire
 
         return $this;
     }
+    /**
+     * @return Collection|Proposer[]
+     */
+    public function getProposers(): Collection
+    {
+        return $this->proposers;
+    }
+
+    public function addProposer(Proposer $proposer): self
+    {
+        if (!$this->proposer->contains($proposer)) {
+            $this->proposer[] = $proposer;
+            $proposer->setPrestataire($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProposer(Proposer $proposer): self
+    {
+        if ($this->proposer->contains($proposer)) {
+            $this->proposer->removeElement($proposer);
+            // set the owning side to null (unless already changed)
+            if ($proposer->getPrestataire() === $this) {
+                $proposer->setPrestataire(null);
+            }
+        }
+
+        return $this;
+    }
+
 }

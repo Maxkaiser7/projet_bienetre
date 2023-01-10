@@ -64,10 +64,10 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\JoinColumn(nullable: false)]
     private ?Localite $localite = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(cascade: ['persist'])]
     private ?Prestataire $prestataire = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(cascade: ['persist'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?Internaute $internaute = null;
 

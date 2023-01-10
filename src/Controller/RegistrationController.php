@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Commune;
 use App\Entity\Internaute;
+use App\Entity\Prestataire;
 use App\Entity\Utilisateur;
 use App\Form\RegistrationFormType;
 use App\Security\EmailVerifier;
@@ -50,6 +51,7 @@ class RegistrationController extends AbstractController
             $internaute->setName($user->getEmail());
             $user->setInternaute($internaute);
 
+
             //données dans la db
             $entityManager->persist($user);
             $entityManager->flush();
@@ -64,7 +66,7 @@ class RegistrationController extends AbstractController
             );
             // do anything else you need here, like send an email
 
-            return $this->redirectToRoute('app_accueil');
+            return $this->redirectToRoute('app_login');
         }
 
         return $this->render('registration/register.html.twig', [

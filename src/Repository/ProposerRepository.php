@@ -39,6 +39,15 @@ class ProposerRepository extends ServiceEntityRepository
         }
     }
 
+    public function findCategByPrestataire($id)
+    {
+        return $this->getEntityManager()->createQuery(
+            'SELECT categorieDeServices.id c FROM App:Proposer proposer JOIN proposer.categorieDeServices categorieDeServices
+             WHERE proposer.prestataire = :prestataireId'
+        )->setParameter('prestataireId', $id)
+            ->getResult();
+    }
+
 //    /**
 //     * @return Proposer[] Returns an array of Proposer objects
 //     */

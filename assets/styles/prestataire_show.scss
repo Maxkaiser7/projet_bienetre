@@ -1,0 +1,22 @@
+@import "variables";
+
+.solo_prestataire{
+  padding: 1rem;
+  width: 90vw;
+  display: flex;
+  justify-content: center;
+ .solo_prestataire_container {
+  display: flex;
+   gap: 0.5rem;
+
+ }
+}
+#prestataire_img{
+  height: 15rem;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 1rem;
+}
+#side_prestataire {
+  width: 40vw;
+}

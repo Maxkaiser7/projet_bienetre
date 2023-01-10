@@ -13,10 +13,12 @@ class Proposer
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(targetEntity: 'Prestataire', inversedBy: 'proposer')]
+    #[ORM\JoinColumn(name: 'prestataire_id', referencedColumnName: 'id', nullable: false)]
     private ?Prestataire $prestataire = null;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(targetEntity: 'CategorieDeServices', inversedBy: 'proposer')]
+    #[ORM\JoinColumn(name: 'categorie_de_services_id', referencedColumnName: 'id',  nullable: false)]
     private ?CategorieDeServices $categorieDeServices = null;
 
     public function getId(): ?int

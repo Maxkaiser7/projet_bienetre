@@ -4,27 +4,33 @@
 
 {% block body %}
     <main class="main-prestataire bg">
-        <h1>Liste des prestataires</h1>
+        <h1 id="title">Liste des prestataires</h1>
         {% if app.user %}
-            <a class="a-prestataire-form" href="{{ path('app_prestataire_form', {'id': app.user.id}) }}">
-                Devenir prestataire</a>
+            {% if app.user.prestataire %}
+                 {% else %}
+                     <a class="a-prestataire-form" href="{{ path('app_prestataire_form', {'id': app.user.id}) }}">
+                         Devenir prestataire</a>
+            {% endif %}
+
         {% endif %}
+        <form class="search-form" action="">
+            <input class="searchbar" type="text" placeholder="Cherchez par nom, ville,...">
+            <input class="search-submit" type="submit" value="rechercher">
+        </form>
 
         <div class="liste-prestataire">
-            {% for p in prestataires %}
-                <div class="prestataire-container">
-                    {% for i in p.images %}
+            {% for p in proposer %}
+                 <div class="prestataire-container">
+                {% for i in p.prestataire.images %}
                         <img id="prestataire_img" src="{{ asset('../uploads/images/' ~ i.image) }}" alt=""/>
                     {% endfor %}
                     <div class="side-prestataire-container">
-                        <h2>{{ p.nom }}</h2>
-                        <div class="dates">
-                            <p>date debut</p>
-                            <p>date fin</p>
-                        </div>
+                        <a href="{{ path('prestataire_show', {id: p.id}) }}"><h2>{{ p.prestataire.nom }}</h2></a>
                         <div class="description">
-                            {{ p.siteinternet }}
+                            <p>{{ p.prestataire.siteinternet }}</p>
                         </div>
+                        <p>{{ p.categorieDeServices.nom }}
+                        </p>
                     </div>
                 </div>
 

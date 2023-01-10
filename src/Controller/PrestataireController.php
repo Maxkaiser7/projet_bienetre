@@ -23,20 +23,26 @@ class PrestataireController extends AbstractController
         $repository = $entityManager->getRepository(Prestataire::class);
         $prestataires = $repository->findAll();
 
-        $repoCateg = $entityManager->getRepository(CategorieDeServices::class);
-        $categ = $repoCateg->find(1);
 
-        $prestataire = $repository->find(1);
-        $proposer = new Proposer();
-        $proposer->setPrestataire($prestataire);
-        $proposer->setCategorieDeServices($categ);
-        $entityManager->persist($proposer);
-        $entityManager->flush();
+        /*$query = $entityManager->createQuery(
+            'SELECT categorieDeServices.id c, prestataire.id presta FROM App:Proposer p JOIN p.categorieDeServices categorieDeServices JOIN p.prestataire prestataire'
+        );
+        $result = $query->getResult();
+*/
+        $repository = $entityManager->getRepository(Proposer::class);
 
+        $query = $repository->createQueryBuilder('p')
+            ->select('p, categorieDeServices, presta, images')
+            ->join('p.categorieDeServices', 'categorieDeServices')
+            ->join('p.prestataire', 'presta')
+            ->join('presta.images','images')
+            ->getQuery('');
+        $result = $query->getResult();
 
+        //dump($result[0]);die;
 
         return $this->render('prestataire/prestataires.html.twig', [
-            'prestataires' => $prestataires,
+            'proposer' => $result,
         ]);
     }
 
@@ -50,7 +56,10 @@ class PrestataireController extends AbstractController
     public function prestataireForm(int $id,Request $request, EntityManagerInterface $entityManager): Response
     {
         $prestataire = new Prestataire();
+        $proposer = new Proposer();
+
         $form = $this->createForm(PrestataireType::class, $prestataire);
+
         $form->handleRequest($request);
 
 
@@ -61,7 +70,11 @@ class PrestataireController extends AbstractController
             $repository = $entityManager->getRepository(Utilisateur::class);
             $utilisateur = $repository->find($id);
             $utilisateur->setPrestataire($prestataire);
-
+            $proposer->setPrestataire($prestataire);
+            $prestataireId = $prestataire->getId();
+            $categorie = $form->get('categorieDeServices')->getData();
+            $proposer->setCategorieDeServices($categorie[0]);
+            $entityManager->persist($proposer);
             $entityManager->persist($prestataire);
             $entityManager->persist($utilisateur);
             $entityManager->flush();
@@ -71,6 +84,26 @@ class PrestataireController extends AbstractController
 
         return $this->render('prestataire/prestataire_form.html.twig', [
             'prestataireForm' => $form->createView()
+        ]);
+    }
+
+    #[Route('/prestataire/show/{id}', name: 'prestataire_show')]
+    public function showPrestataire(int $id, EntityManagerInterface $entityManager): Response
+    {
+        $prestataire = $entityManager->getRepository(Prestataire::class)->find($id);
+        /*$query = $entityManager->createQuery(
+            'SELECT categorieDeServices.id c FROM App:Proposer proposer JOIN proposer.categorieDeServices categorieDeServices
+             WHERE proposer.prestataire = :prestataireId')
+            ->setParameter('prestataireId', $id);
+*/
+
+        $result = $entityManager->getRepository(Proposer::class)->findCategByPrestataire($id);
+        $categorieId = $result[0]['c'];
+        $categorie = $entityManager->getRepository(CategorieDeServices::class)->find($categorieId);
+        return $this->render('prestataire/prestataire_show.html.twig', [
+            'prestataire' => $prestataire,
+            'categorie' => $categorie
+
         ]);
     }
 }

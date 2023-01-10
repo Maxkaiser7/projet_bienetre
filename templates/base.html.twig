@@ -14,7 +14,9 @@
 </head>
 <body>
 <nav>
-    <h1 class="logo">BienÊtre</h1>
+    <a id="logo" href="{{ path('app_accueil') }}">
+        <h1 class="logo">BienÊtre</h1>
+    </a>
     <div class="nav-links">
         <div class="nav-a links">
             <a class="nav-a" href="{{ path('app_accueil') }}">Accueil</a>
@@ -24,13 +26,17 @@
             <a class="nav-a" href="#">Contact</a>
         </div>
         {% if app.user %}
-            {#  <a href="{{ path('') }}">#}
+            <p id="email">
                 {{ app.user.email }}
+            </p>
+            {% if app.user.prestataire %}
+                <a href="{{ path('app_profil_user', {id:app.user.prestataire.id}) }}">Profil</a>
+            {% endif %}
 
         {% else %}
             <div class="log">
-                <a href="inscription" id="login">S'inscrire</a>
-                <a href="login" id="signin">Se connecter</a>
+                <a href="{{ path('inscription') }}" id="login">S'inscrire</a>
+                <a href="{{ path('app_login') }}" id="signin">Se connecter</a>
             </div>
         {% endif %}
 
@@ -55,11 +61,26 @@
         </div>
     </header>
     <main class="bg">
-
         {% if app.user %}
+            <div class="last-signed">
+                <h2 id="title">Derniers inscrits</h2>
+                {% for p in prestataires %}
+                    <div class="prestataire-container_accueil">
+                        {% for i in p.prestataire.images %}
+                            <a href="#">
+                                <img id="prestataire_img_accueil" src="{{ asset('../uploads/images/' ~ i.image) }}"
+                                     alt=""/>
+                            </a>
+                        {% endfor %}
+                        <a href="#">
+                            <h3>{{ p.prestataire.nom }}</h3>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
         {% else %}
             <div class="last-signed">
-                <h2>Derniers inscrits</h2>
+                <h2 id="title">Derniers inscrits</h2>
                 {% for p in prestataires %}
                     <div class="prestataire-container_accueil">
                         {% for i in p.prestataire.images %}

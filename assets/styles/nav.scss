@@ -7,21 +7,26 @@ nav {
   padding: 0.4rem;
   background: rgb(244,237,229);
   background: linear-gradient(180deg, rgba(244,237,229,1) 45%, rgba(255,255,255,0) 95%);  z-index: 3;
-  position: absolute;
+  position: relative;
   width: 100vw;
   height: 5rem;
   h1 {
     margin-top: -1rem;
-
+  }
+  #logo {
+    color: black;
   }
   .logo {
     font-size: 150%;
+    color: $black;
   }
 
   a {
     color: white;
   }
-
+  #email {
+    color: $primary-color;
+  }
   .nav-links {
     z-index: 1;
     display: flex;
@@ -99,7 +104,8 @@ nav {
 }
 
 .nav-links {
-  position: fixed;
+  position: absolute;
+  right: 3%;
   left: -110%;
   flex-direction: column;
   background-color: #1a1a1a;
@@ -127,6 +133,7 @@ nav {
       font-size: 0.9rem;
     }
 
+
     .nav-links {
       font-size: 0.8rem;
       width: auto;
@@ -145,10 +152,15 @@ nav {
       a {
         color: $black;
         font-size: 1.5vw;
+        display: flex;
+        align-items: center;
       }
       .nav-a{
         flex-direction: row;
         align-items: center;
+      }
+      #email {
+        color: black;
       }
     }
 

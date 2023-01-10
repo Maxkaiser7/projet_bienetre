@@ -17,8 +17,8 @@ class CategoriesController extends AbstractController
     {
         /*
         $categorie = new CategorieDeServices();
-        $categorie->setNom('Psychologie');
-        $categorie->setDescription('Psychologues, séances de groupes, santé mentale');
+        $categorie->setNom('Méditation');
+        $categorie->setDescription('Tranquilité mentale, séance de méditations');
         $categorie->setEnAvant(false);
         $categorie->setValide(true);
         $entityManager->persist($categorie);
@@ -31,17 +31,20 @@ class CategoriesController extends AbstractController
             'categories' => $categories,
         ]);
     }
+
     #[Route('/categories/show/{nom}', name: 'app_categorie_solo')]
     public function categorie(EntityManagerInterface $entityManager, $nom): Response
     {
 
-        $repository = $entityManager->getRepository(CategorieDeServices::class);
-        $categorie = $repository->findOneBy(['nom'=> $nom]);
+        $query = $entityManager->createQuery('DELETE FROM App\Entity\Proposer p WHERE p.prestataire IS NULL');
+            $query->execute();
 
+            $entityManager->flush();
+            $repository = $entityManager->getRepository(CategorieDeServices::class);
+            $categorie = $repository->findOneBy(['nom' => $nom]);
         //récupérer les prestataire de la catégorie
-         $repository = $entityManager->getRepository(Proposer::class);
+        $repository = $entityManager->getRepository(Proposer::class);
          $prestataires = $repository->findBy(['categorieDeServices' => $categorie]);
-
         return $this->render('categories/show.html.twig', [
             'categorie' => $categorie,
             'prestataires' => $prestataires
