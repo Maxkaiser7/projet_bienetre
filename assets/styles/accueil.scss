@@ -19,8 +19,8 @@
 }
  .bg {
 
-  background: rgb(68,90,72);
-  background: linear-gradient(16deg, rgba(68,90,72,1) 6%, rgba(205,128,84,1) 50%, rgba(220,178,130,0.1) 97%);
+ // background: rgb(172, 114, 82);
+  //background: linear-gradient(16deg, rgb(212, 149, 107) 6%, rgb(194, 134, 102) 50%, rgba(255, 233, 206, 0.1) 97%);
 }
 .last-signed{
   margin-top: 19rem;
@@ -28,6 +28,12 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  .last-signed-container{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3rem;
+    justify-content: center;
+  }
 }
 .prestataire-container_accueil{
   display: flex;

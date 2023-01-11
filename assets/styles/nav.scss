@@ -140,7 +140,7 @@ nav {
       white-space: nowrap;
       display: flex;
       left: auto;
-      right: 0%;
+      right: 3%;
       flex-direction: row;
       background-color: transparent;
       top: auto;
@@ -158,6 +158,7 @@ nav {
       .nav-a{
         flex-direction: row;
         align-items: center;
+        font-size: 1rem;
       }
       #email {
         color: black;

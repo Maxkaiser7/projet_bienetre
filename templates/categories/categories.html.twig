@@ -3,17 +3,14 @@
 {% block title %}Catégories de services{% endblock %}
 
 {% block body %}
-    <div class="example-wrapper">
-        <main>
+        <main class="categories">
             <h1>Catégories de services</h1>
             <div class="list-categories">
                 <ul>
                     {% for c in categories %}
-                        <a href="{{ path('app_categorie_solo', {'nom' : c.nom}) }}"><li>{{ c.nom }}</li></a>
+                        <a href="{{ path('app_categorie_show', {'nom' : c.nom}) }}"><li>{{ c.nom }}</li></a>
                     {% endfor %}
-
                 </ul>
             </div>
         </main>
-    </div>
 {% endblock %}

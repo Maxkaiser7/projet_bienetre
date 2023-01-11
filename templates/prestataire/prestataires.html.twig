@@ -7,9 +7,9 @@
         <h1 id="title">Liste des prestataires</h1>
         {% if app.user %}
             {% if app.user.prestataire %}
-                 {% else %}
-                     <a class="a-prestataire-form" href="{{ path('app_prestataire_form', {'id': app.user.id}) }}">
-                         Devenir prestataire</a>
+            {% else %}
+                <a class="a-prestataire-form" href="{{ path('app_prestataire_form', {'id': app.user.id}) }}">
+                    Devenir prestataire</a>
             {% endif %}
 
         {% endif %}
@@ -20,20 +20,22 @@
 
         <div class="liste-prestataire">
             {% for p in proposer %}
-                 <div class="prestataire-container">
-                {% for i in p.prestataire.images %}
+                <div class="prestataire-container">
+                    {% for i in p.prestataire.images %}
                         <img id="prestataire_img" src="{{ asset('../uploads/images/' ~ i.image) }}" alt=""/>
                     {% endfor %}
                     <div class="side-prestataire-container">
-                        <a href="{{ path('prestataire_show', {id: p.id}) }}"><h2>{{ p.prestataire.nom }}</h2></a>
+                        <a href="{{ path('prestataire_show', {id: p.id}) }}"><h2
+                                    id="prestataire_titre">{{ p.prestataire.nom }}</h2></a>
                         <div class="description">
                             <p>{{ p.prestataire.siteinternet }}</p>
                         </div>
-                        <p>{{ p.categorieDeServices.nom }}
-                        </p>
+                        <span>
+                            <a id="nom-categ" href="{{ path('app_categorie_show', {nom: p.categorieDeServices.nom }) }}">{{ p.categorieDeServices.nom }}</a>
+                            <a href="{{ path('prestataire_show', {id: p.prestataire.id}) }}">Voir plus</a>
+                        </span>
                     </div>
                 </div>
-
             {% endfor %}
         </div>
     </main>

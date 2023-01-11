@@ -32,7 +32,7 @@ class CategoriesController extends AbstractController
         ]);
     }
 
-    #[Route('/categories/show/{nom}', name: 'app_categorie_solo')]
+    #[Route('/categories/show/{nom}', name: 'app_categorie_show')]
     public function categorie(EntityManagerInterface $entityManager, $nom): Response
     {
 

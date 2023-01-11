@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\CategorieDeServices;
 use App\Entity\Images;
+use App\Entity\Localite;
 use App\Entity\Prestataire;
 use App\Entity\Proposer;
 use App\Entity\Utilisateur;
@@ -35,7 +36,7 @@ class PrestataireController extends AbstractController
             ->select('p, categorieDeServices, presta, images')
             ->join('p.categorieDeServices', 'categorieDeServices')
             ->join('p.prestataire', 'presta')
-            ->join('presta.images','images')
+            ->join('presta.images', 'images')
             ->getQuery('');
         $result = $query->getResult();
 
@@ -53,7 +54,7 @@ class PrestataireController extends AbstractController
     }
 
     #[Route('/prestataire/form/{id}', name: 'app_prestataire_form')]
-    public function prestataireForm(int $id,Request $request, EntityManagerInterface $entityManager): Response
+    public function prestataireForm(int $id, Request $request, EntityManagerInterface $entityManager): Response
     {
         $prestataire = new Prestataire();
         $proposer = new Proposer();
@@ -104,6 +105,33 @@ class PrestataireController extends AbstractController
             'prestataire' => $prestataire,
             'categorie' => $categorie
 
+        ]);
+    }
+
+    #[Route('/prestataire/search/{search}', name: 'prestataire_search')]
+    public function searchPrestataire(string $search, EntityManagerInterface $entityManager): Response
+    {
+        $repository = $entityManager->getRepository(Proposer::class);
+        $query = $repository->createQueryBuilder('p')
+            ->select('p, categorieDeServices, presta, images')
+            ->join('p.categorieDeServices', 'categorieDeServices')
+            ->join('p.prestataire', 'presta')
+            ->join('presta.images', 'images')
+            ->where("presta.nom LIKE :search OR categorieDeServices.nom LIKE :search ")
+            ->setParameter("search", "%" . $search . "%")
+            ->getQuery('');
+        $result = $query->getResult();
+
+     /*A voir : trouver par ville
+      *    $repoLocalite = $entityManager->getRepository(Localite::class)->findBy([
+            'Localite'=>$search
+        ]);
+        $localiteId = $repoLocalite[0]->getId();
+        $repoUtilisateur = $entityManager->getRepository(Utilisateur::class)->findByLocaliteId($user);
+*/
+
+        return $this->render('prestataire/prestataire_search.html.twig', [
+            'proposer' => $result
         ]);
     }
 }

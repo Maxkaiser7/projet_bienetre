@@ -51,10 +51,11 @@
 
 {% block body %}
     <header>
-        <form class="search-form" action="">
-            <input class="searchbar" type="text" placeholder="Cherchez par nom, ville,...">
-            <input class="search-submit" type="submit" value="rechercher">
-        </form>
+
+        {{ form_start(searchForm) }}
+        {{ form_row(searchForm.recherche) }}
+        <button type="submit" class="btn-submit">Rechercher</button>
+        {{ form_end(searchForm) }}
         <div class="container-slide">
             <img src="{{ asset('../images/slider/slider1.jpg') }}" alt="" class="img img-1 show">
             <img src="{{ asset('../images/slider/slider2.jpg') }}" alt="" class="img img-2">
@@ -64,19 +65,21 @@
         {% if app.user %}
             <div class="last-signed">
                 <h2 id="title">Derniers inscrits</h2>
-                {% for p in prestataires %}
-                    <div class="prestataire-container_accueil">
-                        {% for i in p.prestataire.images %}
+                <div class="last-signed-container">
+                    {% for p in prestataires %}
+                        <div class="prestataire-container_accueil">
+                            {% for i in p.prestataire.images %}
+                                <a href="#">
+                                    <img id="prestataire_img_accueil" src="{{ asset('../uploads/images/' ~ i.image) }}"
+                                         alt=""/>
+                                </a>
+                            {% endfor %}
                             <a href="#">
-                                <img id="prestataire_img_accueil" src="{{ asset('../uploads/images/' ~ i.image) }}"
-                                     alt=""/>
+                                <h3>{{ p.prestataire.nom }}</h3>
                             </a>
-                        {% endfor %}
-                        <a href="#">
-                            <h3>{{ p.prestataire.nom }}</h3>
-                        </a>
-                    </div>
-                {% endfor %}
+                        </div>
+                    {% endfor %}
+                </div>
             </div>
         {% else %}
             <div class="last-signed">

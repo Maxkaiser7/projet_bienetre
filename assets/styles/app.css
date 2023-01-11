@@ -127,7 +127,7 @@ nav .nav-links .log {
     white-space: nowrap;
     display: flex;
     left: auto;
-    right: 0%;
+    right: 3%;
     flex-direction: row;
     background-color: transparent;
     top: auto;
@@ -145,6 +145,7 @@ nav .nav-links .log {
   nav .nav-links .nav-a {
     flex-direction: row;
     align-items: center;
+    font-size: 1rem;
   }
   nav .nav-links #email {
     color: black;
@@ -258,7 +259,7 @@ header .search-form .search-submit {
   width: 90vw;
   padding: 1rem;
   font-size: 1rem;
-  border: solid 2px #6200ee;
+  border: solid 2px #ff9f7c;
   border-radius: 1rem;
 }
 .registration-form .btn-submit:hover {
@@ -290,17 +291,18 @@ header .search-form .search-submit {
   opacity: 1;
 }
 
-.bg {
-  background: rgb(68, 90, 72);
-  background: linear-gradient(16deg, rgb(68, 90, 72) 6%, rgb(205, 128, 84) 50%, rgba(220, 178, 130, 0.1) 97%);
-}
-
 .last-signed {
   margin-top: 19rem;
   padding-top: 2rem;
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+.last-signed .last-signed-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3rem;
+  justify-content: center;
 }
 
 .prestataire-container_accueil {
@@ -341,10 +343,18 @@ header .search-form .search-submit {
   display: flex;
   margin-top: 2rem;
   gap: 0.5rem;
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: #F4EDE5;
   padding: 1rem;
   width: 85vw;
   border-radius: 1rem;
+}
+.liste-prestataire .prestataire-container span {
+  display: inline-flex;
+  justify-content: space-between;
+}
+.liste-prestataire .prestataire-container span #nom-categ {
+  font-size: 1.5rem;
+  color: #1a1a1a;
 }
 .liste-prestataire .prestataire-container img {
   height: 10rem;
@@ -373,6 +383,8 @@ header .search-form .search-submit {
 .liste-prestataire .prestataire-container .side-prestataire-container {
   display: grid;
   gap: 0;
+  grid-template-rows: 1fr 3fr 1fr;
+  width: 100%;
 }
 
 .search-form {
@@ -399,6 +411,11 @@ header .search-form .search-submit {
   font-weight: 300;
 }
 
+#prestataire_titre {
+  color: #1a1a1a;
+  font-weight: 300;
+}
+
 #profil_img {
   width: 5rem;
   height: 5rem;
@@ -420,6 +437,8 @@ header .search-form .search-submit {
 .solo_prestataire .solo_prestataire_container {
   display: flex;
   gap: 0.5rem;
+  flex-direction: column;
+  width: 90vw;
 }
 
 #prestataire_img {
@@ -430,7 +449,30 @@ header .search-form .search-submit {
 }
 
 #side_prestataire {
-  width: 40vw;
+  width: 90vw;
+}
+#side_prestataire h2 {
+  display: flex;
+  justify-content: center;
+  font-size: 4rem;
+  font-weight: 300;
+  margin: 0;
+}
+
+.categories {
+  display: flex;
+  flex-direction: column;
+  width: 90vw;
+}
+.categories h1 {
+  align-self: center;
+}
+.categories a {
+  font-size: 2rem;
+  color: #1a1a1a;
+}
+.categories a:hover {
+  color: #ff9f7c;
 }
 
 body {

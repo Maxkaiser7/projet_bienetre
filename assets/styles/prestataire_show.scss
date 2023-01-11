@@ -1,22 +1,35 @@
 @import "variables";
 
-.solo_prestataire{
+.solo_prestataire {
   padding: 1rem;
   width: 90vw;
   display: flex;
   justify-content: center;
- .solo_prestataire_container {
-  display: flex;
-   gap: 0.5rem;
 
- }
+  .solo_prestataire_container {
+    display: flex;
+    gap: 0.5rem;
+    flex-direction: column;
+    width: 90vw;
+
+
+  }
 }
-#prestataire_img{
+
+#prestataire_img {
   height: 15rem;
   object-fit: cover;
   object-position: center;
   border-radius: 1rem;
 }
+
 #side_prestataire {
-  width: 40vw;
+  width: 90vw;
+  h2{
+    display: flex;
+    justify-content: center;
+    font-size: 4rem;
+    font-weight: 300;
+    margin: 0;
+  }
 }
