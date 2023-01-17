@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\CategorieDeServices;
 use App\Entity\Commune;
 use App\Entity\Internaute;
 use App\Entity\Prestataire;
@@ -68,9 +69,11 @@ class RegistrationController extends AbstractController
 
             return $this->redirectToRoute('app_login');
         }
+        $categories = $entityManager->getRepository(CategorieDeServices::class)->findBy(['valide' => 1]);
 
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),
+            'categories' => $categories
         ]);
     }
 
@@ -90,6 +93,7 @@ class RegistrationController extends AbstractController
 
         // @TODO Change the redirect on success and handle or remove the flash message in your templates
         $this->addFlash('success', 'Your email address has been verified.');
+
 
         return $this->redirectToRoute('app_register');
     }

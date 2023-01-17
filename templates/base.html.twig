@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}Welcome!{% endblock %}</title>
+    <title>{% block title %}Bien Être{% endblock %}</title>
     <link rel="stylesheet" href="{{ asset('build/app.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,7 +20,15 @@
     <div class="nav-links">
         <div class="nav-a links">
             <a class="nav-a" href="{{ path('app_accueil') }}">Accueil</a>
-            <a class="nav-a" href="{{ path('app_categories') }}">Categories</a>
+            <div class="nav-categ">
+                <a class="nav-a" id="categ" href="{{ path('app_categories') }}">Categories</a>
+                <div class="display-categ">
+                    {% for c in categories %}
+                        <a href="{{ path('app_categorie_show', {nom: c.nom}) }}">{{ c.nom }}</a>
+                    {% endfor %}
+                </div>
+            </div>
+
             <a class="nav-a" href="{{ path('app_prestataire') }}">Prestataires</a>
             <a class="nav-a" href="#">A propos</a>
             <a class="nav-a" href="#">Contact</a>
@@ -29,7 +37,7 @@
             <p id="email">
                 {{ app.user.email }}
             </p>
-            {% if app.user.prestataire %}
+             {% if app.user.prestataire %}
                 <a href="{{ path('app_profil_user', {id:app.user.prestataire.id}) }}">Profil</a>
             {% endif %}
 
@@ -50,12 +58,21 @@
 </nav>
 
 {% block body %}
-    <header>
-
+    <header class="header_container">
+        <div class="header_form">
         {{ form_start(searchForm) }}
-        {{ form_row(searchForm.recherche) }}
+        {{ form_row(searchForm.prestataire , {'attr': {
+            'placeholder': 'Cherchez un prestataire'
+        }}) }}
+        {{ form_row(searchForm.localite) }}
+        {{ form_row(searchForm.cp) }}
+        {{ form_row(searchForm.commune) }}
+
+        {{ form_row(searchForm.categorie) }}
+
         <button type="submit" class="btn-submit">Rechercher</button>
         {{ form_end(searchForm) }}
+        </div>
         <div class="container-slide">
             <img src="{{ asset('../images/slider/slider1.jpg') }}" alt="" class="img img-1 show">
             <img src="{{ asset('../images/slider/slider2.jpg') }}" alt="" class="img img-2">
@@ -69,7 +86,7 @@
                     {% for p in prestataires %}
                         <div class="prestataire-container_accueil">
                             {% for i in p.prestataire.images %}
-                                <a href="#">
+                                <a href="{{ path('prestataire_show',{id: p.prestataire.id}) }}">
                                     <img id="prestataire_img_accueil" src="{{ asset('../uploads/images/' ~ i.image) }}"
                                          alt=""/>
                                 </a>
@@ -84,19 +101,21 @@
         {% else %}
             <div class="last-signed">
                 <h2 id="title">Derniers inscrits</h2>
-                {% for p in prestataires %}
-                    <div class="prestataire-container_accueil">
-                        {% for i in p.prestataire.images %}
-                            <a href="#">
-                                <img id="prestataire_img_accueil" src="{{ asset('../uploads/images/' ~ i.image) }}"
-                                     alt=""/>
+                <div class="last-signed-container">
+                    {% for p in prestataires %}
+                        <div class="prestataire-container_accueil">
+                            {% for i in p.prestataire.images %}
+                                <a href="{{ path('prestataire_show',{id: p.prestataire.id}) }}">
+                                    <img id="prestataire_img_accueil" src="{{ asset('../uploads/images/' ~ i.image) }}"
+                                         alt=""/>
+                                </a>
+                            {% endfor %}
+                            <a href="{{ path('prestataire_show',{id: p.prestataire.id}) }}">
+                                <h3>{{ p.prestataire.nom }}</h3>
                             </a>
-                        {% endfor %}
-                        <a href="#">
-                            <h3>{{ p.prestataire.nom }}</h3>
-                        </a>
-                    </div>
-                {% endfor %}
+                        </div>
+                    {% endfor %}
+                </div>
             </div>
         {% endif %}
 
@@ -105,4 +124,23 @@
 {% endblock %}
 <script src="{{ asset('js/app.js') }}"></script>
 </body>
+<footer>
+    <p id="copyright">© 2023 Maxime Kaiser</p>
+    <div class="container">
+        <div>
+            <h3>Pages</h3>
+            <ul>
+                <li><a class="nav-a" href="{{ path('app_accueil') }}">Accueil</a></li>
+                <li><a class="nav-a" id="categ" href="{{ path('app_categories') }}">Categories</a></li>
+                <li><a class="nav-a" href="{{ path('app_prestataire') }}">Prestataires</a></li>
+                <li><a class="nav-a" href="#">A propos</a></li>
+                <li><a class="nav-a" href="#">Contact</a></li>
+            </ul>
+        </div>
+        <div>
+            <h3>Contact</h3>
+            <p>maxkaiser950@gmail.com</p>
+        </div>
+    </div>
+</footer>
 </html>

@@ -12,7 +12,31 @@
     flex-direction: column;
     width: 90vw;
 
+    .like {
+      background-image: url("../../public/images/assets/like.png");
+    }
+    .dislike {
+      background-image: url("../../public/images/assets/like-fill.png");
+    }
 
+    span {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    button {
+      width: 2rem;
+      height: 2rem;
+      background-size: 2rem;
+      background-repeat: no-repeat;
+      border: none;
+      background-color: transparent;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
   }
 }
 
@@ -25,11 +49,16 @@
 
 #side_prestataire {
   width: 90vw;
-  h2{
+
+  h2 {
     display: flex;
     justify-content: center;
     font-size: 4rem;
     font-weight: 300;
     margin: 0;
   }
+}
+
+#dislike {
+
 }

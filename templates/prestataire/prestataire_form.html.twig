@@ -19,6 +19,7 @@
         {{ form_row(prestataireForm.categorieDeServices, {
             label: 'Catégorie de service',
         }) }}
+        <a href="{{ path('app_categorie_proposer') }}">Faire une demande de catégorie</a>
         <button type="submit" class="btn-submit">S'enregistrer</button>
         {{ form_end(prestataireForm) }}
     </main>

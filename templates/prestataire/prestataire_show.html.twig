@@ -8,11 +8,18 @@
             {% endfor %}
             <div id="side_prestataire">
                 <h2>{{ prestataire.nom }}</h2>
+
                 <a href="#">{{ prestataire.siteinternet }}</a>
+
+
                 <p>{{ prestataire.numtel }}</p>
-                <p>{{ prestataire.numtva }}</p>
-                {{ categorie.nom }}
+                <span>
+                    <p>{{ prestataire.numtva }}</p>
+                    <button class="like-btn like"></button>
+                </span>
+                <a href="{{ path('app_categorie_show', {'nom' : categorie.nom}) }}">{{ categorie.nom }}</a>
             </div>
+
         </div>
     </main>
 

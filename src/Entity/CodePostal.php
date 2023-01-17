@@ -42,6 +42,10 @@ class CodePostal
 
         return $this;
     }
+    public function __toString(): string
+    {
+        return $this->codePostal;
+    }
 
     /**
      * @return Collection<int, Utilisateur>

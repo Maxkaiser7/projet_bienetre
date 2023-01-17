@@ -46,6 +46,9 @@ class Prestataire
     #[ORM\OneToMany(mappedBy: 'prestataire', targetEntity: Proposer::class)]
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
     private  $proposer;
+    #[ORM\OneToOne(mappedBy: 'prestataire', targetEntity: Utilisateur::class)]
+    private $utilisateur;
+
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\CategorieDeService", inversedBy="prestataire")
      * @ORM\JoinTable(name="proposer")
@@ -261,6 +264,10 @@ class Prestataire
         return $this;
     }
 
+    public function getUtilisateur()
+    {
+        return $this->utilisateur;
+    }
     public function removeCommentaire(Commentaire $commentaire): self
     {
         if ($this->commentaires->removeElement($commentaire)) {

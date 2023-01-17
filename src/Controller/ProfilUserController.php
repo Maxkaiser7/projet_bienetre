@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\CategorieDeServices;
 use App\Entity\Images;
 use App\Entity\Prestataire;
 use App\Form\ImageType;
@@ -27,6 +28,7 @@ class ProfilUserController extends AbstractController
         $image = new Images();
         $form = $this->createForm(ImageType::class, $image);
         $form->handleRequest($request);
+        $categories = $entityManager->getRepository(CategorieDeServices::class)->findBy(['valide' => 1]);
 
         if ($form->isSubmitted() && $form->isValid()) {
             //suppression des anciennes photos si elles existent
@@ -48,17 +50,21 @@ class ProfilUserController extends AbstractController
 
             $entityManager->persist($image);
             $entityManager->flush();
+
+
             return $this->redirectToRoute('app_profil_user',[
                 'id' => $id,
-                'image' => $image
+                'image' => $image,
             ]);
         }
+
         return $this->render('profil_user/profil_user.html.twig', [
             'user' => $user,
             'imageForm' => $form->createView(),
             'image' => $image,
             'image_current' => $image_current,
-            'prestataire' => $prestataire
+            'prestataire' => $prestataire,
+            'categories'=>$categories
         ]);
     }
 }

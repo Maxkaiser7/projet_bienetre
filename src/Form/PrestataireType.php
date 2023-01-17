@@ -31,8 +31,6 @@ class PrestataireType extends AbstractType
                 'multiple' => true,
                 'expanded' => true,
             ])
-
-
         ;
     }
 

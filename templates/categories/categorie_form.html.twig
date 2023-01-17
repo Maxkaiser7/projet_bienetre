@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <main class="categorie_form">
+        {{ form_start(categorieForm) }}
+        {{ form_row(categorieForm.nom, {
+            label: 'Nom',
+        }) }}
+    <button type="submit" class="btn-submit">Proposer</button>
+    {{ form_end(categorieForm) }}
+    </main>
+{% endblock %}

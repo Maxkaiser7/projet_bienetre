@@ -25,7 +25,7 @@
                         <img id="prestataire_img" src="{{ asset('../uploads/images/' ~ i.image) }}" alt=""/>
                     {% endfor %}
                     <div class="side-prestataire-container">
-                        <a href="{{ path('prestataire_show', {id: p.id}) }}"><h2
+                        <a href="{{ path('prestataire_show', {id: p.prestataire.id}) }}"><h2
                                     id="prestataire_titre">{{ p.prestataire.nom }}</h2></a>
                         <div class="description">
                             <p>{{ p.prestataire.siteinternet }}</p>

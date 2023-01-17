@@ -42,7 +42,10 @@ class Localite
 
         return $this;
     }
-
+    public function __toString()
+    {
+        return $this->Localite;
+    }
     /**
      * @return Collection<int, Utilisateur>
      */

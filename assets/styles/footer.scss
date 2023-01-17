@@ -1,0 +1,28 @@
+@import "variables";
+
+footer {
+  background-color: $footer-bg;
+  color: white;
+  padding: 3rem;
+
+  #copyright {
+    display: flex;
+    justify-content: center;
+  }
+
+  .container {
+    display: flex;
+    justify-content: center;
+    gap: 4rem;
+
+    div {
+      ul {
+        padding: 0;
+      }
+
+      a {
+        color: $primary-color;
+      }
+    }
+  }
+}
