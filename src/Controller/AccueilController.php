@@ -61,6 +61,7 @@ class AccueilController extends AbstractController
                 'commune' => $search_commune
             ]);
         }
+        //test
 
         //récupérer les catégories pour la nav
         $categories = $entityManager->getRepository(CategorieDeServices::class)->findBy(['valide' => 1]);
