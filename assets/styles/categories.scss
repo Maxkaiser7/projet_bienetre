@@ -1,0 +1,84 @@
+@import 'variables';
+
+.categories {
+  display: flex;
+  flex-direction: column;
+  width: 90vw;
+
+  h1 {
+    align-self: center;
+  }
+
+  a {
+    font-size: 2rem;
+    color: $black;
+
+    &:hover {
+      color: $secondary-color;
+    }
+  }
+}
+
+.categorie_form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  div {
+    width: 40vw;
+    display: flex;
+    flex-direction: column;
+
+
+    #categorie_nom {
+      height: 1.5rem;
+      border: solid 1px $border;
+      padding: 0.5rem;
+      border-radius: 0.5rem;
+    }
+  }
+
+  .btn-submit {
+    width: 40vw;
+    padding: 1rem;
+    font-size: 1rem;
+    border: solid 2px $secondary-color;
+    border-radius: 1rem;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
+.categorie_show{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  ul {
+    padding: 0;
+  }
+  a {
+    color: $black;
+    font-size: 2rem;
+  }
+}
+#categorie_img{
+  width: 100vw;
+  max-height: 288px;
+  object-position: center;
+  object-fit: cover;
+}
+.admin-categ-form{
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    button {
+      margin-top: 1rem;
+      background-color: $btn-submit;
+      border: solid 1px $btn;
+      padding: 0.6rem;
+      color: white;
+    }
+  }
+}

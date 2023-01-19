@@ -1,0 +1,10 @@
+.categories {
+  background-color: #B0413E;
+  display: flex;
+  flex-direction: column;
+}
+.categories h1 {
+  align-self: center;
+}
+
+/*# sourceMappingURL=categories.css.map */
