@@ -1,18 +1,43 @@
 {% extends 'base.html.twig' %}
+{% if image_current %}
+    {% set image = "uploads/images/" ~ image_current.image %}
+{% else %}
+    {% set image = "images/blank-profil.png"%}
+
+{% endif %}
 
 {% block title %}{{ categorie.nom }}{% endblock %}
 
 {% block body %}
-    <div class="example-wrapper">
-        <main>
+    {% if is_granted('ROLE_ADMIN') %}
+        <div class="admin-categ-form">
+        {{ form_start(formImageCategorie) }}
+        {{ form_row(formImageCategorie.Image) }}
+        <button type="submit" class="btn-submit">Enregistrer la photo</button>
+        {{ form_end(formImageCategorie) }}
+        </div>
+    {% endif %}
+        <main class="main-prestataire">
+            <img src="{{ asset(image) }}" id="categorie_img">
             <h1>{{ categorie.nom }}</h1>
-            <div class="show-categorie">
-                <ul class="prestataire-categorie">
-                    {% for p in prestataires %}
-                        <li>{{ p.prestataire.nom }}</li>
-                    {% endfor %}
-                </ul>
+            <div class="liste-prestataire">
+                {% for p in proposer %}
+                    <div class="prestataire-container">
+                        {% for i in p.prestataire.images %}
+                            <img id="prestataire_img" src="{{ asset('../uploads/images/' ~ i.image) }}" alt=""/>
+                        {% endfor %}
+                        <div class="side-prestataire-container">
+                            <a href="{{ path('prestataire_show', {id: p.prestataire.id}) }}"><h2
+                                        id="prestataire_titre">{{ p.prestataire.nom }}</h2></a>
+                            <div class="description">
+                                <p>{{ p.prestataire.siteinternet }}</p>
+                            </div>
+                            <span>
+                            <a href="{{ path('prestataire_show', {id: p.prestataire.id}) }}">Voir plus</a>
+                        </span>
+                        </div>
+                    </div>
+                {% endfor %}
             </div>
         </main>
-    </div>
 {% endblock %}

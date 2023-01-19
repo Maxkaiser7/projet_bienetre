@@ -3,12 +3,15 @@
 namespace App\Controller;
 
 use App\Entity\CategorieDeServices;
+use App\Entity\Favori;
 use App\Entity\Images;
+use App\Entity\Internaute;
 use App\Entity\Localite;
 use App\Entity\Prestataire;
 use App\Entity\Proposer;
 use App\Entity\Utilisateur;
 use App\Form\PrestataireType;
+use App\Form\SearchType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,7 +21,7 @@ use Symfony\Component\HttpFoundation\Request;
 class PrestataireController extends AbstractController
 {
     #[Route('/prestataire', name: 'app_prestataire')]
-    public function index(EntityManagerInterface $entityManager): Response
+    public function index(EntityManagerInterface $entityManager, Request $request): Response
     {
         //récupérer les prestataires
         $repository = $entityManager->getRepository(Prestataire::class);
@@ -41,11 +44,32 @@ class PrestataireController extends AbstractController
             ->getQuery('');
         $result = $query->getResult();
 
-        //dump($result[0]);die;
+        //formulaire de recherche
+        $form = $this->createForm(SearchType::class);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $data = $form->getData();
+            $prestataire = $data['prestataire'];
+            $localite = $data['localite'];
+            $categorie = $data['categorie'];
+            $cp = $data['cp'];
+            $commune = $data['commune'];
+
+
+
+            return $this->redirectToRoute('prestataire_search', [
+                'prestataire' => $prestataire,
+                'localite' => $localite,
+                'cp' => $cp,
+                'commune' => $commune
+            ]);
+        }
 
         return $this->render('prestataire/prestataires.html.twig', [
             'proposer' => $result,
-            'categories' => $categories
+            'categories' => $categories,
+            'searchForm' => $form->createView()
         ]);
     }
 
@@ -113,29 +137,51 @@ class PrestataireController extends AbstractController
 
         $categories = $entityManager->getRepository(CategorieDeServices::class)->findBy(['valide' => 1]);
         $internauteId = $prestataire->getUtilisateur();
+        //trouver la valeur du like
+
         return $this->render('prestataire/prestataire_show.html.twig', [
             'prestataire' => $prestataire,
             'categorie' => $categorie,
             'categories'=> $categories
         ]);
     }
+    #[Route('/prestataire/show/{id}/like/{userId}', name: 'prestataire_like')]
+    public function likePrestataire(EntityManagerInterface $entityManager, Request $request, int $id, int $userId) {
+        $value = $request->get('like-btn');
 
+        if ($value === 'like'){
+            $like = new Favori();
+            $user = $entityManager->getRepository(Utilisateur::class)->find($userId);
+            $internaute = $user->getInternaute();
+            $like->addInternaute($internaute);
+
+            $prestataire = $entityManager->getRepository(Prestataire::class)->find($id);
+            $like->addPrestataire($prestataire);
+            //impossible de $prestataire->addFavoris
+            $internaute->addFavori($like);
+
+            $entityManager->persist($like);
+            $entityManager->persist($prestataire);
+            $entityManager->persist($internaute);
+            $entityManager->flush();
+        }
+        $prestataire = $entityManager->getRepository(Prestataire::class)->find($id);
+        $result = $entityManager->getRepository(Proposer::class)->findCategByPrestataire($id);
+        $categorieId = $result[0]['c'];
+        $categorie = $entityManager->getRepository(CategorieDeServices::class)->find($categorieId);
+        $categories = $entityManager->getRepository(CategorieDeServices::class)->findBy(['valide' => 1]);
+        return $this->render('prestataire/prestataire_show.html.twig', [
+            'prestataire' => $prestataire,
+            'categorie' => $categorie,
+            'categories'=> $categories,
+            'value' => $value
+        ]);
+    }
     #[Route('/prestataire/search/', name: 'prestataire_search')]
     public function searchPrestataire(EntityManagerInterface $entityManager, Request $request): Response
     {
         $repository = $entityManager->getRepository(Proposer::class);
-        /*
-        $query = $repository->createQueryBuilder('p')
-            ->select('p, categorieDeServices, presta, images, utilisateur, localite')
-            ->join('p.categorieDeServices', 'categorieDeServices')
-            ->join('p.prestataire', 'presta')
-            ->join('presta.images', 'images')
-            ->join('presta.utilisateur', 'utilisateur')
-            ->join('utilisateur.localite', 'localite')
-            ->where("presta.nom LIKE :search OR categorieDeServices.nom LIKE :search OR localite.Localite LIKE :search")
-            ->setParameter("search", "%" . $search . "%")
-            ->getQuery('');
-        */
+
         $session = $request->getSession();
         $prestataire = $session->get('prestataire');
         $localite = $session->get('localite');
@@ -172,13 +218,7 @@ class PrestataireController extends AbstractController
         }
         $query = $query->getQuery();
         $result = $query->getResult();
-        /* A voir : trouver par ville
-         *    $repoLocalite = $entityManager->getRepository(Localite::class)->findBy([
-               'Localite'=>$search
-           ]);
-           $localiteId = $repoLocalite[0]->getId();
-           $repoUtilisateur = $entityManager->getRepository(Utilisateur::class)->findByLocaliteId($user);
-   */
+
         $categories = $entityManager->getRepository(CategorieDeServices::class)->findBy(['valide' => 1]);
 
         return $this->render('prestataire/prestataire_search.html.twig', [

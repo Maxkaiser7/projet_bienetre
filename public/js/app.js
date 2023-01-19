@@ -22,8 +22,10 @@ setInterval(() => {
 },5000)
 
 //like btn
+/*
 const like_btn = document.querySelector('.like-btn');
 like_btn.addEventListener('click', (e) => {
     like_btn.classList.toggle('dislike')
-})
 
+})
+*/

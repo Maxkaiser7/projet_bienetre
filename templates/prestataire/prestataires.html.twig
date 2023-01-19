@@ -3,6 +3,22 @@
 {% block title %}Prestataires{% endblock %}
 
 {% block body %}
+    <header class="header_container">
+        <div class="header_form">
+            {{ form_start(searchForm) }}
+            {{ form_row(searchForm.prestataire , {'attr': {
+                'placeholder': 'Cherchez un prestataire'
+            }}) }}
+            {{ form_row(searchForm.localite) }}
+            {{ form_row(searchForm.cp) }}
+            {{ form_row(searchForm.commune) }}
+
+            {{ form_row(searchForm.categorie) }}
+
+            <button type="submit" class="btn-submit">Rechercher</button>
+            {{ form_end(searchForm) }}
+        </div>
+    </header>
     <main class="main-prestataire bg">
         <h1 id="title">Liste des prestataires</h1>
         {% if app.user %}
@@ -13,10 +29,6 @@
             {% endif %}
 
         {% endif %}
-        <form class="search-form" action="">
-            <input class="searchbar" type="text" placeholder="Cherchez par nom, ville,...">
-            <input class="search-submit" type="submit" value="rechercher">
-        </form>
 
         <div class="liste-prestataire">
             {% for p in proposer %}

@@ -24,12 +24,15 @@ class Images
     #[ORM\JoinColumn(nullable: true)]
     private ?Prestataire $prestataire = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?int $prestataireId = null;
 
 
     #[ORM\OneToOne(inversedBy: 'images', cascade: ['persist', 'remove'])]
     private ?CategorieDeServices $categorieDeServices = null;
+    #[ORM\Column]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?int $categorieDeServicesId = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     private ?Internaute $internaute = null;

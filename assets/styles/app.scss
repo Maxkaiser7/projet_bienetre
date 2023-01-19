@@ -24,8 +24,3 @@ a {
 #title {
     font-weight: initial;
 }
-/*
-$2y$13$t9vWs30GfXeyDlWy2Hr5fuljp3CEseC/W9rp5rahsmdaFFtN8M0XG
-symfony run psql -c "INSERT INTO admin (id, username, roles, password) \ VALUES (nextval('admin_id_seq'), 'admin', '[\"ROLE_ADMIN\"]', \ '\$2y$13$t9vWs30GfXeyDlWy2Hr5fuljp3CEseC/W9rp5rahsmdaFFtN8M0XG')"
-
- */

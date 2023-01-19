@@ -371,7 +371,6 @@ nav .nav-links .log {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: -3rem;
 }
 .main-prestataire h1 {
   opacity: 0.9;
@@ -567,6 +566,39 @@ nav .nav-links .log {
   cursor: pointer;
 }
 
+.categorie_show {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.categorie_show ul {
+  padding: 0;
+}
+.categorie_show a {
+  color: #1a1a1a;
+  font-size: 2rem;
+}
+
+#categorie_img {
+  width: 100vw;
+  max-height: 288px;
+  object-position: center;
+  object-fit: cover;
+}
+
+.admin-categ-form form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.admin-categ-form form button {
+  margin-top: 1rem;
+  background-color: #3986CE;
+  border: solid 1px #431F10;
+  padding: 0.6rem;
+  color: white;
+}
+
 footer {
   background-color: #7d573e;
   color: white;
@@ -606,11 +638,5 @@ a {
 #title {
   font-weight: initial;
 }
-
-/*
-$2y$13$t9vWs30GfXeyDlWy2Hr5fuljp3CEseC/W9rp5rahsmdaFFtN8M0XG
-symfony run psql -c "INSERT INTO admin (id, username, roles, password) \ VALUES (nextval('admin_id_seq'), 'admin', '[\"ROLE_ADMIN\"]', \ '\$2y$13$t9vWs30GfXeyDlWy2Hr5fuljp3CEseC/W9rp5rahsmdaFFtN8M0XG')"
-
- */
 
 /*# sourceMappingURL=app.css.map */

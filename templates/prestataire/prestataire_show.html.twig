@@ -15,7 +15,9 @@
                 <p>{{ prestataire.numtel }}</p>
                 <span>
                     <p>{{ prestataire.numtva }}</p>
-                    <button class="like-btn like"></button>
+                    <form action="{{ path('prestataire_like', {id: prestataire.id, userId: app.user.id}) }}" method="post">
+                            <button class="like-btn like" name="like-btn" value="like"></button>
+                        </form>
                 </span>
                 <a href="{{ path('app_categorie_show', {'nom' : categorie.nom}) }}">{{ categorie.nom }}</a>
             </div>
