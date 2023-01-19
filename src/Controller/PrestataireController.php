@@ -150,7 +150,7 @@ class PrestataireController extends AbstractController
         $value = $request->get('like-btn');
 
         if ($value === 'like'){
-            $like = new Favori();
+       /*     $like = new Favori();
             $user = $entityManager->getRepository(Utilisateur::class)->find($userId);
             $internaute = $user->getInternaute();
             $like->addInternaute($internaute);
@@ -164,6 +164,7 @@ class PrestataireController extends AbstractController
             $entityManager->persist($prestataire);
             $entityManager->persist($internaute);
             $entityManager->flush();
+       */
         }
         $prestataire = $entityManager->getRepository(Prestataire::class)->find($id);
         $result = $entityManager->getRepository(Proposer::class)->findCategByPrestataire($id);

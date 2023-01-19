@@ -24,8 +24,7 @@ class Internaute
     #[ORM\Column]
     private ?bool $newsletter = false;
 
-    #[ORM\ManyToMany(targetEntity: Favori::class, mappedBy: 'internaute')]
-    private Collection $favoris;
+
 
     #[ORM\OneToOne(mappedBy: 'internaute', cascade: ['persist', 'remove'])]
     private ?Position $position = null;
@@ -38,9 +37,10 @@ class Internaute
 
 
 
+
+
     public function __construct()
     {
-        $this->favoris = new ArrayCollection();
         $this->abuses = new ArrayCollection();
         $this->commentaires = new ArrayCollection();
     }
@@ -86,32 +86,7 @@ class Internaute
         return $this;
     }
 
-    /**
-     * @return Collection<int, Favori>
-     */
-    public function getFavoris(): Collection
-    {
-        return $this->favoris;
-    }
 
-    public function addFavori(Favori $favori): self
-    {
-        if (!$this->favoris->contains($favori)) {
-            $this->favoris->add($favori);
-            $favori->addPrestataire($this);
-        }
-
-        return $this;
-    }
-
-    public function removeFavori(Favori $favori): self
-    {
-        if ($this->favoris->removeElement($favori)) {
-            $favori->removePrestataire($this);
-        }
-
-        return $this;
-    }
 
     public function getPosition(): ?Position
     {
@@ -194,4 +169,6 @@ class Internaute
 
         return $this;
     }
+
+
 }

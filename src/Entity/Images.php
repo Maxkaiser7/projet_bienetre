@@ -29,7 +29,9 @@ class Images
 
 
     #[ORM\OneToOne(inversedBy: 'images', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: true)]
     private ?CategorieDeServices $categorieDeServices = null;
+
     #[ORM\Column]
     #[ORM\JoinColumn(nullable: true)]
     private ?int $categorieDeServicesId = null;

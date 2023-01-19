@@ -37,8 +37,7 @@ class Prestataire
     #[ORM\OneToMany(mappedBy: 'prestataire', targetEntity: Stage::class)]
     private Collection $stages;
 
-    #[ORM\ManyToMany(targetEntity: Favori::class, mappedBy: 'prestataire')]
-    private Collection $favoris;
+
 
     #[ORM\OneToMany(mappedBy: 'prestataire', targetEntity: Commentaire::class)]
     private Collection $commentaires;
@@ -55,6 +54,8 @@ class Prestataire
      * @ORM\JoinColumn(nullable=false)
      */
     private $categorieDeService;
+
+
     public function getProposer()
     {
         return $this->proposer;
@@ -70,7 +71,6 @@ class Prestataire
         $this->images = new ArrayCollection();
         $this->promotions = new ArrayCollection();
         $this->stages = new ArrayCollection();
-        $this->favoris = new ArrayCollection();
         $this->commentaires = new ArrayCollection();
         $this->categorieDeServices = new ArrayCollection();
         $this->proposer = new ArrayCollection();
@@ -219,32 +219,8 @@ class Prestataire
         return $this;
     }
 
-    /**
-     * @return Collection<int, Favori>
-     */
-    public function getFavoris(): Collection
-    {
-        return $this->favoris;
-    }
 
-    public function addFavori(Favori $favori): self
-    {
-        if (!$this->favoris->contains($favori)) {
-            $this->favoris->add($favori);
-            $favori->addPrestataire($this);
-        }
 
-        return $this;
-    }
-
-    public function removeFavori(Favori $favori): self
-    {
-        if ($this->favoris->removeElement($favori)) {
-            $favori->removePrestataire($this);
-        }
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, Commentaire>
@@ -309,5 +285,6 @@ class Prestataire
 
         return $this;
     }
+
 
 }
