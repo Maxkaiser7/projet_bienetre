@@ -6,6 +6,7 @@ use App\Repository\InternauteRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use JetBrains\PhpStorm\Pure;
 
 #[ORM\Entity(repositoryClass: InternauteRepository::class)]
 class Internaute
@@ -24,6 +25,16 @@ class Internaute
     #[ORM\Column]
     private ?bool $newsletter = false;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Prestataire::class, inversedBy="internautesFavoris")
+     * @ORM\JoinTable(
+     *     name="internautes_prestataires",
+     *     joinColumns={@ORM\JoinColumn(name="internaute_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="prestataire_id", referencedColumnName="id")}
+     * )
+     */
+    private ?Collection $prestatairesFavoris = null;
+
 
 
     #[ORM\OneToOne(mappedBy: 'internaute', cascade: ['persist', 'remove'])]
@@ -36,13 +47,11 @@ class Internaute
     private Collection $commentaires;
 
 
-
-
-
-    public function __construct()
+    #[Pure] public function __construct()
     {
         $this->abuses = new ArrayCollection();
         $this->commentaires = new ArrayCollection();
+        $this->prestatairesFavoris = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -85,7 +94,6 @@ class Internaute
 
         return $this;
     }
-
 
 
     public function getPosition(): ?Position
@@ -166,6 +174,34 @@ class Internaute
                 $commentaire->setInternaute(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Prestataire>
+     */
+    public function getPrestatairesFavoris(): Collection
+    {
+        if (!$this->prestatairesFavoris) {
+            $this->prestatairesFavoris = new ArrayCollection();
+        }
+        return $this->prestatairesFavoris;
+    }
+
+    public function addPrestatairesFavori(Prestataire $prestatairesFavori): self
+    {
+        if (!$this->prestatairesFavoris->contains($prestatairesFavori)) {
+            $this->prestatairesFavoris->add($prestatairesFavori);
+        }
+
+        return $this;
+    }
+
+
+    public function removePrestatairesFavori(Prestataire $prestatairesFavori): self
+    {
+        $this->prestatairesFavoris->removeElement($prestatairesFavori);
 
         return $this;
     }

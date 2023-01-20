@@ -32,8 +32,7 @@ class Images
     #[ORM\JoinColumn(nullable: true)]
     private ?CategorieDeServices $categorieDeServices = null;
 
-    #[ORM\Column]
-    #[ORM\JoinColumn(nullable: true)]
+    #[ORM\Column(nullable: true)]
     private ?int $categorieDeServicesId = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
@@ -102,6 +101,30 @@ class Images
     public function setInternaute(?Internaute $internaute): self
     {
         $this->internaute = $internaute;
+
+        return $this;
+    }
+
+    public function getPrestataireId(): ?int
+    {
+        return $this->prestataireId;
+    }
+
+    public function setPrestataireId(?int $prestataireId): self
+    {
+        $this->prestataireId = $prestataireId;
+
+        return $this;
+    }
+
+    public function getCategorieDeServicesId(): ?int
+    {
+        return $this->categorieDeServicesId;
+    }
+
+    public function setCategorieDeServicesId(?int $categorieDeServicesId): self
+    {
+        $this->categorieDeServicesId = $categorieDeServicesId;
 
         return $this;
     }
