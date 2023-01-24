@@ -37,6 +37,7 @@ class RegistrationController extends AbstractController
         $user->setInscription(new \DateTime());
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
+        //test merge
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
