@@ -15,6 +15,7 @@
     .like {
       background-image: url("../../public/images/assets/like.png");
     }
+
     .dislike {
       background-image: url("../../public/images/assets/like-fill.png");
     }
@@ -56,6 +57,14 @@
     font-size: 4rem;
     font-weight: 300;
     margin: 0;
+  }
+}
+
+#likes {
+  p {
+    margin: 1rem;
+    font-size: 1.2rem
+  ;
   }
 }
 

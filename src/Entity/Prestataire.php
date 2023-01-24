@@ -27,7 +27,7 @@ class Prestataire
     #[ORM\Column(length: 255)]
     private ?string $numtva = null;
 
-    #[ORM\ManyToMany(targetEntity: Internaute::class, mappedBy: "prestatairesFavoris")]
+    #[ORM\ManyToMany(targetEntity: Internaute::class, inversedBy: "internaute")]
     private Collection $internautesFavoris;
 
 

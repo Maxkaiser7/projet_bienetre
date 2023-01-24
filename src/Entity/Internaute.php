@@ -24,7 +24,7 @@ class Internaute
 
     #[ORM\Column]
     private ?bool $newsletter = false;
-
+/*
     /**
      * @ORM\ManyToMany(targetEntity=Prestataire::class, inversedBy="internautesFavoris")
      * @ORM\JoinTable(
@@ -32,9 +32,12 @@ class Internaute
      *     joinColumns={@ORM\JoinColumn(name="internaute_id", referencedColumnName="id")},
      *     inverseJoinColumns={@ORM\JoinColumn(name="prestataire_id", referencedColumnName="id")}
      * )
-     */
-    private ?Collection $prestatairesFavoris = null;
 
+    private ?Collection $prestatairesFavoris = null;
+*/
+    #[ORM\ManyToMany(targetEntity: Prestataire::class, inversedBy: 'prestataire')]
+    #[ORM\JoinColumn(name: 'favoris')]
+    private $prestataireFavoris;
 
 
     #[ORM\OneToOne(mappedBy: 'internaute', cascade: ['persist', 'remove'])]
@@ -51,7 +54,7 @@ class Internaute
     {
         $this->abuses = new ArrayCollection();
         $this->commentaires = new ArrayCollection();
-        $this->prestatairesFavoris = new ArrayCollection();
+        $this->prestataireFavoris = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -183,16 +186,16 @@ class Internaute
      */
     public function getPrestatairesFavoris(): Collection
     {
-        if (!$this->prestatairesFavoris) {
-            $this->prestatairesFavoris = new ArrayCollection();
+        if (!$this->prestataireFavoris) {
+            $this->prestataireFavoris = new ArrayCollection();
         }
-        return $this->prestatairesFavoris;
+        return $this->prestataireFavoris;
     }
 
     public function addPrestatairesFavori(Prestataire $prestatairesFavori): self
     {
-        if (!$this->prestatairesFavoris->contains($prestatairesFavori)) {
-            $this->prestatairesFavoris->add($prestatairesFavori);
+        if (!$this->prestataireFavoris->contains($prestatairesFavori)) {
+            $this->prestataireFavoris->add($prestatairesFavori);
         }
 
         return $this;
@@ -201,7 +204,7 @@ class Internaute
 
     public function removePrestatairesFavori(Prestataire $prestatairesFavori): self
     {
-        $this->prestatairesFavoris->removeElement($prestatairesFavori);
+        $this->prestataireFavoris->removeElement($prestatairesFavori);
 
         return $this;
     }
