@@ -523,6 +523,11 @@ nav .nav-links .log {
   margin: 0;
 }
 
+#likes p {
+  margin: 1rem;
+  font-size: 1.2rem;
+}
+
 .categories {
   display: flex;
   flex-direction: column;

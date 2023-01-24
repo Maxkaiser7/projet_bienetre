@@ -29,3 +29,4 @@ like_btn.addEventListener('click', (e) => {
 
 })
 */
+$.ajax

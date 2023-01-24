@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20230119173324 extends AbstractMigration
+final class Version20230120104202 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -23,5 +23,9 @@ final class Version20230119173324 extends AbstractMigration
         $this->addSql('ALTER TABLE images CHANGE categorie_de_services_id categorie_de_services_id INT DEFAULT NULL');
     }
 
-
+    public function down(Schema $schema): void
+    {
+        // this down() migration is auto-generated, please modify it to your needs
+        $this->addSql('ALTER TABLE images CHANGE categorie_de_services_id categorie_de_services_id INT NOT NULL');
+    }
 }

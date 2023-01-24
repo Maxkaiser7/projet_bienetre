@@ -28,6 +28,24 @@ class AccueilController extends AbstractController
             'DELETE FROM App\Entity\Prestataire p WHERE p.id = 14'
         );
         $query->execute();*/
+
+    $rowNo = 1;
+        // $fp is file pointer to file sample.csv
+   /* if (($fp = fopen("/Users/maximekaiser/projetbe/projet_bienetre/public/csv/localite.csv", "r")) !== FALSE) {
+        while (($row = fgetcsv($fp)) !== FALSE) {
+            $num = count($row);
+            $rowNo++;
+            for ($c=0; $c < $num; $c++) {
+                $cp = new Localite();
+                $cp->setLocalite($row[$c]);
+                $entityManager->persist($cp);
+
+            }
+        }
+        $entityManager->flush();
+        fclose($fp);
+    }*/
+
         //récupérer les 4 derniers prestataires inscrits
         $query = $entityManager->createQuery(
             'SELECT p, u FROM App\Entity\Utilisateur u JOIN u.prestataire p ORDER BY u.inscription ASC'

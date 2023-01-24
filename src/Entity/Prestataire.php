@@ -27,6 +27,10 @@ class Prestataire
     #[ORM\Column(length: 255)]
     private ?string $numtva = null;
 
+    #[ORM\ManyToMany(targetEntity: Internaute::class, inversedBy: "internaute")]
+    private Collection $internautesFavoris;
+
+
     #[ORM\OneToMany(mappedBy: 'prestataire', targetEntity: Images::class, cascade: ['remove', 'persist'], orphanRemoval: true)]
     #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
     private ?Collection $images = null;
@@ -38,13 +42,12 @@ class Prestataire
     private Collection $stages;
 
 
-
     #[ORM\OneToMany(mappedBy: 'prestataire', targetEntity: Commentaire::class)]
     private Collection $commentaires;
 
     #[ORM\OneToMany(mappedBy: 'prestataire', targetEntity: Proposer::class)]
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
-    private  $proposer;
+    private $proposer;
     #[ORM\OneToOne(mappedBy: 'prestataire', targetEntity: Utilisateur::class)]
     private $utilisateur;
 
@@ -61,7 +64,8 @@ class Prestataire
         return $this->proposer;
     }
 
-    public function setProposer(?Proposer $proposer){
+    public function setProposer(?Proposer $proposer)
+    {
         $this->proposer = $proposer;
     }
 
@@ -74,6 +78,7 @@ class Prestataire
         $this->commentaires = new ArrayCollection();
         $this->categorieDeServices = new ArrayCollection();
         $this->proposer = new ArrayCollection();
+        $this->internautesFavoris = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -220,8 +225,6 @@ class Prestataire
     }
 
 
-
-
     /**
      * @return Collection<int, Commentaire>
      */
@@ -244,6 +247,7 @@ class Prestataire
     {
         return $this->utilisateur;
     }
+
     public function removeCommentaire(Commentaire $commentaire): self
     {
         if ($this->commentaires->removeElement($commentaire)) {
@@ -255,6 +259,7 @@ class Prestataire
 
         return $this;
     }
+
     /**
      * @return Collection|Proposer[]
      */
@@ -281,6 +286,75 @@ class Prestataire
             if ($proposer->getPrestataire() === $this) {
                 $proposer->setPrestataire(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Internaute>
+     */
+    public function getFavoris(): Collection
+    {
+        return $this->internautesFavoris;
+    }
+
+    public function addInternautesFavoris(Internaute $internautesFavoris): self
+    {
+        if (!$this->internautesFavoris->contains($internautesFavoris)) {
+            $this->internautesFavoris->add($internautesFavoris);
+        }
+
+        return $this;
+    }
+    public function removeInternautesFavoris(Internaute $internautesFavoris): self
+    {
+        if ($this->internautesFavoris->contains($internautesFavoris)) {
+            $this->internautesFavoris->removeElement($internautesFavoris);
+        }
+
+        return $this;
+    }
+
+    public function setUtilisateur(?Utilisateur $utilisateur): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($utilisateur === null && $this->utilisateur !== null) {
+            $this->utilisateur->setPrestataire(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($utilisateur !== null && $utilisateur->getPrestataire() !== $this) {
+            $utilisateur->setPrestataire($this);
+        }
+
+        $this->utilisateur = $utilisateur;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Internaute>
+     */
+    public function getInternautesFavoris(): Collection
+    {
+        return $this->internautesFavoris;
+    }
+
+    public function addInternautesFavori(Internaute $internautesFavori): self
+    {
+        if (!$this->internautesFavoris->contains($internautesFavori)) {
+            $this->internautesFavoris->add($internautesFavori);
+            $internautesFavori->addPrestatairesFavori($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInternautesFavori(Internaute $internautesFavori): self
+    {
+        if ($this->internautesFavoris->removeElement($internautesFavori)) {
+            $internautesFavori->removePrestatairesFavori($this);
         }
 
         return $this;

@@ -305,6 +305,11 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function isIsVerified(): ?bool
+    {
+        return $this->isVerified;
+    }
+
 
 
 

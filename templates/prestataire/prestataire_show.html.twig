@@ -15,9 +15,25 @@
                 <p>{{ prestataire.numtel }}</p>
                 <span>
                     <p>{{ prestataire.numtva }}</p>
-                    <form action="{{ path('prestataire_like', {id: prestataire.id, userId: app.user.id}) }}" method="post">
-                            <button class="like-btn like" name="like-btn" value="like"></button>
+                    <span id="likes">
+                        <p>{{ favoris }}</p>
+                    {% if app.user %}
+                        <form action="{{ path('prestataire_like', {id: prestataire.id, userId: app.user.id}) }}"
+                              method="post">
+                        {% if display_like %}
+                            <button class="like-btn dislike" name="like-btn" value="dislike"></button>
+                            {% else %}
+                                <button class="like-btn like" name="like-btn" value="like"></button>
+                        {% endif %}
+
                         </form>
+                    {% endif %}
+                    </span>
+                    {#
+                    {{ form_start(likeForm) }}
+                    {{ form_row(likeForm.like) }}
+                    {{ form_end(likeForm) }}
+                    #}
                 </span>
                 <a href="{{ path('app_categorie_show', {'nom' : categorie.nom}) }}">{{ categorie.nom }}</a>
             </div>
