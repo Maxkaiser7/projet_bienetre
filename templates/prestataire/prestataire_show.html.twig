@@ -8,10 +8,7 @@
             {% endfor %}
             <div id="side_prestataire">
                 <h2>{{ prestataire.nom }}</h2>
-
                 <a href="#">{{ prestataire.siteinternet }}</a>
-
-
                 <p>{{ prestataire.numtel }}</p>
                 <span>
                     <p>{{ prestataire.numtva }}</p>
@@ -23,9 +20,8 @@
                         {% if display_like %}
                             <button class="like-btn dislike" name="like-btn" value="dislike"></button>
                             {% else %}
-                                <button class="like-btn like" name="like-btn" value="like"></button>
+                            <button class="like-btn like" name="like-btn" value="like"></button>
                         {% endif %}
-
                         </form>
                     {% endif %}
                     </span>
@@ -36,8 +32,27 @@
                     #}
                 </span>
                 <a href="{{ path('app_categorie_show', {'nom' : categorie.nom}) }}">{{ categorie.nom }}</a>
+                {% include "components/_share.html.twig" %}
             </div>
-
+        </div>
+        <div class="form_commentaire">
+            <span></span>
+            {{ form_start(form_commentaire) }}
+            {{ form_row(form_commentaire.Titre) }}
+            {{ form_row(form_commentaire.contenu) }}
+            <button type="submit" class="btn-submit">Publier</button>
+            {{ form_end(form_commentaire) }}
+        </div>
+        <div class="commentaires">
+            {% for c in commentaires %}
+                <div class="solo_commentaire">
+                    <span>
+                        <h4>{{ c.titre }}</h4>
+                    <p id="auteur">{{ c.internaute.name }}</p>
+                    </span>
+                    <p>{{ c.contenu }}</p>
+                </div>
+            {% endfor %}
         </div>
     </main>
 

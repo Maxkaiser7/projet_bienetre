@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\CategorieDeServices;
+use App\Entity\Commentaire;
 use App\Entity\Favori;
 use App\Entity\Images;
 use App\Entity\Internaute;
@@ -10,6 +11,7 @@ use App\Entity\Localite;
 use App\Entity\Prestataire;
 use App\Entity\Proposer;
 use App\Entity\Utilisateur;
+use App\Form\CommentaireType;
 use App\Form\LikeType;
 use App\Form\PrestataireType;
 use App\Form\SearchType;
@@ -164,13 +166,34 @@ class PrestataireController extends AbstractController
             $display_like = false;
         }
 
+        //ajout de commentaire
+        $commentaire = new Commentaire();
+        $form_commentaire = $this->createForm(CommentaireType::class, $commentaire);
+        $form_commentaire->handleRequest($request);
+
+        if ($form_commentaire->isSubmitted() && $form_commentaire->isValid())
+        {
+
+            $data = $form_commentaire->getData();
+            $commentaire->setInternaute($internaute);
+            $commentaire->setPrestataire($prestataire);
+            $commentaire->setEncodage(new \DateTime());
+            $entityManager->persist($commentaire);
+            $entityManager->flush();
+
+        }
+        //affichage de commentaire
+        $commentaires = $prestataire->getCommentaires();
+
         return $this->render('prestataire/prestataire_show.html.twig', [
             'prestataire' => $prestataire,
             'categorie' => $categorie,
             'categories' => $categories,
             'likeForm' => $form->createView(),
             'favoris' => $favoris,
-            'display_like' => $display_like
+            'display_like' => $display_like,
+            'form_commentaire' => $form_commentaire->createView(),
+            'commentaires' => $commentaires
 
         ]);
     }

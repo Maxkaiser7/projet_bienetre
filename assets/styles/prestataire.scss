@@ -27,9 +27,13 @@
     span {
       display: inline-flex;
       justify-content: space-between;
+      align-items: center;
       #nom-categ {
         font-size: 1.5rem;
         color: $black;
+      }
+      a{
+        color: $hover;
       }
     }
 
