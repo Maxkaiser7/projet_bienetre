@@ -160,11 +160,16 @@ class PrestataireController extends AbstractController
 
         }
         //vérifier si l'internaute aime déjà ce prestataire
-        $internaute= $this->getUser()->getInternaute();
         $display_like = true;
-        if (!$internaute->getPrestatairesFavoris()->contains($prestataire)){
-            $display_like = false;
+
+        if ($this->getUser()){
+            $internaute= $this->getUser()->getInternaute();
+            $display_like = true;
+            if (!$internaute->getPrestatairesFavoris()->contains($prestataire)){
+                $display_like = false;
+            }
         }
+
 
         //ajout de commentaire
         $commentaire = new Commentaire();

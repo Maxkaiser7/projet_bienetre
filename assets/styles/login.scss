@@ -1,0 +1,22 @@
+@import 'variables';
+
+.login-form{
+  display: flex;
+  flex-direction: column;
+  padding: 10vw;
+  margin-bottom: 10vh;
+  input {
+    padding: 0.5rem;
+  }
+  button {
+    margin-top: 1rem;
+    padding: 0.5rem;
+    background-color: transparent;
+    border: solid 1px;
+    border-radius: 0.5rem;
+  }
+}
+#a-login{
+  display: flex;
+  justify-content: center;
+}

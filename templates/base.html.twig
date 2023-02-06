@@ -139,22 +139,24 @@
         </div>
         <div class="favoris" data-aos="fade-in" data-aos-easing="ease-in-out" data-aos-delay="50"
              data-aos-duration="1000">
-            <h2 id="title">Vos favoris</h2>
-            <div class="favoris-container">
-                {% for p in prestatairesFavoris %}
-                    <div class="prestataire-container_accueil_favoris">
-                        {% for i in p.images %}
+            {% if app.user %}
+                <h2 id="title">Vos favoris</h2>
+                <div class="favoris-container">
+                    {% for p in prestatairesFavoris %}
+                        <div class="prestataire-container_accueil_favoris">
+                            {% for i in p.images %}
+                                <a href="{{ path('prestataire_show',{id: p.id}) }}">
+                                    <img id="prestataire_img_accueil" src="{{ asset('../uploads/images/' ~ i.image) }}"
+                                         alt=""/>
+                                </a>
+                            {% endfor %}
                             <a href="{{ path('prestataire_show',{id: p.id}) }}">
-                                <img id="prestataire_img_accueil" src="{{ asset('../uploads/images/' ~ i.image) }}"
-                                     alt=""/>
+                                <h3>{{ p.nom }}</h3>
                             </a>
-                        {% endfor %}
-                        <a href="{{ path('prestataire_show',{id: p.id}) }}">
-                            <h3>{{ p.nom }}</h3>
-                        </a>
-                    </div>
-                {% endfor %}
-            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
         </div>
     </main>
 {% endblock %}

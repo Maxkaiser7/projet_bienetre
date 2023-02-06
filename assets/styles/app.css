@@ -205,7 +205,7 @@ nav .nav-links .log {
     padding-right: 0.6rem;
   }
   nav .log a {
-    font-size: 1.5vw;
+    font-size: 0.8vw;
   }
 }
 .header_form form {
@@ -265,13 +265,21 @@ nav .nav-links .log {
   text-align: center;
 }
 
+.registration-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+}
 .registration-form form {
+  max-width: 50rem;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 .registration-form form div {
-  width: 90vw;
+  width: 90%;
   display: flex;
   flex-direction: column;
 }
@@ -317,11 +325,12 @@ nav .nav-links .log {
   margin-right: 1rem;
 }
 .registration-form .btn-submit {
-  width: 90vw;
+  width: 23rem;
   padding: 1rem;
   font-size: 1rem;
   border: solid 2px #FFAEBC;
   border-radius: 1rem;
+  background-color: #ffffff;
 }
 .registration-form .btn-submit:hover {
   cursor: pointer;
@@ -542,13 +551,15 @@ nav .nav-links .log {
 .solo_prestataire {
   padding: 1rem;
   display: flex;
-  justify-content: center;
   flex-direction: column;
+  align-items: center;
 }
 .solo_prestataire .solo_prestataire_container {
   display: flex;
   gap: 0.5rem;
   flex-direction: column;
+  max-width: 70rem;
+  width: 80%;
 }
 .solo_prestataire .solo_prestataire_container .like {
   background-image: url("../../public/images/assets/like.png");
@@ -580,9 +591,6 @@ nav .nav-links .log {
   border-radius: 1rem;
 }
 
-#side_prestataire {
-  width: 90vw;
-}
 #side_prestataire h2 {
   display: flex;
   justify-content: center;
@@ -750,6 +758,28 @@ footer .container div ul {
 }
 footer .container div a {
   color: #ffffff;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  padding: 10vw;
+  margin-bottom: 10vh;
+}
+.login-form input {
+  padding: 0.5rem;
+}
+.login-form button {
+  margin-top: 1rem;
+  padding: 0.5rem;
+  background-color: transparent;
+  border: solid 1px;
+  border-radius: 0.5rem;
+}
+
+#a-login {
+  display: flex;
+  justify-content: center;
 }
 
 body {

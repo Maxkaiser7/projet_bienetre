@@ -23,6 +23,10 @@
                             <button class="like-btn like" name="like-btn" value="like"></button>
                         {% endif %}
                         </form>
+                        {% else %}
+                        <a href="{{ path('app_login') }}">
+                            <button class="like-btn like" name="like-btn" value="like"></button>
+                        </a>
                     {% endif %}
                     </span>
                     {#

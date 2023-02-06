@@ -3,12 +3,14 @@
 .solo_prestataire {
   padding: 1rem;
   display: flex;
-  justify-content: center;
   flex-direction: column;
+  align-items: center;
   .solo_prestataire_container {
     display: flex;
     gap: 0.5rem;
     flex-direction: column;
+    max-width: 70rem;
+    width: 80%;
 
     .like {
       background-image: url("../../public/images/assets/like.png");
@@ -47,7 +49,6 @@
 }
 
 #side_prestataire {
-  width: 90vw;
 
   h2 {
     display: flex;

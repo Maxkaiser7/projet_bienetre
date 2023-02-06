@@ -63,11 +63,17 @@ class AccueilController extends AbstractController
         $prestataires = $query->getResult();
 
         //récupérer les prestataires favoris
-        $user = $this->tokenStorage->getToken()->getUser();
-        $prestataires_favoris = $user->getInternaute()->getPrestatairesFavoris();
-        if (count($prestataires_favoris) > 4){
-            $prestataires_favoris = $prestataires_favoris->slice(0,4);
+        $prestataires_favoris = 0;
+
+        if ($this->tokenStorage->getToken()){
+            $user = $this->tokenStorage->getToken()->getUser();
+            $prestataires_favoris = $user->getInternaute()->getPrestatairesFavoris();
+            if (count($prestataires_favoris) > 4){
+                $prestataires_favoris = $prestataires_favoris->slice(0,4);
+            }
         }
+
+
 
         //catégorie du mois
         $categorie_mois = $entityManager->getRepository(CategorieDeServices::class)->findBy(['enAvant' => true]);
