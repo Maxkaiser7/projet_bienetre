@@ -37,6 +37,19 @@
                 </span>
                 <a href="{{ path('app_categorie_show', {'nom' : categorie.nom}) }}">{{ categorie.nom }}</a>
                 {% include "components/_share.html.twig" %}
+                <div class="stages">
+                    <h3>Stages</h3>
+
+                    {% if stages|length > 0 %}
+                        <div>
+                            {% for s in stages %}
+                                <a href="{{ path('app_stage_show', {nom:s.nom}) }}">{{ s.nom }}</a>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p>Aucun stage pour l'instant</p>
+                    {% endif %}
+                </div>
             </div>
         </div>
         <div class="form_commentaire">

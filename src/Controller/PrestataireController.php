@@ -16,6 +16,7 @@ use App\Form\LikeType;
 use App\Form\PrestataireType;
 use App\Form\SearchType;
 use Doctrine\ORM\EntityManagerInterface;
+use Optios\BelgianRegionZip\BelgianRegionZipHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -187,6 +188,7 @@ class PrestataireController extends AbstractController
             $entityManager->flush();
 
         }
+        $stages = $prestataire->getStages();
         //affichage de commentaire
         $commentaires = $prestataire->getCommentaires();
 
@@ -198,8 +200,8 @@ class PrestataireController extends AbstractController
             'favoris' => $favoris,
             'display_like' => $display_like,
             'form_commentaire' => $form_commentaire->createView(),
-            'commentaires' => $commentaires
-
+            'commentaires' => $commentaires,
+            'stages' => $stages
         ]);
     }
 

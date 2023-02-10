@@ -6,11 +6,9 @@ hamburger.addEventListener("click", () => {
     hamburger.classList.toggle('active');
     navLinks.classList.toggle('active');
 })
-
 //home slider
 let counter = 1
 const div = document.querySelector('.container-slide')
-
 setInterval(() => {
     document.querySelector('.img.show').classList.remove('show')
     const img = document.querySelector(`.img-${counter}`)
