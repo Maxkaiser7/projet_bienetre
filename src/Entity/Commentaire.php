@@ -23,7 +23,7 @@ class Commentaire
     private ?string $contenu = null;
 
     #[ORM\Column]
-    private ?int $cote = null;
+    private ?int $cote = 0;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $encodage = null;

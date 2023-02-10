@@ -9,6 +9,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;1,400;1,500&display=swap"
           rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css"/>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/js/all.js"></script>
 
 </head>
@@ -22,6 +25,9 @@
             <a class="nav-a" href="{{ path('app_accueil') }}">Accueil</a>
             <div class="nav-categ">
                 <a class="nav-a" id="categ" href="{{ path('app_categories') }}">Categories</a>
+                <button class="btn-categ">
+                    <img id="arrow" src="{{ asset('../images/assets/down-arrow.png') }}" alt="down-arrow">
+                </button>
                 <div class="display-categ">
                     {% for c in categories %}
                         <a href="{{ path('app_categorie_show', {nom: c.nom}) }}">{{ c.nom }}</a>
@@ -30,6 +36,7 @@
             </div>
 
             <a class="nav-a" href="{{ path('app_prestataire') }}">Prestataires</a>
+            <a class="nav-a" href="{{ path('app_stage') }}">Stages</a>
             <a class="nav-a" href="#">A propos</a>
             <a class="nav-a" href="#">Contact</a>
         </div>
@@ -37,7 +44,7 @@
             <p id="email">
                 {{ app.user.email }}
             </p>
-             {% if app.user.prestataire %}
+            {% if app.user.prestataire %}
                 <a href="{{ path('app_profil_user', {id:app.user.prestataire.id}) }}">Profil</a>
             {% endif %}
 
@@ -60,18 +67,18 @@
 {% block body %}
     <header class="header_container">
         <div class="header_form">
-        {{ form_start(searchForm) }}
-        {{ form_row(searchForm.prestataire , {'attr': {
-            'placeholder': 'Cherchez un prestataire'
-        }}) }}
-        {{ form_row(searchForm.localite) }}
-        {{ form_row(searchForm.cp) }}
-        {{ form_row(searchForm.commune) }}
+            {{ form_start(searchForm) }}
+            {{ form_row(searchForm.prestataire , {'attr': {
+                'placeholder': 'Cherchez un prestataire'
+            }}) }}
+            {{ form_row(searchForm.localite) }}
+            {{ form_row(searchForm.cp) }}
+            {{ form_row(searchForm.commune) }}
 
-        {{ form_row(searchForm.categorie) }}
+            {{ form_row(searchForm.categorie) }}
 
-        <button type="submit" class="btn-submit">Rechercher</button>
-        {{ form_end(searchForm) }}
+            <button type="submit" class="btn-submit">Rechercher</button>
+            {{ form_end(searchForm) }}
         </div>
         <div class="container-slide">
             <img src="{{ asset('../images/slider/slider1.jpg') }}" alt="" class="img img-1 show">
@@ -80,7 +87,8 @@
     </header>
     <main class="bg">
         {% if app.user %}
-            <div class="last-signed">
+            <div class="last-signed" data-aos="fade-in" data-aos-easing="ease-in-out" data-aos-delay="50"
+                 data-aos-duration="1000">
                 <h2 id="title">Derniers inscrits</h2>
                 <div class="last-signed-container">
                     {% for p in prestataires %}
@@ -99,7 +107,8 @@
                 </div>
             </div>
         {% else %}
-            <div class="last-signed">
+            <div class="last-signed" data-aos="fade-in" data-aos-easing="ease-in-out" data-aos-delay="50"
+                 data-aos-duration="1000">
                 <h2 id="title">Derniers inscrits</h2>
                 <div class="last-signed-container">
                     {% for p in prestataires %}
@@ -118,11 +127,47 @@
                 </div>
             </div>
         {% endif %}
+        <div class="categorie-mois-container" data-aos="fade-in" data-aos-easing="ease-in-out" data-aos-delay="50"
+             data-aos-duration="1000">
+            <h2 id="title">Catégorie du mois</h2>
 
-
+            {% for c in categorie_mois %}
+                <a href="{{ path('app_categorie_show', {nom:c.nom}) }}">
+                    <h3>{{ c.nom }}</h3>
+                </a>
+                <img alt="categorie" src="{{ asset('../uploads/images/' ~ categorie_mois_image.Image) }}"
+                     id="categorie-mois-image"/>
+            {% endfor %}
+        </div>
+        <div class="favoris" data-aos="fade-in" data-aos-easing="ease-in-out" data-aos-delay="50"
+             data-aos-duration="1000">
+            {% if app.user %}
+                <h2 id="title">Vos favoris</h2>
+                <div class="favoris-container">
+                    {% for p in prestatairesFavoris %}
+                        <div class="prestataire-container_accueil_favoris">
+                            {% for i in p.images %}
+                                <a href="{{ path('prestataire_show',{id: p.id}) }}">
+                                    <img id="prestataire_img_accueil" src="{{ asset('../uploads/images/' ~ i.image) }}"
+                                         alt=""/>
+                                </a>
+                            {% endfor %}
+                            <a href="{{ path('prestataire_show',{id: p.id}) }}">
+                                <h3>{{ p.nom }}</h3>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
     </main>
 {% endblock %}
 <script src="{{ asset('js/app.js') }}"></script>
+<script src="{{ asset('js/form.js') }}"></script>
+<script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script>
+    AOS.init();
+</script>
 </body>
 <footer>
     <p id="copyright">© 2023 Maxime Kaiser</p>

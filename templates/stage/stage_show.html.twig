@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ stage[0].nom }}{% endblock %}
+{% block body %}
+    <main>
+        {% for s in stage %}
+            <div>
+                <h2><a href="{{ path('app_stage_show', {nom:s.nom}) }}">{{ s.nom }}</a></h2>
+                <p>par <a href="{{ path('prestataire_show', {id:s.prestataire.id}) }}">{{ s.prestataire }}</a></p>
+                <p>{{ s.description }}</p>
+                <p>{{ s.infoComplementaire }}</p>
+                <p>du {{ s.debut|date('d/m/Y') }} au {{ s.fin|date('d/m/Y') }}</p>
+            </div>
+        {% endfor %}
+    </main>
+{% endblock %}

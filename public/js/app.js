@@ -6,11 +6,9 @@ hamburger.addEventListener("click", () => {
     hamburger.classList.toggle('active');
     navLinks.classList.toggle('active');
 })
-
 //home slider
 let counter = 1
 const div = document.querySelector('.container-slide')
-
 setInterval(() => {
     document.querySelector('.img.show').classList.remove('show')
     const img = document.querySelector(`.img-${counter}`)
@@ -29,4 +27,20 @@ like_btn.addEventListener('click', (e) => {
 
 })
 */
-$.ajax
+//onclick categorie dans la nav
+const btn_categ = document.querySelector('.btn-categ');
+const display_categ = document.querySelector('.display-categ');
+let displayValue = window.getComputedStyle(display_categ).display;
+let image = document.getElementById('arrow');
+
+btn_categ.addEventListener("click", () => {
+    image.classList.toggle('flip')
+
+    if (displayValue === 'none'){
+        display_categ.style.display = 'flex';
+        displayValue = 'flex'
+    } else{
+        display_categ.style.display = 'none'
+        displayValue = 'none'
+    }
+})

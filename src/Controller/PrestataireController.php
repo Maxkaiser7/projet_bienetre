@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\CategorieDeServices;
+use App\Entity\Commentaire;
 use App\Entity\Favori;
 use App\Entity\Images;
 use App\Entity\Internaute;
@@ -10,10 +11,12 @@ use App\Entity\Localite;
 use App\Entity\Prestataire;
 use App\Entity\Proposer;
 use App\Entity\Utilisateur;
+use App\Form\CommentaireType;
 use App\Form\LikeType;
 use App\Form\PrestataireType;
 use App\Form\SearchType;
 use Doctrine\ORM\EntityManagerInterface;
+use Optios\BelgianRegionZip\BelgianRegionZipHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -158,11 +161,36 @@ class PrestataireController extends AbstractController
 
         }
         //vérifier si l'internaute aime déjà ce prestataire
-        $internaute= $this->getUser()->getInternaute();
         $display_like = true;
-        if (!$internaute->getPrestatairesFavoris()->contains($prestataire)){
-            $display_like = false;
+
+        if ($this->getUser()){
+            $internaute= $this->getUser()->getInternaute();
+            $display_like = true;
+            if (!$internaute->getPrestatairesFavoris()->contains($prestataire)){
+                $display_like = false;
+            }
         }
+
+
+        //ajout de commentaire
+        $commentaire = new Commentaire();
+        $form_commentaire = $this->createForm(CommentaireType::class, $commentaire);
+        $form_commentaire->handleRequest($request);
+
+        if ($form_commentaire->isSubmitted() && $form_commentaire->isValid())
+        {
+
+            $data = $form_commentaire->getData();
+            $commentaire->setInternaute($internaute);
+            $commentaire->setPrestataire($prestataire);
+            $commentaire->setEncodage(new \DateTime());
+            $entityManager->persist($commentaire);
+            $entityManager->flush();
+
+        }
+        $stages = $prestataire->getStages();
+        //affichage de commentaire
+        $commentaires = $prestataire->getCommentaires();
 
         return $this->render('prestataire/prestataire_show.html.twig', [
             'prestataire' => $prestataire,
@@ -170,8 +198,10 @@ class PrestataireController extends AbstractController
             'categories' => $categories,
             'likeForm' => $form->createView(),
             'favoris' => $favoris,
-            'display_like' => $display_like
-
+            'display_like' => $display_like,
+            'form_commentaire' => $form_commentaire->createView(),
+            'commentaires' => $commentaires,
+            'stages' => $stages
         ]);
     }
 

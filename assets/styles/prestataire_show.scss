@@ -2,15 +2,15 @@
 
 .solo_prestataire {
   padding: 1rem;
-  width: 90vw;
   display: flex;
-  justify-content: center;
-
+  flex-direction: column;
+  align-items: center;
   .solo_prestataire_container {
     display: flex;
     gap: 0.5rem;
     flex-direction: column;
-    width: 90vw;
+    max-width: 70rem;
+    width: 80%;
 
     .like {
       background-image: url("../../public/images/assets/like.png");
@@ -49,7 +49,6 @@
 }
 
 #side_prestataire {
-  width: 90vw;
 
   h2 {
     display: flex;
@@ -68,6 +67,61 @@
   }
 }
 
-#dislike {
+.socials-share{
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
 
+.form_commentaire{
+  span{
+    width: 80vw;
+    height: 1px;
+    background-color: $secondary-color;
+    margin-bottom: 3rem;
+  }
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 5rem;
+  div {
+    display: flex;
+    flex-direction: column;
+  }
+  #commentaire_Titre {
+    width: 20rem;
+    height: 1.5rem;
+    border-radius: 0.3rem;
+    border: solid 1.5px gray;
+  }
+  .btn-submit{
+    display: flex;
+    flex-direction: row;
+    margin-left: auto;
+    background: none;
+    border: solid 1.5px gray;
+    padding: 0.5rem;
+    border-radius: 0.3rem;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
+.commentaires{
+  margin-top: 2rem;
+  .solo_commentaire{
+    background: #b2dbe5;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  span {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  #auteur {
+    font-size: 0.8rem;
+  }
 }

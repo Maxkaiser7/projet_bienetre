@@ -2,6 +2,8 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\CategorieDeServices;
+use App\Entity\Commentaire;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
@@ -35,16 +37,32 @@ class DashboardController extends AbstractDashboardController
         // return $this->render('some/path/my-dashboard.html.twig');
     }
 
+    #[Route('/admin/commentaire', name: 'admin_commentaire')]
+    public function commentaires(): Response
+    {
+        $routeBuilder = $this->container->get(AdminUrlGenerator::class);
+        $url = $routeBuilder->setController(CommentaireCrudController::class)->generateUrl();
+
+        return $this->redirect($url);
+    }
+
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
-            ->setTitle('Projet');
+            ->setTitle('Bien Etre Admin');
+
     }
 
     public function configureMenuItems(): iterable
     {
-        yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
-        // yield MenuItem::linkToCrud('The Label', 'fas fa-list', EntityClass::class);
+        return [
+            MenuItem::section('projet'),
+            MenuItem::LinkToCrud('Categories', 'fa fa-tags', CategorieDeServices::class)
+                ->setController(CategorieDeServicesCrudController::class),
+            MenuItem::LinkToCrud('Commentaires', 'fa fa-tags', Commentaire::class)
+                ->setController(CommentaireCrudController::class)
+        ];
+
     }
 
 }

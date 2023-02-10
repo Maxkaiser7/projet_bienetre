@@ -3,9 +3,6 @@ nav {
   justify-content: space-between;
   align-items: center;
   padding: 0.4rem;
-  background: rgb(244, 237, 229);
-  background: linear-gradient(180deg, rgb(244, 237, 229) 45%, rgba(255, 255, 255, 0) 95%);
-  z-index: 3;
   position: relative;
   width: 100vw;
   height: 5rem;
@@ -24,7 +21,7 @@ nav a {
   color: white;
 }
 nav #email {
-  color: #F4EDE5;
+  color: #ffffff;
 }
 nav .nav-links {
   z-index: 1;
@@ -45,14 +42,25 @@ nav .nav-links .nav-a {
   categ display
    */
 }
-nav .nav-links .nav-a .display-categ {
-  display: none;
+nav .nav-links .nav-a .nav-categ .btn-categ {
+  background: transparent;
+  border: none;
 }
-nav .nav-links .nav-a .nav-categ:hover .display-categ {
-  display: flex;
+nav .nav-links .nav-a .nav-categ .btn-categ .flip {
+  transform: rotate(180deg);
+}
+nav .nav-links .nav-a .nav-categ .btn-categ img {
+  width: 2rem;
+}
+nav .nav-links .nav-a .nav-categ .display-categ {
+  display: none;
   flex-direction: column;
+  gap: 0.5rem;
+  text-transform: capitalize;
+  padding: 0.5rem;
 }
 nav .nav-links .nav-a a {
+  font-size: 2rem;
   /*&:after {
     position: absolute;
     content: "";
@@ -74,7 +82,7 @@ nav .nav-links .nav-a a {
    */
 }
 nav .nav-links .nav-a a:hover {
-  color: #95a5a6;
+  color: #8FDDE7;
 }
 nav .nav-links .log {
   font-size: 0.9rem;
@@ -162,8 +170,14 @@ nav .nav-links .log {
     align-items: center;
     font-size: 1rem;
   }
+  nav .nav-links .nav-a a {
+    font-size: 1rem;
+  }
   nav .nav-links #email {
     color: black;
+  }
+  nav .nav-links .nav-a .nav-categ .btn-categ {
+    display: none;
   }
   nav .nav-links .nav-a .nav-categ .display-categ {
     position: absolute;
@@ -191,7 +205,7 @@ nav .nav-links .log {
     padding-right: 0.6rem;
   }
   nav .log a {
-    font-size: 1.5vw;
+    font-size: 0.8vw;
   }
 }
 .header_form form {
@@ -229,11 +243,15 @@ nav .nav-links .log {
 }
 .header_form form .btn-submit {
   border: none;
-  background-color: #3986CE;
+  background-color: #8FDDE7;
   border-radius: 1rem;
   padding: 0.5rem 1rem;
   color: white;
-  font-weight: 300;
+  font-weight: 500;
+  font-size: 1.1rem;
+}
+.header_form form .btn-submit:hover {
+  cursor: pointer;
 }
 .header_form select {
   background-color: white;
@@ -247,13 +265,21 @@ nav .nav-links .log {
   text-align: center;
 }
 
+.registration-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+}
 .registration-form form {
+  max-width: 50rem;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 .registration-form form div {
-  width: 90vw;
+  width: 90%;
   display: flex;
   flex-direction: column;
 }
@@ -263,7 +289,7 @@ nav .nav-links .log {
 }
 .registration-form form input {
   height: 1.5rem;
-  border: solid 1px #8d8d8d;
+  border: solid 1px #A0E7E5;
   padding: 0.5rem;
   border-radius: 0.5rem;
 }
@@ -286,7 +312,7 @@ nav .nav-links .log {
 .registration-form form #registration_form_commune, .registration-form form #registration_form_code_postal, .registration-form form #registration_form_localite {
   height: 3rem;
   background-color: white;
-  border: solid 1px #8d8d8d;
+  border: solid 1px #A0E7E5;
   padding: 0.5rem;
   border-radius: 0.5rem;
 }
@@ -299,11 +325,12 @@ nav .nav-links .log {
   margin-right: 1rem;
 }
 .registration-form .btn-submit {
-  width: 90vw;
+  width: 23rem;
   padding: 1rem;
   font-size: 1rem;
-  border: solid 2px #ff9f7c;
+  border: solid 2px #FFAEBC;
   border-radius: 1rem;
+  background-color: #ffffff;
 }
 .registration-form .btn-submit:hover {
   cursor: pointer;
@@ -367,6 +394,53 @@ nav .nav-links .log {
   color: #1a1a1a;
 }
 
+.favoris {
+  padding-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.favoris .favoris-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3rem;
+  justify-content: center;
+}
+.favoris .favoris-container .prestataire-container_accueil_favoris {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.favoris .favoris-container .prestataire-container_accueil_favoris #prestataire_img_accueil {
+  width: 10rem;
+  height: 10rem;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 1rem;
+}
+.favoris .favoris-container .prestataire-container_accueil_favoris h3 {
+  font-weight: 300;
+}
+.favoris .favoris-container .prestataire-container_accueil_favoris a {
+  color: #1a1a1a;
+}
+
+.categorie-mois-container {
+  margin-top: 4rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.categorie-mois-container a {
+  color: #1a1a1a;
+}
+.categorie-mois-container img {
+  width: 90vw;
+  max-width: 920px;
+  object-position: center;
+  object-fit: cover;
+}
+
 .main-prestataire {
   display: flex;
   flex-direction: column;
@@ -385,7 +459,7 @@ nav .nav-links .log {
   display: flex;
   margin-top: 2rem;
   gap: 0.5rem;
-  background-color: #F4EDE5;
+  background-color: #ffffff;
   padding: 1rem;
   width: 85vw;
   border-radius: 1rem;
@@ -393,10 +467,14 @@ nav .nav-links .log {
 .liste-prestataire .prestataire-container span {
   display: inline-flex;
   justify-content: space-between;
+  align-items: center;
 }
 .liste-prestataire .prestataire-container span #nom-categ {
   font-size: 1.5rem;
   color: #1a1a1a;
+}
+.liste-prestataire .prestataire-container span a {
+  color: #527d84;
 }
 .liste-prestataire .prestataire-container img {
   height: 10rem;
@@ -444,7 +522,7 @@ nav .nav-links .log {
 }
 .search-form .search-submit {
   border: none;
-  background-color: #3986CE;
+  background-color: #8FDDE7;
   border-radius: 1rem;
   padding: 0.5rem;
   padding-right: 1rem;
@@ -472,15 +550,16 @@ nav .nav-links .log {
 
 .solo_prestataire {
   padding: 1rem;
-  width: 90vw;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
 }
 .solo_prestataire .solo_prestataire_container {
   display: flex;
   gap: 0.5rem;
   flex-direction: column;
-  width: 90vw;
+  max-width: 70rem;
+  width: 80%;
 }
 .solo_prestataire .solo_prestataire_container .like {
   background-image: url("../../public/images/assets/like.png");
@@ -512,9 +591,6 @@ nav .nav-links .log {
   border-radius: 1rem;
 }
 
-#side_prestataire {
-  width: 90vw;
-}
 #side_prestataire h2 {
   display: flex;
   justify-content: center;
@@ -528,10 +604,69 @@ nav .nav-links .log {
   font-size: 1.2rem;
 }
 
+.socials-share {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.form_commentaire {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 5rem;
+}
+.form_commentaire span {
+  width: 80vw;
+  height: 1px;
+  background-color: #FFAEBC;
+  margin-bottom: 3rem;
+}
+.form_commentaire div {
+  display: flex;
+  flex-direction: column;
+}
+.form_commentaire #commentaire_Titre {
+  width: 20rem;
+  height: 1.5rem;
+  border-radius: 0.3rem;
+  border: solid 1.5px gray;
+}
+.form_commentaire .btn-submit {
+  display: flex;
+  flex-direction: row;
+  margin-left: auto;
+  background: none;
+  border: solid 1.5px gray;
+  padding: 0.5rem;
+  border-radius: 0.3rem;
+}
+.form_commentaire .btn-submit:hover {
+  cursor: pointer;
+}
+
+.commentaires {
+  margin-top: 2rem;
+}
+.commentaires .solo_commentaire {
+  background: #b2dbe5;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+}
+.commentaires span {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.commentaires #auteur {
+  font-size: 0.8rem;
+}
+
 .categories {
   display: flex;
   flex-direction: column;
-  width: 90vw;
 }
 .categories h1 {
   align-self: center;
@@ -541,7 +676,7 @@ nav .nav-links .log {
   color: #1a1a1a;
 }
 .categories a:hover {
-  color: #ff9f7c;
+  color: #FFAEBC;
 }
 
 .categorie_form {
@@ -556,7 +691,7 @@ nav .nav-links .log {
 }
 .categorie_form div #categorie_nom {
   height: 1.5rem;
-  border: solid 1px #8d8d8d;
+  border: solid 1px #A0E7E5;
   padding: 0.5rem;
   border-radius: 0.5rem;
 }
@@ -564,7 +699,7 @@ nav .nav-links .log {
   width: 40vw;
   padding: 1rem;
   font-size: 1rem;
-  border: solid 2px #ff9f7c;
+  border: solid 2px #FFAEBC;
   border-radius: 1rem;
 }
 .categorie_form .btn-submit:hover {
@@ -598,14 +733,14 @@ nav .nav-links .log {
 }
 .admin-categ-form form button {
   margin-top: 1rem;
-  background-color: #3986CE;
+  background-color: #8FDDE7;
   border: solid 1px #431F10;
   padding: 0.6rem;
   color: white;
 }
 
 footer {
-  background-color: #7d573e;
+  background-color: #B6E5D8;
   color: white;
   padding: 3rem;
 }
@@ -622,14 +757,36 @@ footer .container div ul {
   padding: 0;
 }
 footer .container div a {
-  color: #F4EDE5;
+  color: #ffffff;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  padding: 10vw;
+  margin-bottom: 10vh;
+}
+.login-form input {
+  padding: 0.5rem;
+}
+.login-form button {
+  margin-top: 1rem;
+  padding: 0.5rem;
+  background-color: transparent;
+  border: solid 1px;
+  border-radius: 0.5rem;
+}
+
+#a-login {
+  display: flex;
+  justify-content: center;
 }
 
 body {
   font-family: "Poppins", sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #F4EDE5;
+  background-color: #ffffff;
 }
 
 ul {

@@ -5,17 +5,20 @@ nav {
   justify-content: space-between;
   align-items: center;
   padding: 0.4rem;
-  background: rgb(244,237,229);
-  background: linear-gradient(180deg, rgba(244,237,229,1) 45%, rgba(255,255,255,0) 95%);  z-index: 3;
+  //background: rgb(244,237,229);
+  //background: linear-gradient(180deg, rgb(253, 240, 224) 45%, rgba(255,255,255,0) 100%);  z-index: 3;
   position: relative;
   width: 100vw;
   height: 5rem;
+
   h1 {
     margin-top: -1rem;
   }
+
   #logo {
     color: black;
   }
+
   .logo {
     font-size: 150%;
     color: $black;
@@ -24,9 +27,11 @@ nav {
   a {
     color: white;
   }
+
   #email {
     color: $primary-color;
   }
+
   .nav-links {
     z-index: 1;
     display: flex;
@@ -46,19 +51,34 @@ nav {
       /*
       categ display
        */
-      .display-categ{
-        display: none;
-      }
-      .nav-categ:hover {
-        .display-categ{
-          display: flex;
+
+      .nav-categ {
+        .btn-categ {
+          background: transparent;
+          border: none;
+          .flip{
+            transform: rotate(180deg);
+          }
+          img {
+            width: 2rem;
+          }
+        }
+
+        .display-categ {
+          display: none;
           flex-direction: column;
+          gap: 0.5rem;
+          text-transform: capitalize;
+          padding: 0.5rem;
         }
       }
 
+
       a {
+        font-size: 2rem;
+
         &:hover {
-          color: #95a5a6;
+          color: $btn-submit;
         }
 
         /*&:after {
@@ -87,6 +107,7 @@ nav {
       font-size: 0.9rem;
       font-weight: 300;
     }
+
   }
 }
 
@@ -161,7 +182,8 @@ nav {
       background-color: transparent;
       top: auto;
       margin-top: -2.2rem;
-      .links{
+
+      .links {
         margin-left: auto;
       }
 
@@ -171,30 +193,42 @@ nav {
         display: flex;
         align-items: center;
       }
-      .nav-a{
+
+      .nav-a {
         flex-direction: row;
         align-items: center;
         font-size: 1rem;
+
+        a {
+          font-size: 1rem;
+        }
       }
+
       #email {
         color: black;
       }
+
       .nav-a {
-        .nav-categ{
-          .display-categ{
+        .nav-categ {
+          .btn-categ {
+            display: none;
+          }
+
+          .display-categ {
             position: absolute;
             background-color: white;
           }
+
         }
       }
     }
-
 
 
     .log {
       display: flex;
       gap: 0.4rem;
       font-size: 0.7rem;
+
       #login {
         padding: 0.4rem;
         background-color: white;
@@ -212,8 +246,9 @@ nav {
         padding-left: 0.6rem;
         padding-right: 0.6rem;
       }
+
       a {
-        font-size: 1.5vw;
+        font-size: 0.8vw;
       }
     }
   }
