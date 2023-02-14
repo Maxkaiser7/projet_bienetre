@@ -782,6 +782,46 @@ footer .container div a {
   justify-content: center;
 }
 
+.stage-container {
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+}
+.stage-container a {
+  transition: 0.3s;
+  padding-left: 1rem;
+  border-radius: 1rem;
+  color: black;
+}
+.stage-container a div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.stage-container a:hover {
+  background-color: #8FDDE7;
+}
+
+.main-stage {
+  display: flex;
+  justify-content: center;
+}
+
+.stage-show-container {
+  padding-left: 7rem;
+  padding-right: 7rem;
+  max-width: 1125px;
+}
+.stage-show-container h2 {
+  display: flex;
+  justify-content: center;
+}
+.stage-show-container #stage-by {
+  display: flex;
+  justify-content: center;
+  gap: 0.4rem;
+}
+
 body {
   font-family: "Poppins", sans-serif;
   margin: 0;

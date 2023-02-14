@@ -1,0 +1,21 @@
+@import "variables";
+
+.stage-container{
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  a {
+    transition:  0.3s;
+    padding-left: 1rem;
+    border-radius: 1rem;
+    color: black;
+    div {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+  a:hover {
+    background-color: $btn-submit;
+  }
+}

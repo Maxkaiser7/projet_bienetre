@@ -1,0 +1,20 @@
+@import "variables";
+.main-stage{
+  display: flex;
+  justify-content: center;
+}
+.stage-show-container{
+  padding-left: 7rem;
+  padding-right: 7rem;
+  max-width: 1125px;
+  h2 {
+    display: flex;
+    justify-content: center;
+  }
+
+  #stage-by{
+    display: flex;
+    justify-content: center;
+    gap: 0.4rem;
+  }
+}

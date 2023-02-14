@@ -192,6 +192,9 @@ class PrestataireController extends AbstractController
         //affichage de commentaire
         $commentaires = $prestataire->getCommentaires();
 
+        //trouver prestatairs similaires
+        $categorie_simi = $entityManager->getRepository(Proposer::class)->findBy(['categorieDeServices' => $categorie]);
+
         return $this->render('prestataire/prestataire_show.html.twig', [
             'prestataire' => $prestataire,
             'categorie' => $categorie,
@@ -201,7 +204,8 @@ class PrestataireController extends AbstractController
             'display_like' => $display_like,
             'form_commentaire' => $form_commentaire->createView(),
             'commentaires' => $commentaires,
-            'stages' => $stages
+            'stages' => $stages,
+            'categ_simi' => $categorie_simi
         ]);
     }
 
@@ -270,24 +274,30 @@ class PrestataireController extends AbstractController
             $query->andWhere('prestataire.nom LIKE :prestataire')
                 ->setParameter("prestataire", "%" . $prestataire . "%");
         }
-        if ($localite) {
+        if ($localite && !$cp) {
             $query->andWhere('localite.Localite LIKE :localite')
                 ->setParameter("localite", "%" . $localite . "%");
         }
         if ($categorie) {
             $query->andWhere('categorieDeServices.nom LIKE :categorie')
                 ->setParameter("categorie", "%" . $categorie . "%");
+
         }
         if ($commune) {
             $query->andWhere('commune.commune LIKE :commune')
-                ->setParameter("cp", "%" . $commune . "%");
+                ->setParameter("commune", "%" . $commune . "%");
+
+            dump($commune);
         }
         if ($cp) {
             $query->andWhere('codePostal.codePostal LIKE :cp')
-                ->setParameter("cp", $cp);
+                ->setParameter("cp", $cp->getCodePostal());
+            dump($cp->getCodePostal());
+
         }
         $query = $query->getQuery();
         $result = $query->getResult();
+
 
         $categories = $entityManager->getRepository(CategorieDeServices::class)->findBy(['valide' => 1]);
 

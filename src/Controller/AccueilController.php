@@ -84,12 +84,7 @@ class AccueilController extends AbstractController
         $form = $this->createForm(SearchType::class);
         $form->handleRequest($request);
 
-        //récupération ajax
-        $commune = $request->query->get('ville');
-        $localite = $request->query->get('region');
-       /* $entity = $entityManager->getRepository(Localite::class)->findBy(['Localite' => 'Anvers']);
-        dump($entity);die;
-*/
+
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
             $search_prestataire = $data['prestataire'];
@@ -132,12 +127,6 @@ class AccueilController extends AbstractController
     #[Route('/cp', name: 'cp')]
     public function getDataForPostalCode(EntityManagerInterface $entityManager, Request $request): JsonResponse
     {
-        //$cpId = $request->query->get('cpId');
-        $commune = $request->query->get('ville');
-        $localite = $request->query->get('region');
-
-        $entity = $entityManager->getRepository(Localite::class)->findBy(['Localite' => 'Anvers']);
-        return new JsonResponse(['id' => $entity]);
 
     }
 }

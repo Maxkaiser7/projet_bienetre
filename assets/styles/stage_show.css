@@ -1,0 +1,11 @@
+.stage-show-container {
+  display: flex;
+  justify-content: center;
+}
+.stage-show-container #stage-by {
+  display: flex;
+  justify-content: center;
+  gap: 0.4rem;
+}
+
+/*# sourceMappingURL=stage_show.css.map */

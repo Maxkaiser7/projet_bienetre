@@ -38,7 +38,7 @@
                 <a href="{{ path('app_categorie_show', {'nom' : categorie.nom}) }}">{{ categorie.nom }}</a>
                 {% include "components/_share.html.twig" %}
                 <div class="stages">
-                    <h3>Stages</h3>
+                    <h3>Stages à venir</h3>
 
                     {% if stages|length > 0 %}
                         <div>
@@ -50,6 +50,12 @@
                         <p>Aucun stage pour l'instant</p>
                     {% endif %}
                 </div>
+            </div>
+            <div class="similaires">
+                <h3>Prestataires similaires</h3>
+                {% for c in categ_simi %}
+                    <p>{{ c.prestataire.nom }}</p>
+                {% endfor %}
             </div>
         </div>
         <div class="form_commentaire">
