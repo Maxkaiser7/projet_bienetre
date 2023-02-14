@@ -7,14 +7,18 @@
         {% if prestataire_connecte %}
             <a href="{{ path('app_stage_ajouter') }}">Ajouter un stage</a>
         {% endif %}
+
+
         <div class="stage-container">
             {% for s in stages %}
+            <a href="{{ path('app_stage_show', {nom: s.nom}) }}">
                 <div>
-                    <h2><a href="{{ path('app_stage_show', {nom:s.nom}) }}">{{ s.nom }}</a></h2>
-                    <p>par <a href="{{ path('prestataire_show', {id:s.prestataire.id}) }}">{{ s.prestataire }}</a></p>
+                    <h2>{{ s.nom }}</h2>
+                    <p>par {{ s.prestataire }}</p>
                     <p>{{ s.description }}</p>
                 </div>
-            {% endfor %}
+            </a>
+        {% endfor %}
         </div>
     </main>
 {% endblock %}

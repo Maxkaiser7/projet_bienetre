@@ -19,11 +19,11 @@ class StageController extends AbstractController
     {
         $categories = $entityManager->getRepository(CategorieDeServices::class)->findBy(['valide' => 1]);
         $user = $this->getUser();
-        $prestataire = false;
+        $prestataire_connecte = false;
         if ($user) {
-            $prestataire = $user->getPrestataire();
+            $prestataire_connecte = $user->getPrestataire();
         }
-        if ($prestataire !== null) {
+        if ($user !== null) {
             $prestataire_connecte = true;
         }
         $aujourdhui = new \DateTime();
