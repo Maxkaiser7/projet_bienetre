@@ -39,7 +39,6 @@
                 {% include "components/_share.html.twig" %}
                 <div class="stages">
                     <h3>Stages à venir</h3>
-
                     {% if stages|length > 0 %}
                         <div>
                             {% for s in stages %}
@@ -53,9 +52,14 @@
             </div>
             <div class="similaires">
                 <h3>Prestataires similaires</h3>
-                {% for c in categ_simi %}
-                    <p>{{ c.prestataire.nom }}</p>
-                {% endfor %}
+                {% if prestataires_simi|length == 0 %}
+                    <p>Il n'y a pas encore de prestataires similaires</p>
+                    {% else %}
+                        {% for p in prestataires_simi %}
+                            <p>{{ p.prestataire.nom }}</p>
+                        {% endfor %}
+                {% endif %}
+
             </div>
         </div>
         <div class="form_commentaire">

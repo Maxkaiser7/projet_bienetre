@@ -169,23 +169,25 @@
     AOS.init();
 </script>
 </body>
-<footer>
-    <p id="copyright">© 2023 Maxime Kaiser</p>
-    <div class="container">
-        <div>
-            <h3>Pages</h3>
-            <ul>
-                <li><a class="nav-a" href="{{ path('app_accueil') }}">Accueil</a></li>
-                <li><a class="nav-a" id="categ" href="{{ path('app_categories') }}">Categories</a></li>
-                <li><a class="nav-a" href="{{ path('app_prestataire') }}">Prestataires</a></li>
-                <li><a class="nav-a" href="#">A propos</a></li>
-                <li><a class="nav-a" href="#">Contact</a></li>
-            </ul>
+<div id="wrap">
+    <footer>
+        <p id="copyright">© 2023 Maxime Kaiser</p>
+        <div class="container">
+            <div>
+                <h3>Pages</h3>
+                <ul>
+                    <li><a class="nav-a" href="{{ path('app_accueil') }}">Accueil</a></li>
+                    <li><a class="nav-a" id="categ" href="{{ path('app_categories') }}">Categories</a></li>
+                    <li><a class="nav-a" href="{{ path('app_prestataire') }}">Prestataires</a></li>
+                    <li><a class="nav-a" href="#">A propos</a></li>
+                    <li><a class="nav-a" href="#">Contact</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3>Contact</h3>
+                <p>maxkaiser950@gmail.com</p>
+            </div>
         </div>
-        <div>
-            <h3>Contact</h3>
-            <p>maxkaiser950@gmail.com</p>
-        </div>
-    </div>
-</footer>
+    </footer>
+</div>
 </html>

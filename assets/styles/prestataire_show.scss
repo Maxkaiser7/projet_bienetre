@@ -110,11 +110,15 @@
 }
 .commentaires{
   margin-top: 2rem;
+  width: 80%;
   .solo_commentaire{
-    background: #b2dbe5;
-    padding: 0.5rem 1rem;
-    border-radius: 0.5rem;
-    margin-bottom: 1rem;
+    border: solid 1px #3d3d3d;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    border-radius: 1rem;
+    p {
+      margin-top: 0;
+    }
   }
   span {
     display: flex;
@@ -124,4 +128,12 @@
   #auteur {
     font-size: 0.8rem;
   }
+}
+
+.stages {
+  div {
+    display: flex;
+    flex-direction: column;
+  }
+
 }

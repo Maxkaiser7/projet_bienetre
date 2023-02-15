@@ -193,8 +193,8 @@ class PrestataireController extends AbstractController
         $commentaires = $prestataire->getCommentaires();
 
         //trouver prestatairs similaires
-        $categorie_simi = $entityManager->getRepository(Proposer::class)->findBy(['categorieDeServices' => $categorie]);
-
+        $prestataires_simi = $entityManager->getRepository(Proposer::class)->findBy(['categorieDeServices' => $categorie]);
+        array_shift($prestataires_simi);
         return $this->render('prestataire/prestataire_show.html.twig', [
             'prestataire' => $prestataire,
             'categorie' => $categorie,
@@ -205,7 +205,7 @@ class PrestataireController extends AbstractController
             'form_commentaire' => $form_commentaire->createView(),
             'commentaires' => $commentaires,
             'stages' => $stages,
-            'categ_simi' => $categorie_simi
+            'prestataires_simi' => $prestataires_simi
         ]);
     }
 

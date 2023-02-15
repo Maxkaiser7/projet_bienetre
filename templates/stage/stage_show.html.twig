@@ -5,7 +5,7 @@
     <main class="main-stage">
         {% for s in stage %}
             <div class="stage-show-container">
-                <h2><a href="{{ path('app_stage_show', {nom:s.nom}) }}">{{ s.nom }}</a></h2>
+                <h2>{{ s.nom }}</h2>
                 <p id="stage-by">par <a href="{{ path('prestataire_show', {id:s.prestataire.id}) }}">{{ s.prestataire }}</a></p>
                 <p>{{ s.description }}</p>
                 <p>{{ s.infoComplementaire }}</p>

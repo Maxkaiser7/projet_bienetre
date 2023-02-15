@@ -1,5 +1,9 @@
 @import "variables";
-
+#ajouter-stage{
+  display: flex;
+  justify-content: center;
+  color: $black;
+}
 .stage-container{
   display: flex;
   flex-direction: column;
@@ -18,4 +22,48 @@
   a:hover {
     background-color: $btn-submit;
   }
+}
+
+.stage_ajouter{
+  padding-bottom: 9rem;
+  display: flex;
+  justify-content: center;
+  form{
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+
+  }
+  div {
+    display: flex;
+    flex-direction: column;
+    #stages_debut{
+      display: flex;
+      flex-direction: row;
+    }
+    #stages_fin{
+      display: flex;
+      flex-direction: row;
+    }
+    select{
+      background-color: whitesmoke;
+      padding: 0.5rem;
+      border: solid 1px #454545;
+      border-radius: 1rem;
+    }
+    #stages_enregistrer{
+        margin-top: 2rem;
+        width: 23rem;
+        padding: 1rem;
+        font-size: 1rem;
+        border: solid 2px $secondary-color;
+        border-radius: 1rem;
+        background-color: $primary-color;
+        &:hover {
+          cursor: pointer;
+        }
+
+    }
+  }
+
 }
