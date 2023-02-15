@@ -2,12 +2,14 @@
 .main-stage{
   display: flex;
   justify-content: center;
+  padding-bottom: 11rem;
 }
 .stage-show-container{
-  padding-left: 7rem;
-  padding-right: 7rem;
+  padding-left: 4rem;
+  padding-right: 4rem;
   max-width: 1125px;
   h2 {
+    color: $black;
     display: flex;
     justify-content: center;
   }

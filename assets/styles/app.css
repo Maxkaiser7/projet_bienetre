@@ -648,12 +648,16 @@ nav .nav-links .log {
 
 .commentaires {
   margin-top: 2rem;
+  width: 80%;
 }
 .commentaires .solo_commentaire {
-  background: #b2dbe5;
-  padding: 0.5rem 1rem;
-  border-radius: 0.5rem;
-  margin-bottom: 1rem;
+  border: solid 1px #3d3d3d;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  border-radius: 1rem;
+}
+.commentaires .solo_commentaire p {
+  margin-top: 0;
 }
 .commentaires span {
   display: flex;
@@ -662,6 +666,11 @@ nav .nav-links .log {
 }
 .commentaires #auteur {
   font-size: 0.8rem;
+}
+
+.stages div {
+  display: flex;
+  flex-direction: column;
 }
 
 .categories {
@@ -782,6 +791,12 @@ footer .container div a {
   justify-content: center;
 }
 
+#ajouter-stage {
+  display: flex;
+  justify-content: center;
+  color: #1a1a1a;
+}
+
 .stage-container {
   display: flex;
   flex-direction: column;
@@ -802,17 +817,60 @@ footer .container div a {
   background-color: #8FDDE7;
 }
 
-.main-stage {
+.stage_ajouter {
+  padding-bottom: 9rem;
   display: flex;
   justify-content: center;
 }
+.stage_ajouter form {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+}
+.stage_ajouter div {
+  display: flex;
+  flex-direction: column;
+}
+.stage_ajouter div #stages_debut {
+  display: flex;
+  flex-direction: row;
+}
+.stage_ajouter div #stages_fin {
+  display: flex;
+  flex-direction: row;
+}
+.stage_ajouter div select {
+  background-color: whitesmoke;
+  padding: 0.5rem;
+  border: solid 1px #454545;
+  border-radius: 1rem;
+}
+.stage_ajouter div #stages_enregistrer {
+  margin-top: 2rem;
+  width: 23rem;
+  padding: 1rem;
+  font-size: 1rem;
+  border: solid 2px #FFAEBC;
+  border-radius: 1rem;
+  background-color: #ffffff;
+}
+.stage_ajouter div #stages_enregistrer:hover {
+  cursor: pointer;
+}
+
+.main-stage {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 11rem;
+}
 
 .stage-show-container {
-  padding-left: 7rem;
-  padding-right: 7rem;
+  padding-left: 4rem;
+  padding-right: 4rem;
   max-width: 1125px;
 }
 .stage-show-container h2 {
+  color: #1a1a1a;
   display: flex;
   justify-content: center;
 }
