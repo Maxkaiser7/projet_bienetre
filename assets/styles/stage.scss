@@ -8,15 +8,19 @@
   display: flex;
   flex-direction: column;
   padding: 2rem;
+  align-items: center;
   a {
+    width: 80vw;
     transition:  0.3s;
-    padding-left: 1rem;
     border-radius: 1rem;
     color: black;
+    max-width: 870px;
     div {
       display: flex;
       flex-direction: column;
       align-items: center;
+      padding-left: 1rem;
+      padding-right: 1rem;
     }
   }
   a:hover {

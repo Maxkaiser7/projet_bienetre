@@ -132,6 +132,10 @@ nav .nav-links .log {
   left: 0;
 }
 
+#arrow {
+  fill: white;
+}
+
 @media (min-width: 800px) {
   .hamburger {
     display: none;
@@ -546,6 +550,81 @@ nav .nav-links .log {
   display: flex;
   align-items: center;
   flex-direction: column;
+  margin-bottom: 6rem;
+}
+.main-profil h1 {
+  margin-bottom: 0;
+}
+.main-profil form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.main-profil form div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.main-profil button {
+  padding: 0.4rem 0.8rem;
+  margin-top: 0.5rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 1rem;
+  background-color: #8FDDE7;
+}
+.main-profil button:hover {
+  cursor: pointer;
+}
+
+.form-edit-user {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.form-edit-user div {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0.5rem;
+}
+.form-edit-user div select {
+  height: 3rem;
+  background-color: white;
+  border: solid 1px #A0E7E5;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+}
+.form-edit-user div #user_enregistrer {
+  padding: 1rem;
+  font-size: 1rem;
+  border: solid 2px #FFAEBC;
+  border-radius: 1rem;
+  background-color: #ffffff;
+}
+.form-edit-user div #user_enregistrer:hover {
+  cursor: pointer;
+}
+.form-edit-user form {
+  width: 60vw;
+  max-width: 50rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.form-edit-user form div {
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+}
+.form-edit-user form label {
+  margin-top: 0.5rem;
+  font-size: 1rem;
+}
+.form-edit-user form input {
+  height: 1.5rem;
+  border: solid 1px #A0E7E5;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
 }
 
 .solo_prestataire {
@@ -750,7 +829,7 @@ nav .nav-links .log {
 
 footer {
   background-color: #B6E5D8;
-  color: white;
+  color: #1a1a1a;
   padding: 3rem;
 }
 footer #copyright {
@@ -766,7 +845,7 @@ footer .container div ul {
   padding: 0;
 }
 footer .container div a {
-  color: #ffffff;
+  color: #1a1a1a;
 }
 
 .login-form {
@@ -801,17 +880,21 @@ footer .container div a {
   display: flex;
   flex-direction: column;
   padding: 2rem;
+  align-items: center;
 }
 .stage-container a {
+  width: 80vw;
   transition: 0.3s;
-  padding-left: 1rem;
   border-radius: 1rem;
   color: black;
+  max-width: 870px;
 }
 .stage-container a div {
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-left: 1rem;
+  padding-right: 1rem;
 }
 .stage-container a:hover {
   background-color: #8FDDE7;

@@ -12,11 +12,13 @@
 {% block body %}
     <main class="main-profil">
         <h1>Votre profil</h1>
+        <h2>{{ prestataire.nom }}</h2>
         <img id="profil_img" src="{{ asset(image) }}" alt=""/>
         {{ form_start(imageForm) }}
         {{ form_row(imageForm.Image) }}
-        {{ form_row(imageForm.save) }}
+        {{ form_row(imageForm.Enregistrer) }}
         {{ form_end(imageForm) }}
+        <a href="{{ path('app_edit_user', {id:app.user.prestataire.id}) }}">Modifier mes informations personnelles</a>
     </main>
 
 {% endblock %}
