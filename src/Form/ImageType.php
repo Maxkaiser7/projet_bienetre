@@ -28,7 +28,7 @@ class ImageType extends AbstractType
                     ])
                 ]
             ])
-            ->add('save', SubmitType::class)
+            ->add('Enregistrer', SubmitType::class)
         ;
     }
 

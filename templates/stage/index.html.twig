@@ -11,7 +11,7 @@
 
         <div class="stage-container">
             {% for s in stages %}
-            <a href="{{ path('app_stage_show', {nom: s.nom}) }}">
+            <a href="{{ path('app_stage_show', {id: s.id}) }}">
                 <div>
                     <h2>{{ s.nom }}</h2>
                     <p>par {{ s.prestataire }}</p>

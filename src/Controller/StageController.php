@@ -68,16 +68,42 @@ class StageController extends AbstractController
         ]);
     }
 
-    #[Route('/stage/show/{nom}', name: 'app_stage_show')]
-    public function showStage(EntityManagerInterface $entityManager, $nom): Response
+    #[Route('/stage/show/{id}', name: 'app_stage_show')]
+    public function showStage(EntityManagerInterface $entityManager, $id): Response
     {
-        $stage = $entityManager->getRepository(Stage::class)->findBy(['nom' => $nom]);
+        $stage = $entityManager->getRepository(Stage::class)->findBy(['id' => $id]);
         $categories = $entityManager->getRepository(CategorieDeServices::class)->findBy(['valide' => 1]);
 
-        return $this->render('stage/stage_show.html.twig', [
-            'categories' => $categories,
-            'stage' => $stage
-        ]);
+        $prestataire = $stage[0]->getPrestataire();
+        $user = $this->getUser()->getPrestataire();
+        if ($prestataire === $user)
+            return $this->render('stage/stage_show.html.twig', [
+                'categories' => $categories,
+                'stage' => $stage,
+                'prestataire' => $prestataire,
+                'user' => $user
+            ]);
     }
 
+    #[Route('/stage/edit/{id}', name: 'app_stage_edit')]
+    public function editStage($id, Request $request, EntityManagerInterface $entityManager)
+    {
+        $stage = $entityManager->getRepository(Stage::class)->findBy(['id' => $id]);
+        $stage = $stage[0];
+        $form = $this->createForm(StagesType::class, $stage);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_stage_show', ['id' => $id]);
+        }
+        $categories = $entityManager->getRepository(CategorieDeServices::class)->findBy(['valide' => 1]);
+
+        return $this->render('stage/edit.html.twig', [
+            'form' => $form->createView(),
+            'categories' => $categories,
+
+        ]);
+    }
 }

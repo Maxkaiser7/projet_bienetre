@@ -56,7 +56,7 @@
                     <p>Il n'y a pas encore de prestataires similaires</p>
                     {% else %}
                         {% for p in prestataires_simi %}
-                            <p>{{ p.prestataire.nom }}</p>
+                            <a href="{{ path('prestataire_show', {id: p.prestataire.id}) }}">{{ p.prestataire.nom }}</a>
                         {% endfor %}
                 {% endif %}
 
