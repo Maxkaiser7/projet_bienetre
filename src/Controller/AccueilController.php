@@ -25,6 +25,7 @@ class AccueilController extends AbstractController
 {
     private $tokenStorage;
 
+
     public function __construct(TokenStorageInterface $tokenStorage)
     {
         $this->tokenStorage = $tokenStorage;
@@ -33,9 +34,9 @@ class AccueilController extends AbstractController
     #[Route('/', name: 'app_accueil')]
     public function index(EntityManagerInterface $entityManager, Request $request): Response
     {
-
-        /*$query = $entityManager->createQuery(
-             'DELETE FROM App\Entity\Prestataire p WHERE p.id = 14'
+        //dump($this->getUser()->getPrestataire());die;
+        $query = $entityManager->createQuery(
+             'DELETE FROM App\Entity\Utilisateur p WHERE p.id = 24'
          );
          $query->execute();
 
@@ -85,6 +86,7 @@ class AccueilController extends AbstractController
         $form->handleRequest($request);
 
 
+        //récupération des données du formulaire
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
             $search_prestataire = $data['prestataire'];
@@ -108,7 +110,6 @@ class AccueilController extends AbstractController
                 'commune' => $search_commune,
             ]);
         }
-        //test
 
         //récupérer les catégories pour la nav
         $categories = $entityManager->getRepository(CategorieDeServices::class)->findBy(['valide' => 1]);

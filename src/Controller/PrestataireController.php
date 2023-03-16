@@ -9,24 +9,31 @@ use App\Entity\Images;
 use App\Entity\Internaute;
 use App\Entity\Localite;
 use App\Entity\Prestataire;
+use App\Entity\Promotion;
 use App\Entity\Proposer;
 use App\Entity\Utilisateur;
 use App\Form\CommentaireType;
+use App\Form\GalerieType;
+use App\Form\ImageCategorieType;
 use App\Form\LikeType;
 use App\Form\PrestataireType;
+use App\Form\PromotionType;
 use App\Form\SearchType;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Optios\BelgianRegionZip\BelgianRegionZipHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use GuzzleHttp\Client;
+
 use Symfony\Component\HttpFoundation\Request;
 
 class PrestataireController extends AbstractController
 {
 
     #[Route('/prestataire', name: 'app_prestataire')]
-    public function index(EntityManagerInterface $entityManager, Request $request): Response
+    public function index(EntityManagerInterface $entityManager, Request $request, PaginatorInterface $paginator): Response
     {
         //récupérer les prestataires
         $repository = $entityManager->getRepository(Prestataire::class);
@@ -69,10 +76,14 @@ class PrestataireController extends AbstractController
             ]);
         }
 
+        //pagination
+        $pagination = $paginator->paginate($result, $request->query->getInt('page', 1),
+            5);
         return $this->render('prestataire/prestataires.html.twig', [
             'proposer' => $result,
             'categories' => $categories,
-            'searchForm' => $form->createView()
+            'searchForm' => $form->createView(),
+            'pagination' => $pagination
         ]);
     }
 
@@ -125,7 +136,7 @@ class PrestataireController extends AbstractController
     }
 
     #[Route('/prestataire/show/{id}', name: 'prestataire_show')]
-    public function showPrestataire(Request $request, int $id, EntityManagerInterface $entityManager): Response
+    public function showPrestataire(Request $request, $id, EntityManagerInterface $entityManager): Response
     {
         $prestataire = $entityManager->getRepository(Prestataire::class)->find($id);
         /*$query = $entityManager->createQuery(
@@ -133,6 +144,41 @@ class PrestataireController extends AbstractController
              WHERE proposer.prestataire = :prestataireId')
             ->setParameter('prestataireId', $id);
 */
+        //map google
+
+        $user = $prestataire->getUtilisateur();
+        //dump($user== $this->getUser());die;
+        $codePostal = $user->getCodePostal();
+        $commune = $user->getCommune();
+        $localite = $user->getLocalite();
+        $rue = $user->getAdresseRue();
+        $n = $user->getAdresseN();
+
+        $apiKey = 'AIzaSyCdmFEs3IVycKJt6S7Y1LpMc0sqqCdadXI';
+// Combiner les informations pour former une adresse complète
+// Récupérer l'adresse complète de l'utilisateur
+        $adresseComplete = sprintf('%s, %s %s %s %s %s', $localite, $codePostal, $commune, 'rue', $rue, $n);
+
+// Construire l'URL de l'API Google Maps
+        $adresseEncodee = urlencode($adresseComplete);
+        $apiUrl = sprintf('https://maps.googleapis.com/maps/api/geocode/json?address=%s&key=%s', $adresseEncodee, $apiKey);
+
+// Appeler l'API Google Maps pour récupérer les coordonnées géographiques
+        //$response = file_get_contents($apiUrl);
+        //$resultats = json_decode($response, true);
+// Vérifier si des résultats ont été retournés par l'API Google Maps
+        if (isset($resultats['results']) && !empty($resultats['results'])) {
+            // Extraire les coordonnées géographiques à partir des résultats
+            $coordonnees = $resultats['results'][0]['geometry']['location'];
+            $iframe = sprintf('<iframe src="https://www.google.com/maps/embed/v1/place?q=%s,%s&key=%s"></iframe>', $coordonnees['lat'], $coordonnees['lng'], $apiKey);
+            // Utiliser les coordonnées géographiques pour afficher une carte Google Maps
+        } else {
+            // Afficher un message d'erreur si aucun résultat n'a été trouvé
+            $messageErreur = "L'adresse du prestataire n'a pas pu être trouvée sur Google Maps.";
+
+        }
+        // Utiliser les coordonnées géographiques pour afficher une carte Google Maps
+
         //systeme d'ajout de like, essayer de le faire avec un toggle sans formulaire
         $form = $this->createForm(LikeType::class);
         $form->handleRequest($request);
@@ -163,10 +209,10 @@ class PrestataireController extends AbstractController
         //vérifier si l'internaute aime déjà ce prestataire
         $display_like = true;
 
-        if ($this->getUser()){
-            $internaute= $this->getUser()->getInternaute();
+        if ($this->getUser()) {
+            $internaute = $this->getUser()->getInternaute();
             $display_like = true;
-            if (!$internaute->getPrestatairesFavoris()->contains($prestataire)){
+            if (!$internaute->getPrestatairesFavoris()->contains($prestataire)) {
                 $display_like = false;
             }
         }
@@ -177,8 +223,7 @@ class PrestataireController extends AbstractController
         $form_commentaire = $this->createForm(CommentaireType::class, $commentaire);
         $form_commentaire->handleRequest($request);
 
-        if ($form_commentaire->isSubmitted() && $form_commentaire->isValid())
-        {
+        if ($form_commentaire->isSubmitted() && $form_commentaire->isValid()) {
 
             $data = $form_commentaire->getData();
             $commentaire->setInternaute($internaute);
@@ -192,9 +237,40 @@ class PrestataireController extends AbstractController
         //affichage de commentaire
         $commentaires = $prestataire->getCommentaires();
 
+        //ajout d'images a la galerie
+        $image = new Images();
+        $form = $this->createForm(GalerieType::class, $image);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+
+            $file = $form['Image']->getData();
+            $uploads_directory = $this->getParameter('images_directory');
+            $filename = md5(uniqid()) . '.' . $file->guessExtension();
+            $file->move(
+                $uploads_directory,
+                $filename
+            );
+            $image->setImage($filename);
+            $image->setPrestataire($prestataire);
+            $image->setOrdre(1);
+            $entityManager->persist($image);
+            $entityManager->flush();
+
+        }
         //trouver prestatairs similaires
         $prestataires_simi = $entityManager->getRepository(Proposer::class)->findBy(['categorieDeServices' => $categorie]);
         array_shift($prestataires_simi);
+
+        //formulaire de promotion
+        $promotion = new Promotion();
+        $form_promotion = $this->createForm(PromotionType::class);
+        $form->handleRequest($request);
+        if ($form_promotion->isSubmitted() && $form_promotion->isValid()){
+            $data = $form_promotion->getData();
+            $promotion->setPrestataire($prestataire);
+
+        }
         return $this->render('prestataire/prestataire_show.html.twig', [
             'prestataire' => $prestataire,
             'categorie' => $categorie,
@@ -205,11 +281,18 @@ class PrestataireController extends AbstractController
             'form_commentaire' => $form_commentaire->createView(),
             'commentaires' => $commentaires,
             'stages' => $stages,
-            'prestataires_simi' => $prestataires_simi
+            'prestataires_simi' => $prestataires_simi,
+            'messageErreur' => $messageErreur,
+            'adresseComplete' => $adresseComplete,
+            'user' => $user,
+            'form' => $form->createView()
+
         ]);
     }
 
-    #[Route('/prestataire/show/{id}/like/{userId}', name: 'prestataire_like')]
+
+    #[
+        Route('/prestataire/show/{id}/like/{userId}', name: 'prestataire_like')]
     public function likePrestataire(EntityManagerInterface $entityManager, Request $request, int $id, int $userId)
     {
 
@@ -232,23 +315,23 @@ class PrestataireController extends AbstractController
 
         $entityManager->flush();
         return $this->forward('App\Controller\PrestataireController::showPrestataire', [
-            'id'=>$id
+            'id' => $id
         ]);
 
 
-/*
-        //$prestataire = $entityManager->getRepository(Prestataire::class)->find($id);
-        $result = $entityManager->getRepository(Proposer::class)->findCategByPrestataire($id);
-        $categorieId = $result[0]['c'];
-        $categorie = $entityManager->getRepository(CategorieDeServices::class)->find($categorieId);
-        $categories = $entityManager->getRepository(CategorieDeServices::class)->findBy(['valide' => 1]);
-        return $this->render('prestataire/prestataire_show.html.twig', [
-            'prestataire' => $prestataire,
-            'categorie' => $categorie,
-            'categories' => $categories,
-            'value' => $value,
-        ]);
-*/
+        /*
+                //$prestataire = $entityManager->getRepository(Prestataire::class)->find($id);
+                $result = $entityManager->getRepository(Proposer::class)->findCategByPrestataire($id);
+                $categorieId = $result[0]['c'];
+                $categorie = $entityManager->getRepository(CategorieDeServices::class)->find($categorieId);
+                $categories = $entityManager->getRepository(CategorieDeServices::class)->findBy(['valide' => 1]);
+                return $this->render('prestataire/prestataire_show.html.twig', [
+                    'prestataire' => $prestataire,
+                    'categorie' => $categorie,
+                    'categories' => $categories,
+                    'value' => $value,
+                ]);
+        */
     }
 
     #[Route('/prestataire/search/', name: 'prestataire_search')]
@@ -256,12 +339,15 @@ class PrestataireController extends AbstractController
     {
         $repository = $entityManager->getRepository(Proposer::class);
 
+        //récupération des données envoyées via le formulaire de recherche
         $session = $request->getSession();
         $prestataire = $session->get('prestataire');
         $localite = $session->get('localite');
         $categorie = $session->get('categorie');
         $cp = $session->get('cp');
         $commune = $session->get('commune');
+
+        //trier les données
         $query = $repository->createQueryBuilder('p')
             ->select('p, prestataire, localite, utilisateur, categorieDeServices, codePostal')
             ->join('p.categorieDeServices', 'categorieDeServices')

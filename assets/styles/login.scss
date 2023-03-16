@@ -5,6 +5,11 @@
   flex-direction: column;
   padding: 10vw;
   margin-bottom: 10vh;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 75vw;
+  max-width: 750px;
+  position: relative;
   input {
     padding: 0.5rem;
   }

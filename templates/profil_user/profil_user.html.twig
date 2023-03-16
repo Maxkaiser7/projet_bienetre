@@ -11,6 +11,10 @@
 
 {% block body %}
     <main class="main-profil">
+        {% if app.user.prestataire %}
+            <a href="{{ path('prestataire_show', {id:app.user.prestataire.id}) }}">Voir ma fiche prestataire</a>
+            <p>{{ app.user.prestataire.id }}</p>
+        {% endif %}
         <h1>Votre profil</h1>
         <h2>{{ prestataire.nom }}</h2>
         <img id="profil_img" src="{{ asset(image) }}" alt=""/>

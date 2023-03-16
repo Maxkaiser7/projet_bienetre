@@ -88,6 +88,15 @@ nav .nav-links .log {
   font-size: 0.9rem;
   font-weight: 300;
 }
+nav .nav-links .log a {
+  font-size: 0.8vw;
+}
+nav .nav-links .log #logout {
+  background-color: #6C7CBB;
+  color: white;
+  border-radius: 0.5rem;
+  padding: 0.4rem 0.6rem;
+}
 
 .bar {
   display: block;
@@ -193,20 +202,16 @@ nav .nav-links .log {
     font-size: 0.7rem;
   }
   nav .log #login {
-    padding: 0.4rem;
-    background-color: white;
+    background-color: transparent;
     color: #1a1a1a;
     border-radius: 0.5rem;
-    padding-left: 0.6rem;
-    padding-right: 0.6rem;
+    padding: 0.4rem 0.6rem;
   }
   nav .log #signin {
-    padding: 0.4rem;
-    background-color: #431F10;
+    background-color: #6C7CBB;
     color: white;
     border-radius: 0.5rem;
-    padding-left: 0.6rem;
-    padding-right: 0.6rem;
+    padding: 0.4rem 0.6rem;
   }
   nav .log a {
     font-size: 0.8vw;
@@ -540,6 +545,22 @@ nav .nav-links .log {
   font-weight: 300;
 }
 
+.galerie {
+  display: flex;
+  gap: 1rem;
+}
+.galerie img {
+  height: 10rem;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 1rem;
+}
+
+@media (min-width: 1000px) {
+  .liste-prestataire .prestataire-container {
+    width: 50vw;
+  }
+}
 #profil_img {
   width: 5rem;
   height: 5rem;
@@ -853,6 +874,11 @@ footer .container div a {
   flex-direction: column;
   padding: 10vw;
   margin-bottom: 10vh;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 75vw;
+  max-width: 750px;
+  position: relative;
 }
 .login-form input {
   padding: 0.5rem;
@@ -961,6 +987,13 @@ footer .container div a {
   display: flex;
   justify-content: center;
   gap: 0.4rem;
+}
+
+.contact-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 15rem;
 }
 
 body {

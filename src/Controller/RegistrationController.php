@@ -73,13 +73,15 @@ class RegistrationController extends AbstractController
             );
             // generate a signed url and email it to the user
             $email = (new TemplatedEmail())
-                ->from('no-reply@bienetre.com')
+                ->from('maxkaiser950@gmail.com')
                 ->to($user->getEmail())
                 ->htmlTemplate('registration/confirmation_email.html.twig')
                 ->context(['signedUrl' => $signatureComponents->getSignedUrl()]);
             $this->mailer->send($email);
             // do anything else you need here, like send an email
             $this->addFlash('success', 'ok');
+            return $this->redirectToRoute('app_login');
+
         }
         $categories = $entityManager->getRepository(CategorieDeServices::class)->findBy(['valide' => 1]);
 

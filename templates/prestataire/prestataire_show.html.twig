@@ -4,7 +4,9 @@
     <main class="solo_prestataire">
         <div class="solo_prestataire_container">
             {% for i in prestataire.images %}
-                <img id="prestataire_img" src="{{ asset('../uploads/images/' ~ i.image) }}" alt=""/>
+                {% if i.ordre == 0 %}
+                    <img id="prestataire_img" src="{{ asset('../uploads/images/' ~ i.image) }}" alt=""/>
+                {% endif %}
             {% endfor %}
             <div id="side_prestataire">
                 <h2>{{ prestataire.nom }}</h2>
@@ -54,21 +56,47 @@
                 <h3>Prestataires similaires</h3>
                 {% if prestataires_simi|length == 0 %}
                     <p>Il n'y a pas encore de prestataires similaires</p>
-                    {% else %}
-                        {% for p in prestataires_simi %}
-                            <a href="{{ path('prestataire_show', {id: p.prestataire.id}) }}">{{ p.prestataire.nom }}</a>
-                        {% endfor %}
+                {% else %}
+                    {% for p in prestataires_simi %}
+                        <a href="{{ path('prestataire_show', {id: p.prestataire.id}) }}">{{ p.prestataire.nom }}</a>
+                    {% endfor %}
                 {% endif %}
+            </div>
+            <div class="galerie">
+                {% for i in prestataire.images %}
+                {% if i.ordre == 1  %}
+                    <img id="prestataire_img_galeri" src="{{ asset('../uploads/images/' ~ i.image) }}" alt=""/>
 
+                {% endif %}
+                {% endfor %}
+                {# si le prestataire connecté est sur sa page il peut modifier son profil prestataire #}
+            </div>
+            <div class="galerie-form">
+                {% if app.user.id == user.id %}
+                    {{ form_start(form) }}
+                    {{ form_row(form.Image) }}
+                    <button type="submit" class="btn-submit">Enregistrer la photo</button>
+                    {{ form_end(form) }}
+                {% endif %}
+            </div>
+            <div class="map">
+                <p>{{ adresseComplete }}</p>
+                {%  if messageErreur is defined %}
+                <p>{{ messageErreur }}</p>
+                {% endif %}
             </div>
         </div>
         <div class="form_commentaire">
             <span></span>
-            {{ form_start(form_commentaire) }}
-            {{ form_row(form_commentaire.Titre) }}
-            {{ form_row(form_commentaire.contenu) }}
-            <button type="submit" class="btn-submit">Publier</button>
-            {{ form_end(form_commentaire) }}
+            {% if app.user %}
+                {{ form_start(form_commentaire) }}
+                {{ form_row(form_commentaire.Titre) }}
+                {{ form_row(form_commentaire.contenu) }}
+                <button type="submit" class="btn-submit">Publier</button>
+                {{ form_end(form_commentaire) }}
+            {% else %}
+                <h4>Veuillez vous <a href="{{ path('app_login') }}">connecter</a> pour laisser un commentaire</h4>
+            {% endif %}
         </div>
         <div class="commentaires">
             {% for c in commentaires %}

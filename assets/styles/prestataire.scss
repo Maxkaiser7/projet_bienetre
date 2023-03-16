@@ -106,3 +106,20 @@
   color: $black;
   font-weight: 300;
 }
+.galerie{
+  display: flex;
+  gap: 1rem;
+  img {
+    height: 10rem;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 1rem;
+  }
+}
+@media (min-width: $large){
+  .liste-prestataire{
+    .prestataire-container{
+      width: 50vw;
+    }
+  }
+}

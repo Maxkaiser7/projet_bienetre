@@ -27,7 +27,10 @@
                 <a class="nav-a" id="categ" href="{{ path('app_categories') }}">Categories</a>
                 <button class="btn-categ">
                     {# <img id="arrow" src="{{ asset('../images/assets/down-arrow.png') }}" alt="down-arrow"> #}
-                    <svg id="arrow" width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd"><path d="M23.245 4l-11.245 14.374-11.219-14.374-.781.619 12 15.381 12-15.391-.755-.609z"/></svg>
+                    <svg id="arrow" width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd"
+                         clip-rule="evenodd">
+                        <path d="M23.245 4l-11.245 14.374-11.219-14.374-.781.619 12 15.381 12-15.391-.755-.609z"/>
+                    </svg>
                 </button>
                 <div class="display-categ">
                     {% for c in categories %}
@@ -35,18 +38,20 @@
                     {% endfor %}
                 </div>
             </div>
-
             <a class="nav-a" href="{{ path('app_prestataire') }}">Prestataires</a>
             <a class="nav-a" href="{{ path('app_stage') }}">Stages</a>
-            <a class="nav-a" href="#">A propos</a>
-            <a class="nav-a" href="#">Contact</a>
+            {# <a class="nav-a" href="#">A propos</a> #}
+            <a class="nav-a" href="{{ path('app_contact') }}">Contact</a>
         </div>
         {% if app.user %}
             <p id="email">
                 {{ app.user.email }}
             </p>
             {% if app.user.prestataire %}
-                <a href="{{ path('app_profil_user', {id:app.user.prestataire.id}) }}">Profil</a>
+                <div class="log">
+                    <a href="{{ path('app_profil_user', {id:app.user.prestataire.id}) }}" id="profil">Profil</a>
+                    <a href="{{ path('app_logout') }}" id="logout">Déconnexion</a>
+                </div>
             {% endif %}
 
         {% else %}
