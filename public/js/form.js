@@ -4,7 +4,6 @@ $(document).ready(function () {
     const cpOptions = $("#registration_form_code_postal option")
     const communeOptions = $("#registration_form_commune option")
     $('#registration_form_code_postal').change(function () {
-        console.log('cp')
         let postalCodeId = $(this).val();
             let postalCodeText = $(this).find('option:selected').text();
             $.getJSON('/json/zipcode.json', function (data) {

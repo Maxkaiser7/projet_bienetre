@@ -270,7 +270,7 @@ class PrestataireController extends AbstractController
             $data = $form_promotion->getData();
             $promotion->setPrestataire($prestataire);
 
-        }
+            }
         return $this->render('prestataire/prestataire_show.html.twig', [
             'prestataire' => $prestataire,
             'categorie' => $categorie,

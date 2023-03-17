@@ -4,7 +4,9 @@ namespace App\Entity;
 
 use App\Repository\UtilisateurRepository;
 use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\NonUniqueResultException;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -310,9 +312,15 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->isVerified;
     }
 
-
-
-
-
-
+    /**
+     * @throws NonUniqueResultException
+     */
+    public function findOneByEmail(string $email, EntityManagerInterface $entityManager): ?Utilisateur
+    {
+        return $entityManager->createQueryBuilder('u')
+            ->andWhere('u.email= :email')
+            ->setParameter('email', $email)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }

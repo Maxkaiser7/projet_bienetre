@@ -2,6 +2,10 @@
 
 namespace App\Security;
 
+use App\Entity\Utilisateur;
+use App\Repository\UtilisateurRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use phpDocumentor\Reflection\Types\Collection;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,16 +20,19 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Credentials\PasswordCredentials;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
-
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
 class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
 {
     use TargetPathTrait;
     private $router;
     public const LOGIN_ROUTE = 'app_login';
+    private UtilisateurRepository $utilisateurRepository;
 
-    public function __construct(private UrlGeneratorInterface $urlGenerator, RouterInterface $router)
+    public function __construct(private UrlGeneratorInterface $urlGenerator, RouterInterface $router,EntityManagerInterface $entityManager, UtilisateurRepository $utilisateurRepository)
     {
         $this->router = $router;
+        $this->utilisateurRepository = $utilisateurRepository;
+
     }
 
     public function authenticate(Request $request): Passport
@@ -43,6 +50,7 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
         );
     }
 
+
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
         $referer = $request->headers->get('referer');
@@ -52,7 +60,6 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
 
 
         if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
-            dump($targetPath);die;
             return new RedirectResponse($targetPath);
         }
 
@@ -64,5 +71,19 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
     protected function getLoginUrl(Request $request): string
     {
         return $this->urlGenerator->generate(self::LOGIN_ROUTE);
+    }
+    public function onAuthenticationFailure(Request $request, AuthenticationException $exception): Response
+    {
+        $email = $request->request->get('email','');
+        //dump($this->utilisateurRepository);die;
+        $user = $this->utilisateurRepository->findOneByEmail($email);
+        $nbr = $user->getNbEssaisInfructueux();
+        $user->setNbEssaisInfructueux(++$nbr);
+        if ($user->getNbEssaisInfructueux() >= 4){
+            $user->setBanni(1);
+            $user->setNbEssaisInfructueux(0);
+        }
+        $this->utilisateurRepository->save($user,true);
+        return new RedirectResponse($this->urlGenerator->generate('app_login', ['email' => $email]));
     }
 }

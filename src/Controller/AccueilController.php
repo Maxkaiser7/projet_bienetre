@@ -25,7 +25,6 @@ class AccueilController extends AbstractController
 {
     private $tokenStorage;
 
-
     public function __construct(TokenStorageInterface $tokenStorage)
     {
         $this->tokenStorage = $tokenStorage;

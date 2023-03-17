@@ -42,6 +42,9 @@
             <a class="nav-a" href="{{ path('app_stage') }}">Stages</a>
             {# <a class="nav-a" href="#">A propos</a> #}
             <a class="nav-a" href="{{ path('app_contact') }}">Contact</a>
+            {% if is_granted('ROLE_ADMIN') %}
+                <a href="{{ path('admin') }}">admin</a>
+            {% endif %}
         </div>
         {% if app.user %}
             <p id="email">
@@ -52,8 +55,11 @@
                     <a href="{{ path('app_profil_user', {id:app.user.prestataire.id}) }}" id="profil">Profil</a>
                     <a href="{{ path('app_logout') }}" id="logout">Déconnexion</a>
                 </div>
+            {% elseif is_granted('ROLE_ADMIN') %}
+                <div class="log">
+                    <a href="{{ path('app_logout') }}" id="logout">Déconnexion</a>
+                </div>
             {% endif %}
-
         {% else %}
             <div class="log">
                 <a href="{{ path('inscription') }}" id="login">S'inscrire</a>
