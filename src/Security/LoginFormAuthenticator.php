@@ -77,13 +77,19 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
         $email = $request->request->get('email','');
         //dump($this->utilisateurRepository);die;
         $user = $this->utilisateurRepository->findOneByEmail($email);
-        $nbr = $user->getNbEssaisInfructueux();
-        $user->setNbEssaisInfructueux(++$nbr);
-        if ($user->getNbEssaisInfructueux() >= 4){
-            $user->setBanni(1);
-            $user->setNbEssaisInfructueux(0);
+        if ($user)
+        {
+            $nbr = $user->getNbEssaisInfructueux();
+            $user->setNbEssaisInfructueux(++$nbr);
+            if ($user->getNbEssaisInfructueux() >= 4){
+                $user->setBanni(1);
+                $user->setNbEssaisInfructueux(0);
+            }
+            $this->utilisateurRepository->save($user,true);
+
         }
-        $this->utilisateurRepository->save($user,true);
+
+
         return new RedirectResponse($this->urlGenerator->generate('app_login', ['email' => $email]));
     }
 }

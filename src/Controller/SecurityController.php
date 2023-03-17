@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
@@ -37,15 +38,19 @@ class SecurityController extends AbstractController
 
         $email = $session->get('_security.last_username');
         $user = $this->utilisateurRepository->findOneByEmail($email);
-        $banni = $user->isBanni();
+        $banni = false;
 
-
+        if ($user && $user->isBanni()) {
+            $banni = true;
+        }
+        $session->remove('_security.last_username');
         return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error, 'categories' => $categories, 'banni' => $banni]);
     }
 
     #[Route(path: '/logout', name: 'app_logout')]
-    public function logout(): void
+    public function logout(SessionInterface $session): void
     {
+        $session->remove('_security.last_username');
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }
 }

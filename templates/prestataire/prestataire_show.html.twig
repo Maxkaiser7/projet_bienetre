@@ -1,4 +1,5 @@
 {% extends 'base.html.twig' %}
+{% set images_ordre_1 = prestataire.images|filter(i => i.ordre == 1) %}
 {% block title %}{{ prestataire.nom }}{% endblock %}
 {% block body %}
     <main class="solo_prestataire">
@@ -58,17 +59,29 @@
                     <p>Il n'y a pas encore de prestataires similaires</p>
                 {% else %}
                     {% for p in prestataires_simi %}
+                        if
                         <a href="{{ path('prestataire_show', {id: p.prestataire.id}) }}">{{ p.prestataire.nom }}</a>
                     {% endfor %}
                 {% endif %}
             </div>
-            <div class="galerie">
-                {% for i in prestataire.images %}
-                {% if i.ordre == 1  %}
-                    <img id="prestataire_img_galeri" src="{{ asset('../uploads/images/' ~ i.image) }}" alt=""/>
+            <div class="promotion-container">
+                <h3>Promotions</h3>
+                {% if app.user.id == user.id %}
 
+                <a href="{{ path('app_add_promotion', {id: prestataire.id}) }}">Ajouter une promotion</a>
                 {% endif %}
-                {% endfor %}
+            </div>
+            <div class="galerie-container">
+                <h3>Galerie</h3>
+                    <div class="galerie">
+                        {% if images_ordre_1|length > 0 %}
+                            {% for image in images_ordre_1 %}
+                                <img id="prestataire_img_galerie" src="{{ asset('../uploads/images/' ~ image.image) }}" alt=""/>
+                            {% endfor %}
+                        {% else %}
+                            <p>Il n'y a pas encore d'image</p>
+                        {% endif %}
+                    </div>
                 {# si le prestataire connecté est sur sa page il peut modifier son profil prestataire #}
             </div>
             <div class="galerie-form">

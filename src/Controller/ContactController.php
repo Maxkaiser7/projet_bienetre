@@ -15,7 +15,7 @@ class ContactController extends AbstractController
     {
         $categories = $entityManager->getRepository(CategorieDeServices::class)->findBy(['valide' => 1]);
 
-        return $this->render('contact/index.html.twig', [
+        return $this->render('contact/form_promotion.html.twig', [
             'categories' => $categories
         ]);
     }

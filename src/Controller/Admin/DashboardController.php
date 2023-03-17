@@ -62,7 +62,14 @@ class DashboardController extends AbstractDashboardController
 
         return $this->redirect($url);
     }
+    #[Route('/admin/utilisateur', name: 'admin_utilisateur')]
+    public function utilisateurs(): Response
+    {
+        $routeBuilder = $this->container->get(AdminUrlGenerator::class);
+        $url = $routeBuilder->setController(UtilisateurCrudController::class)->generateUrl();
 
+        return $this->redirect($url);
+    }
 
     public function configureMenuItems(): iterable
     {
@@ -73,11 +80,9 @@ class DashboardController extends AbstractDashboardController
             MenuItem::LinkToCrud('Commentaires', 'fa fa-tags', Commentaire::class)
                 ->setController(CommentaireCrudController::class),
             MenuItem::linkToCrud('Stages', 'fa fa-tags', Stage::class)
-                ->setController(StageCrudController::class)
-
-
+                ->setController(StageCrudController::class),
+            MenuItem::linkToCrud('Utilisateurs', 'fa fa-tags', Stage::class)
+                ->setController(UtilisateurCrudController::class)
         ];
-
     }
-
 }

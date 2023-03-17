@@ -34,7 +34,9 @@
             {% for p in pagination %}
                 <div class="prestataire-container">
                     {% for i in p.prestataire.images %}
+                        {% if i.ordre == 0 %}
                             <img id="prestataire_img" src="{{ asset('../uploads/images/' ~ i.image) }}" alt=""/>
+                        {% endif %}
                     {% endfor %}
                     <div class="side-prestataire-container">
                         <a href="{{ path('prestataire_show', {id: p.prestataire.id}) }}"><h2

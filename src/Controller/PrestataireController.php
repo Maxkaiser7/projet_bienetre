@@ -262,15 +262,7 @@ class PrestataireController extends AbstractController
         $prestataires_simi = $entityManager->getRepository(Proposer::class)->findBy(['categorieDeServices' => $categorie]);
         array_shift($prestataires_simi);
 
-        //formulaire de promotion
-        $promotion = new Promotion();
-        $form_promotion = $this->createForm(PromotionType::class);
-        $form->handleRequest($request);
-        if ($form_promotion->isSubmitted() && $form_promotion->isValid()){
-            $data = $form_promotion->getData();
-            $promotion->setPrestataire($prestataire);
 
-            }
         return $this->render('prestataire/prestataire_show.html.twig', [
             'prestataire' => $prestataire,
             'categorie' => $categorie,
@@ -285,7 +277,7 @@ class PrestataireController extends AbstractController
             'messageErreur' => $messageErreur,
             'adresseComplete' => $adresseComplete,
             'user' => $user,
-            'form' => $form->createView()
+            'form' => $form->createView(),
 
         ]);
     }

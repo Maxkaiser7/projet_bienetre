@@ -36,7 +36,7 @@ class StageController extends AbstractController
         //pagination
         $pagination = $paginator->paginate($stages_afficher, $request->query->getInt('page', 1),
             5);
-        return $this->render('stage/index.html.twig', [
+        return $this->render('stage/form_promotion.html.twig', [
             'categories' => $categories,
             'prestataire_connecte' => $prestataire_connecte,
             'stages' => $stages_afficher,

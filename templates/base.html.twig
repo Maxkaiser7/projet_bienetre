@@ -107,8 +107,12 @@
                         <div class="prestataire-container_accueil">
                             {% for i in p.prestataire.images %}
                                 <a href="{{ path('prestataire_show',{id: p.prestataire.id}) }}">
-                                    <img id="prestataire_img_accueil" src="{{ asset('../uploads/images/' ~ i.image) }}"
-                                         alt=""/>
+                                    {% if i.ordre == 0 %}
+                                        <img id="prestataire_img_accueil"
+                                             src="{{ asset('../uploads/images/' ~ i.image) }}"
+                                             alt=""/>
+                                    {% endif %}
+
                                 </a>
                             {% endfor %}
                             <a href="#">
@@ -160,8 +164,11 @@
                         <div class="prestataire-container_accueil_favoris">
                             {% for i in p.images %}
                                 <a href="{{ path('prestataire_show',{id: p.id}) }}">
-                                    <img id="prestataire_img_accueil" src="{{ asset('../uploads/images/' ~ i.image) }}"
-                                         alt=""/>
+                                    {% if i.ordre == 0 %}
+                                        <img id="prestataire_img_accueil"
+                                             src="{{ asset('../uploads/images/' ~ i.image) }}"
+                                             alt=""/>
+                                    {% endif %}
                                 </a>
                             {% endfor %}
                             <a href="{{ path('prestataire_show',{id: p.id}) }}">
