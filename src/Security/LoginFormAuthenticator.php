@@ -21,6 +21,8 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Credentials\PasswordC
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use function PHPUnit\Framework\throwException;
+
 class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
 {
     use TargetPathTrait;
@@ -40,7 +42,11 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
         $email = $request->request->get('email', '');
 
         $request->getSession()->set(Security::LAST_USERNAME, $email);
+        $user = $this->utilisateurRepository->findOneByEmail($email);
+        if ($user->isVerified() == false){
+            throw new AuthenticationException('Votre compte n\'est pas vérifié. Veuillez vérifier votre boîte de réception pour le lien de vérification.');
 
+        }
         return new Passport(
             new UserBadge($email),
             new PasswordCredentials($request->request->get('password', '')),
