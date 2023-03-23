@@ -1,5 +1,8 @@
 {% extends 'base.html.twig' %}
 {% block body %}
+    <header class="header_container">
+        {% include '_search_form.html.twig' with {form: searchForm} %}
+    </header>
     <main class="main-prestataire">
         <div class="liste-prestataire">
             {% for p in proposer %}

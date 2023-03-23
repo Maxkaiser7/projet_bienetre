@@ -2,6 +2,9 @@
 {% set images_ordre_1 = prestataire.images|filter(i => i.ordre == 1) %}
 {% block title %}{{ prestataire.nom }}{% endblock %}
 {% block body %}
+    <header class="header_container">
+        {% include '_search_form.html.twig' with {form: searchForm} %}
+    </header>
     <main class="solo_prestataire">
         <div class="solo_prestataire_container">
             {% for i in prestataire.images %}
@@ -59,43 +62,63 @@
                     <p>Il n'y a pas encore de prestataires similaires</p>
                 {% else %}
                     {% for p in prestataires_simi %}
-                        if
+
                         <a href="{{ path('prestataire_show', {id: p.prestataire.id}) }}">{{ p.prestataire.nom }}</a>
                     {% endfor %}
                 {% endif %}
             </div>
             <div class="promotion-container">
                 <h3>Promotions</h3>
-                {% if app.user.id == user.id %}
-
-                <a href="{{ path('app_add_promotion', {id: prestataire.id}) }}">Ajouter une promotion</a>
+                {% if app.user is not null %}
+                    {% if app.user.id == user.id %}
+                        <a href="{{ path('app_add_promotion', {id: prestataire.id}) }}">Ajouter une promotion</a>
+                    {% endif %}
                 {% endif %}
+                {% if promotions|length > 0 %}
+                    {% for p in promotions %}
+                        <div>
+            <span>
+                <p>{{ p.nom }}</p> | <p>{{ p.categorieDeServices.nom }}</p>
+            </span>
+                            <a href="{{ path('download_promotion_pdf', {'idpromo': p.id, 'id': user.id}) }}" class="btn btn-primary">
+                                <i class="fas fa-download"></i> Télécharger
+                            </a>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p>Il n'y a pas de promotions pour l'instant</p>
+                {% endif %}
+
             </div>
             <div class="galerie-container">
                 <h3>Galerie</h3>
-                    <div class="galerie">
-                        {% if images_ordre_1|length > 0 %}
-                            {% for image in images_ordre_1 %}
-                                <img id="prestataire_img_galerie" src="{{ asset('../uploads/images/' ~ image.image) }}" alt=""/>
-                            {% endfor %}
-                        {% else %}
-                            <p>Il n'y a pas encore d'image</p>
-                        {% endif %}
-                    </div>
+                <div class="galerie">
+                    {% if images_ordre_1|length > 0 %}
+                        {% for image in images_ordre_1 %}
+                            <img id="prestataire_img_galerie" src="{{ asset('../uploads/images/' ~ image.image) }}"
+                                 alt=""/>
+                        {% endfor %}
+                    {% else %}
+                        <p>Il n'y a pas encore d'image</p>
+                    {% endif %}
+                </div>
                 {# si le prestataire connecté est sur sa page il peut modifier son profil prestataire #}
             </div>
             <div class="galerie-form">
-                {% if app.user.id == user.id %}
-                    {{ form_start(form) }}
-                    {{ form_row(form.Image) }}
-                    <button type="submit" class="btn-submit">Enregistrer la photo</button>
-                    {{ form_end(form) }}
+                {% if app.user is not null %}
+
+                    {% if app.user.id == user.id %}
+                        {{ form_start(form) }}
+                        {{ form_row(form.Image) }}
+                        <button type="submit" class="btn-submit">Enregistrer la photo</button>
+                        {{ form_end(form) }}
+                    {% endif %}
                 {% endif %}
             </div>
             <div class="map">
                 <p>{{ adresseComplete }}</p>
-                {%  if messageErreur is defined %}
-                <p>{{ messageErreur }}</p>
+                {% if messageErreur is defined %}
+                    <p>{{ messageErreur }}</p>
                 {% endif %}
             </div>
         </div>

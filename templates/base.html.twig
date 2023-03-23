@@ -40,7 +40,7 @@
             </div>
             <a class="nav-a" href="{{ path('app_prestataire') }}">Prestataires</a>
             <a class="nav-a" href="{{ path('app_stage') }}">Stages</a>
-            {# <a class="nav-a" href="#">A propos</a> #}
+            <a class="nav-a" href="{{ path('app_a_propos') }}">A propos</a>
             <a class="nav-a" href="{{ path('app_contact') }}">Contact</a>
             {% if is_granted('ROLE_ADMIN') %}
                 <a href="{{ path('admin') }}">admin</a>
@@ -76,8 +76,12 @@
 
 </nav>
 
+
 {% block body %}
     <header class="header_container">
+        {% include '_search_form.html.twig' with {form: searchForm} %}
+    </header>
+        {#
         <div class="header_form">
             {{ form_start(searchForm) }}
             {{ form_row(searchForm.prestataire , {'attr': {
@@ -92,11 +96,11 @@
             <button type="submit" class="btn-submit">Rechercher</button>
             {{ form_end(searchForm) }}
         </div>
+        #}
         <div class="container-slide">
             <img src="{{ asset('../images/slider/slider1.jpg') }}" alt="" class="img img-1 show">
             <img src="{{ asset('../images/slider/slider2.jpg') }}" alt="" class="img img-2">
         </div>
-    </header>
     <main class="bg">
         {% if app.user %}
             <div class="last-signed" data-aos="fade-in" data-aos-easing="ease-in-out" data-aos-delay="50"

@@ -123,3 +123,10 @@
     }
   }
 }
+#prestataire_categorieDeServices{
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: column-reverse;
+}

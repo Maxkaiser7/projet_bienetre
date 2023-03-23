@@ -7,6 +7,7 @@ use App\Entity\Prestataire;
 use App\Entity\Promotion;
 use App\Form\PrestataireType;
 use App\Form\PromotionType;
+use Couchbase\Document;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -31,10 +32,23 @@ class PromotionController extends AbstractController
         $form_promotion->handleRequest($request);
 
 
+
         if ($form_promotion->isSubmitted() && $form_promotion->isValid()) {
             $data = $form_promotion->getData();
-            dump($data);die;
             $promotion->setPrestataire($prestataire);
+            $file = $form_promotion['documentPdf']->getData();
+            $uploads_directory = $this->getParameter('pdf_directory');
+            $filename = md5(uniqid()) . '.' . $file->guessExtension();
+            $file->move(
+                $uploads_directory,
+                $filename
+            );
+            $promotion->setDocumentPdf($filename);
+            $entityManager->persist($promotion);
+            $entityManager->flush();
+            return $this->redirectToRoute('prestataire_show', [
+                'id' => $prestataire->getId()
+            ]);
         }
 
 

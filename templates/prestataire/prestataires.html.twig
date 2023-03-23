@@ -4,20 +4,7 @@
 
 {% block body %}
     <header class="header_container">
-        <div class="header_form">
-            {{ form_start(searchForm) }}
-            {{ form_row(searchForm.prestataire , {'attr': {
-                'placeholder': 'Cherchez un prestataire'
-            }}) }}
-            {{ form_row(searchForm.localite) }}
-            {{ form_row(searchForm.cp) }}
-            {{ form_row(searchForm.commune) }}
-
-            {{ form_row(searchForm.categorie) }}
-
-            <button type="submit" class="btn-submit">Rechercher</button>
-            {{ form_end(searchForm) }}
-        </div>
+        {% include '_search_form.html.twig' with {form: searchForm} %}
     </header>
     <main class="main-prestataire bg">
         <h1 id="title">Liste des prestataires</h1>

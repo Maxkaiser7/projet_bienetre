@@ -24,6 +24,7 @@ use Knp\Component\Pager\PaginatorInterface;
 use Optios\BelgianRegionZip\BelgianRegionZipHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Routing\Annotation\Route;
 use GuzzleHttp\Client;
 
@@ -261,8 +262,47 @@ class PrestataireController extends AbstractController
         //trouver prestatairs similaires
         $prestataires_simi = $entityManager->getRepository(Proposer::class)->findBy(['categorieDeServices' => $categorie]);
         array_shift($prestataires_simi);
+/*
+        //télécharger le pdf de promotion
+        $promotions = $entityManager->getRepository(Promotion::class)->findBy(['prestataire' => $prestataire]);
+        $pdfPath = $this->getParameter('pdf_directory');
+        $response = new Response();
+        $promotionsDownloads = [];
+        for($i = 0; $i<count($promotions); $i++){
+            $disposition[$i] = $response->headers->makeDisposition(
+                ResponseHeaderBag::DISPOSITION_ATTACHMENT,
+                $promotions[$i]->getDocumentPdf()
+            );
+            $response->headers->set('Content-Disposition', $disposition[$i]);
+            $response->headers->set('Content-Type', 'application/pdf');
+            $pdfContent = file_get_contents($pdfPath . '/' . $promotions[$i]->getDocumentPdf());
+            $response->setContent($pdfContent);
+            $promotionDownloads[] = [
+                'name' => $promotions[$i]->getDocumentPdf(),
+                'url' => $this->generateUrl('download_promotion_pdf', ['id' => $promotions[$i]->getId()])
+            ];
+        }*/
+        $promotions = $entityManager->getRepository(Promotion::class)->findBy(['prestataire' => $prestataire]);
+        //formulaire de recherche
+        $searchform = $this->createForm(SearchType::class);
+        $searchform->handleRequest($request);
+        if ($searchform->isSubmitted() && $searchform->isValid()) {
+            $data = $searchform->getData();
+            $prestataire = $data['prestataire'];
+
+            $localite = $data['localite'];
+            $categorie = $data['categorie'];
+            $cp = $data['cp'];
+            $commune = $data['commune'];
 
 
+            return $this->redirectToRoute('prestataire_search', [
+                'prestataire' => $prestataire,
+                'localite' => $localite,
+                'cp' => $cp,
+                'commune' => $commune,
+            ]);
+        }
         return $this->render('prestataire/prestataire_show.html.twig', [
             'prestataire' => $prestataire,
             'categorie' => $categorie,
@@ -278,10 +318,37 @@ class PrestataireController extends AbstractController
             'adresseComplete' => $adresseComplete,
             'user' => $user,
             'form' => $form->createView(),
+            'searchForm' => $searchform->createView(),
+            'promotions' => $promotions,
 
         ]);
     }
+    /**
+     * @Route("/promotion/download/{id}/{idPromo}", name="download_promotion_pdf")
+     */
+    public function downloadPdf($idpromo,$id, EntityManagerInterface $entityManager)
+    {
+        $prestataire = $entityManager->getRepository(Prestataire::class)->find($id);
 
+        //télécharger le pdf de promotion
+        $promotions = $entityManager->getRepository(Promotion::class)->findBy(['prestataire' => $prestataire]);
+        $pdfPath = $this->getParameter('pdf_directory');
+        $response = new Response();
+        $promotionsDownloads = [];
+        for($i = 0; $i<count($promotions); $i++){
+            $disposition[$i] = $response->headers->makeDisposition(
+                ResponseHeaderBag::DISPOSITION_ATTACHMENT,
+                $promotions[$i]->getDocumentPdf()
+            );
+            $response->headers->set('Content-Disposition', $disposition[$i]);
+            $response->headers->set('Content-Type', 'application/pdf');
+            $pdfContent = file_get_contents($pdfPath . '/' . $promotions[$i]->getDocumentPdf());
+            $response->setContent($pdfContent);
+
+            return $response;
+        }
+
+    }
 
     #[
         Route('/prestataire/show/{id}/like/{userId}', name: 'prestataire_like')]
@@ -378,10 +445,33 @@ class PrestataireController extends AbstractController
 
 
         $categories = $entityManager->getRepository(CategorieDeServices::class)->findBy(['valide' => 1]);
+        //formulaire de recherche
+        $searchform = $this->createForm(SearchType::class);
+        $searchform->handleRequest($request);
+        if ($searchform->isSubmitted() && $searchform->isValid()) {
+
+            $data = $searchform->getData();
+            $prestataire = $data['prestataire'];
+
+            $localite = $data['localite'];
+            $categorie = $data['categorie'];
+            $cp = $data['cp'];
+            $commune = $data['commune'];
+
+            return $this->redirectToRoute('prestataire_search', [
+                'prestataire' => $prestataire,
+                'localite' => $localite,
+                'cp' => $cp,
+                'commune' => $commune,
+            ]);
+        }
+
+
 
         return $this->render('prestataire/prestataire_search.html.twig', [
             'proposer' => $result,
-            'categories' => $categories
+            'categories' => $categories,
+            'searchForm' => $searchform->createView()
         ]);
     }
 }

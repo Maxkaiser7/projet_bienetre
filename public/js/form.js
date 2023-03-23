@@ -75,7 +75,6 @@ $(document).ready(function () {
                     }
                 }
             }
-
         })
     })
     $('#registration_form_commune').change(function () {
@@ -85,16 +84,13 @@ $(document).ready(function () {
             jsonData = data
             let zipData = jsonData.filter(function (x) {
                 let communeData = x.ville.replace(/ /g, "-").toLowerCase()
-                console.log(communeText.toLowerCase())
                 return communeData === communeText.toLowerCase()
             })
             $('#registration_form_code_postal option').remove();
             for (let i = 0; i < zipData.length; i++){
                 let dataCp = zipData[i].codePostal;
-                console.log(zipData[i])
                 let dataCommune = zipData[i].ville.replace(/ /g, "-").toLowerCase()
                 let dataLocalite = zipData[i].region.toLowerCase()
-                console.log(dataCp)
                 for (let j = 0; j < cpOptions.length; j++) {
                     if (cpOptions[j].text === dataCp) {
                         $('#registration_form_code_postal').append($("<option></option>").attr("value", cpOptions[j].value).text(cpOptions[j].text))

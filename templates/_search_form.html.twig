@@ -1,0 +1,15 @@
+<div class="header_form">
+    {{ form_start(searchForm) }}
+    {{ form_row(searchForm.prestataire , {'attr': {
+        'placeholder': 'Cherchez un prestataire',
+
+    }}) }}
+    {{ form_row(searchForm.localite) }}
+    {{ form_row(searchForm.cp) }}
+    {{ form_row(searchForm.commune) }}
+
+    {{ form_row(searchForm.categorie) }}
+
+    <button type="submit" class="btn-submit">Rechercher</button>
+    {{ form_end(searchForm) }}
+</div>

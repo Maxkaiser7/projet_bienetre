@@ -10,17 +10,20 @@
 
 
         <div class="stage-container">
-            {% for s in pagination %}
-            <a href="{{ path('app_stage_show', {nom: s.nom}) }}">
-                <div>
-                    <h2>{{ s.nom }}</h2>
-                    <p>par {{ s.prestataire }}</p>
-                    <p>{{ s.description }}</p>
-                </div>
-            </a>
-        {% endfor %}
-            {{ knp_pagination_render(pagination) }}
-
+            {% if pagination|length == 0 %}
+                <p>Il n'y a pas de stages à venir pour l'instant</p>
+                {% else %}
+                    {% for s in pagination %}
+                        <a href="{{ path('app_stage_show', {nom: s.nom}) }}">
+                            <div>
+                                <h2>{{ s.nom }}</h2>
+                                <p>par {{ s.prestataire }}</p>
+                                <p>{{ s.description }}</p>
+                            </div>
+                        </a>
+                    {% endfor %}
+                    {{ knp_pagination_render(pagination) }}
+            {% endif %}
         </div>
     </main>
 {% endblock %}

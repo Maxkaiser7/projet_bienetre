@@ -8,5 +8,8 @@ kernel:
 app_prestataire_form:
     path: '/prestataire/form/{id}'
     controller: App\Controller\PrestataireController::prestataireForm
+download_promotion_pdf:
+    path: '/promotion/download/{idpromo}/{id}'
+    controller: App\Controller\PrestataireController::downloadPdf
 
 
