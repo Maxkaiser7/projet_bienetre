@@ -14,6 +14,8 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
 use Symfony\Component\HttpFoundation\Request;
 use App\Repository\UtilisateurRepository;
+use function PHPUnit\Framework\throwException;
+
 class SecurityController extends AbstractController
 {
     private UtilisateurRepository $utilisateurRepository;
@@ -39,6 +41,11 @@ class SecurityController extends AbstractController
         $email = $session->get('_security.last_username');
         $user = $this->utilisateurRepository->findOneByEmail($email);
         $banni = false;
+        if ($user){
+            if(!$user->isVerified() == false){
+                return $this->render('security/error.html.twig', ['message' => 'Votre compte n\'est pas vérifié.']);
+            }
+        }
 
         if ($user && $user->isBanni()) {
             $banni = true;
