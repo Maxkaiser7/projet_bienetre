@@ -6,6 +6,7 @@ use App\Entity\CategorieDeServices;
 use App\Entity\Stage;
 use App\Form\StagesType;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,7 +16,7 @@ use Symfony\Component\Security\Core\Security;
 class StageController extends AbstractController
 {
     #[Route('/stage', name: 'app_stage')]
-    public function index(EntityManagerInterface $entityManager, Security $security): Response
+    public function index(EntityManagerInterface $entityManager, Security $security, PaginatorInterface $paginator, Request $request): Response
     {
         $categories = $entityManager->getRepository(CategorieDeServices::class)->findBy(['valide' => 1]);
         $user = $this->getUser();
@@ -31,10 +32,15 @@ class StageController extends AbstractController
 
         $qb = $entityManager->createQuery('SELECT s FROM App\Entity\Stage s WHERE s.affichageJusque >= :aujourdhui ')->setParameter('aujourdhui', $aujourdhui);
         $stages_afficher = $qb->getResult();
+
+        //pagination
+        $pagination = $paginator->paginate($stages_afficher, $request->query->getInt('page', 1),
+            5);
         return $this->render('stage/index.html.twig', [
             'categories' => $categories,
             'prestataire_connecte' => $prestataire_connecte,
-            'stages' => $stages_afficher
+            'stages' => $stages_afficher,
+            'pagination' => $pagination
         ]);
     }
 
@@ -68,15 +74,15 @@ class StageController extends AbstractController
         ]);
     }
 
-    #[Route('/stage/show/{id}', name: 'app_stage_show')]
-    public function showStage(EntityManagerInterface $entityManager, $id): Response
+    #[Route('/stage/show/{nom}', name: 'app_stage_show')]
+    public function showStage(EntityManagerInterface $entityManager, $nom)
     {
-        $stage = $entityManager->getRepository(Stage::class)->findBy(['id' => $id]);
+        $stage = $entityManager->getRepository(Stage::class)->findBy(['nom' => $nom]);
         $categories = $entityManager->getRepository(CategorieDeServices::class)->findBy(['valide' => 1]);
 
         $prestataire = $stage[0]->getPrestataire();
-        $user = $this->getUser()->getPrestataire();
-        if ($prestataire === $user)
+        $user = $this->getUser();
+        //if ($prestataire === $user)
             return $this->render('stage/stage_show.html.twig', [
                 'categories' => $categories,
                 'stage' => $stage,
@@ -100,10 +106,10 @@ class StageController extends AbstractController
         }
         $categories = $entityManager->getRepository(CategorieDeServices::class)->findBy(['valide' => 1]);
 
+
         return $this->render('stage/edit.html.twig', [
             'form' => $form->createView(),
             'categories' => $categories,
-
         ]);
     }
 }

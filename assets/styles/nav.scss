@@ -106,6 +106,15 @@ nav {
     .log {
       font-size: 0.9rem;
       font-weight: 300;
+      a {
+        font-size: 0.8vw;
+      }
+      #logout {
+        background-color: #6C7CBB;
+        color: white;
+        border-radius: 0.5rem;
+        padding: 0.4rem 0.6rem;
+      }
     }
 
   }
@@ -232,21 +241,17 @@ nav {
       font-size: 0.7rem;
 
       #login {
-        padding: 0.4rem;
-        background-color: white;
+        background-color: transparent;
         color: $black;
         border-radius: 0.5rem;
-        padding-left: 0.6rem;
-        padding-right: 0.6rem;
+        padding: 0.4rem 0.6rem;
       }
 
       #signin {
-        padding: 0.4rem;
-        background-color: $btn;
+        background-color: #6C7CBB;
         color: white;
         border-radius: 0.5rem;
-        padding-left: 0.6rem;
-        padding-right: 0.6rem;
+        padding: 0.4rem 0.6rem;
       }
 
       a {

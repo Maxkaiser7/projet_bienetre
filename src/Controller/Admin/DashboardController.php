@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\CategorieDeServices;
 use App\Entity\Commentaire;
+use App\Entity\Stage;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
@@ -53,6 +54,23 @@ class DashboardController extends AbstractDashboardController
 
     }
 
+    #[Route('/admin/stages', name: 'admin_stages')]
+    public function stages(): Response
+    {
+        $routeBuilder = $this->container->get(AdminUrlGenerator::class);
+        $url = $routeBuilder->setController(StageCrudController::class)->generateUrl();
+
+        return $this->redirect($url);
+    }
+    #[Route('/admin/utilisateur', name: 'admin_utilisateur')]
+    public function utilisateurs(): Response
+    {
+        $routeBuilder = $this->container->get(AdminUrlGenerator::class);
+        $url = $routeBuilder->setController(UtilisateurCrudController::class)->generateUrl();
+
+        return $this->redirect($url);
+    }
+
     public function configureMenuItems(): iterable
     {
         return [
@@ -60,9 +78,11 @@ class DashboardController extends AbstractDashboardController
             MenuItem::LinkToCrud('Categories', 'fa fa-tags', CategorieDeServices::class)
                 ->setController(CategorieDeServicesCrudController::class),
             MenuItem::LinkToCrud('Commentaires', 'fa fa-tags', Commentaire::class)
-                ->setController(CommentaireCrudController::class)
+                ->setController(CommentaireCrudController::class),
+            MenuItem::linkToCrud('Stages', 'fa fa-tags', Stage::class)
+                ->setController(StageCrudController::class),
+            MenuItem::linkToCrud('Utilisateurs', 'fa fa-tags', Stage::class)
+                ->setController(UtilisateurCrudController::class)
         ];
-
     }
-
 }

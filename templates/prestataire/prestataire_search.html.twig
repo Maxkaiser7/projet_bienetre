@@ -1,23 +1,31 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-<div class="liste-prestataire">
-    {% for p in proposer %}
-        <div class="prestataire-container">
-            {% for i in p.prestataire.images %}
-                <img id="prestataire_img" src="{{ asset('../uploads/images/' ~ i.image) }}" alt=""/>
-            {% endfor %}
-            <div class="side-prestataire-container">
-                <a href="{{ path('prestataire_show', {id: p.id}) }}"><h2
-                            id="prestataire_titre">{{ p.prestataire.nom }}</h2></a>
-                <div class="description">
-                    <p>{{ p.prestataire.siteinternet }}</p>
-                </div>
-                <span>
-                            <a id="nom-categ" href="{{ path('app_categorie_show', {nom: p.categorieDeServices.nom }) }}">{{ p.categorieDeServices.nom }}</a>
+    <header class="header_container">
+        {% include '_search_form.html.twig' with {form: searchForm} %}
+    </header>
+    <main class="main-prestataire">
+        <div class="liste-prestataire">
+            {% for p in proposer %}
+                <div class="prestataire-container">
+                    {% for i in p.prestataire.images %}
+                        {% if i.ordre == 0 %}
+                            <img id="prestataire_img" src="{{ asset('../uploads/images/' ~ i.image) }}" alt=""/>
+                        {% endif %}
+                    {% endfor %}
+                    <div class="side-prestataire-container">
+                        <a href="{{ path('prestataire_show', {id: p.id}) }}"><h2
+                                    id="prestataire_titre">{{ p.prestataire.nom }}</h2></a>
+                        <div class="description">
+                            <p>{{ p.prestataire.siteinternet }}</p>
+                        </div>
+                        <span>
+                            <a id="nom-categ"
+                               href="{{ path('app_categorie_show', {nom: p.categorieDeServices.nom }) }}">{{ p.categorieDeServices.nom }}</a>
                             <a href="{{ path('prestataire_show', {id: p.prestataire.id}) }}">Voir plus</a>
                         </span>
-            </div>
+                    </div>
+                </div>
+            {% endfor %}
         </div>
-    {% endfor %}
-</div>
+    </main>
 {% endblock %}

@@ -1,4 +1,5 @@
-framework:
-    mailer:
-        dsn: '%env(MAILER_DSN)%'
-        message_bus: false
+when@dev:
+    framework:
+        mailer:
+            envelope:
+                recipients: ['maxkaiser950@gmail.com']

@@ -88,6 +88,15 @@ nav .nav-links .log {
   font-size: 0.9rem;
   font-weight: 300;
 }
+nav .nav-links .log a {
+  font-size: 0.8vw;
+}
+nav .nav-links .log #logout {
+  background-color: #6C7CBB;
+  color: white;
+  border-radius: 0.5rem;
+  padding: 0.4rem 0.6rem;
+}
 
 .bar {
   display: block;
@@ -193,59 +202,55 @@ nav .nav-links .log {
     font-size: 0.7rem;
   }
   nav .log #login {
-    padding: 0.4rem;
-    background-color: white;
+    background-color: transparent;
     color: #1a1a1a;
     border-radius: 0.5rem;
-    padding-left: 0.6rem;
-    padding-right: 0.6rem;
+    padding: 0.4rem 0.6rem;
   }
   nav .log #signin {
-    padding: 0.4rem;
-    background-color: #431F10;
+    background-color: #6C7CBB;
     color: white;
     border-radius: 0.5rem;
-    padding-left: 0.6rem;
-    padding-right: 0.6rem;
+    padding: 0.4rem 0.6rem;
   }
   nav .log a {
     font-size: 0.8vw;
   }
 }
-.header_form form {
+.header_container .header_form form {
   display: grid;
   justify-content: center;
   position: relative;
   gap: 0.3rem;
 }
-.header_form form div:nth-child(1) {
+.header_container .header_form form div:nth-child(1) {
   grid-area: 1/1/2/3;
 }
-.header_form form div:nth-child(2) {
+.header_container .header_form form div:nth-child(2) {
   grid-area: 2/1/3/2;
 }
-.header_form form div:nth-child(3) {
+.header_container .header_form form div:nth-child(3) {
   grid-area: 2/2/2/3;
 }
-.header_form form div:nth-child(4) {
+.header_container .header_form form div:nth-child(4) {
   grid-area: 3/1/3/3;
 }
-.header_form form div:nth-child(5) {
+.header_container .header_form form div:nth-child(5) {
   grid-area: 2/3/3/4;
 }
-.header_form form .btn-submit {
+.header_container .header_form form .btn-submit {
   grid-area: 1/3/2/4;
 }
-.header_form form label {
+.header_container .header_form form label {
   display: none;
 }
-.header_form form #search_prestataire {
+.header_container .header_form form #search_prestataire {
   width: 85%;
   padding: 0.5rem 1rem;
   border-radius: 1rem;
   border: solid 1px #959595;
 }
-.header_form form .btn-submit {
+.header_container .header_form form .btn-submit {
   border: none;
   background-color: #8FDDE7;
   border-radius: 1rem;
@@ -254,10 +259,10 @@ nav .nav-links .log {
   font-weight: 500;
   font-size: 1.1rem;
 }
-.header_form form .btn-submit:hover {
+.header_container .header_form form .btn-submit:hover {
   cursor: pointer;
 }
-.header_form select {
+.header_container .header_form select {
   background-color: white;
   border: solid 1px #959595;
   border-radius: 1rem;
@@ -538,6 +543,30 @@ nav .nav-links .log {
 #prestataire_titre {
   color: #1a1a1a;
   font-weight: 300;
+}
+
+.galerie {
+  display: flex;
+  gap: 1rem;
+}
+.galerie img {
+  height: 10rem;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 1rem;
+}
+
+@media (min-width: 1000px) {
+  .liste-prestataire .prestataire-container {
+    width: 50vw;
+  }
+}
+#prestataire_categorieDeServices {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: column-reverse;
 }
 
 #profil_img {
@@ -853,6 +882,11 @@ footer .container div a {
   flex-direction: column;
   padding: 10vw;
   margin-bottom: 10vh;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 75vw;
+  max-width: 750px;
+  position: relative;
 }
 .login-form input {
   padding: 0.5rem;
@@ -961,6 +995,13 @@ footer .container div a {
   display: flex;
   justify-content: center;
   gap: 0.4rem;
+}
+
+.contact-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 15rem;
 }
 
 body {
