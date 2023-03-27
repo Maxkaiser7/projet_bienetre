@@ -26,6 +26,7 @@ use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 use Symfony\Component\VarDumper\VarDumper;
 use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelper;
 use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
+
 class RegistrationController extends AbstractController
 {
     private $verifyEmailHelper;
@@ -39,7 +40,7 @@ class RegistrationController extends AbstractController
      * @throws TransportExceptionInterface
      */
     #[Route('/inscription', name: 'inscription')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher,  UrlGeneratorInterface $urlGenerator, EntityManagerInterface $entityManager): Response
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher,  UrlGeneratorInterface $urlGenerator, EntityManagerInterface $entityManager, MailerInterface $mailer, EmailVerifier $emailVerifier): Response
     {
 
         $user = new Utilisateur();
@@ -71,15 +72,18 @@ class RegistrationController extends AbstractController
                 $user->getId(),
                 $user->getEmail()
             );
+
             // generate a signed url and email it to the user
-            $email = (new TemplatedEmail())
-                ->from('maxkaiser950@gmail.com')
-                ->to($user->getEmail())
-                ->htmlTemplate('registration/confirmation_email.html.twig')
-                ->context(['signedUrl' => $signatureComponents->getSignedUrl()]);
-            $this->mailer->send($email);
+
+            $email = new TemplatedEmail();
+            $email->from('maxkaiser950@gmail.com');
+            $email->to($user->getEmail());
+            $email->htmlTemplate('registration/confirmation_email.html.twig');
+            $email->context(['signedUrl' => $signatureComponents->getSignedUrl()]);
+            $mailer->send($email);
             // do anything else you need here, like send an email
-            $this->addFlash('success', 'ok');
+            //$this->addFlash('success', 'ok');
+            $emailVerifier->sendEmailConfirmation('app_verify_email', $user, $email);
             return $this->redirectToRoute('app_login');
 
         }
