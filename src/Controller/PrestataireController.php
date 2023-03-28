@@ -406,6 +406,8 @@ class PrestataireController extends AbstractController
         $cp = $session->get('cp');
         $commune = $session->get('commune');
 
+        $session->clear();
+        //dump($session->remove('categorie'));die;
         //trier les données
         $query = $repository->createQueryBuilder('p')
             ->select('p, prestataire, localite, utilisateur, categorieDeServices, codePostal')

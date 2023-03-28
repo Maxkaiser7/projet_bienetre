@@ -35,26 +35,26 @@ class AccueilController extends AbstractController
     {
         //dump($this->getUser()->getPrestataire());die;
         $query = $entityManager->createQuery(
-             'DELETE FROM App\Entity\Promotion p WHERE p.id = 3'
-         );
-         $query->execute();
+            'DELETE FROM App\Entity\Utilisateur p WHERE p.id = 47'
+        );
+        $query->execute();
 
-     $rowNo = 1;
-         // $fp is file pointer to file sample.csv
-    /* if (($fp = fopen("/Users/maximekaiser/projetbe/projet_bienetre/public/csv/localite.csv", "r")) !== FALSE) {
-         while (($row = fgetcsv($fp)) !== FALSE) {
-             $num = count($row);
-             $rowNo++;
-             for ($c=0; $c < $num; $c++) {
-                 $cp = new Localite();
-                 $cp->setLocalite($row[$c]);
-                 $entityManager->persist($cp);
+        $rowNo = 1;
+        // $fp is file pointer to file sample.csv
+        /* if (($fp = fopen("/Users/maximekaiser/projetbe/projet_bienetre/public/csv/localite.csv", "r")) !== FALSE) {
+             while (($row = fgetcsv($fp)) !== FALSE) {
+                 $num = count($row);
+                 $rowNo++;
+                 for ($c=0; $c < $num; $c++) {
+                     $cp = new Localite();
+                     $cp->setLocalite($row[$c]);
+                     $entityManager->persist($cp);
 
+                 }
              }
-         }
-         $entityManager->flush();
-         fclose($fp);
-     }*/
+             $entityManager->flush();
+             fclose($fp);
+         }*/
 
         //récupérer les 4 derniers prestataires inscrits
         $query = $entityManager->createQuery(
@@ -74,9 +74,15 @@ class AccueilController extends AbstractController
         }
 
 
-        //catégorie du mois
+// catégorie du mois
         $categorie_mois = $entityManager->getRepository(CategorieDeServices::class)->findBy(['enAvant' => true]);
-        $categorie_mois_image = $categorie_mois[0]->getImages();
+
+        if (count($categorie_mois) > 0) {
+            $categorie_mois_image = $categorie_mois[0]->getImages();
+        } else {
+            $categorie_mois_image = null;
+        }
+
 
 //        $zipJson = file_get_contents("/Users/maximekaiser/projetbe/projet_bienetre/public/json/zipcode.json",'r');
 
@@ -123,13 +129,14 @@ class AccueilController extends AbstractController
 
         ]);
     }
-/*
-    #[Route('/cp', name: 'cp')]
-    public function getDataForPostalCode(EntityManagerInterface $entityManager, Request $request): JsonResponse
-    {
 
-    }
-*/
+    /*
+        #[Route('/cp', name: 'cp')]
+        public function getDataForPostalCode(EntityManagerInterface $entityManager, Request $request): JsonResponse
+        {
+
+        }
+    */
     #[Route('/', name: 'search_prestataire')]
     public function searchPrestatairs()
     {
