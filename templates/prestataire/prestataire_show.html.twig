@@ -8,6 +8,7 @@
     <main class="solo_prestataire">
         <div class="solo_prestataire_container">
             {% for i in prestataire.images %}
+                {# on affiche que la photo de profil (ordre 0) #}
                 {% if i.ordre == 0 %}
                     <img id="prestataire_img" src="{{ asset('../uploads/images/' ~ i.image) }}" alt=""/>
                 {% endif %}
@@ -35,11 +36,6 @@
                         </a>
                     {% endif %}
                     </span>
-                    {#
-                    {{ form_start(likeForm) }}
-                    {{ form_row(likeForm.like) }}
-                    {{ form_end(likeForm) }}
-                    #}
                 </span>
                 <a href="{{ path('app_categorie_show', {'nom' : categorie.nom}) }}">{{ categorie.nom }}</a>
                 {% include "components/_share.html.twig" %}
@@ -78,9 +74,11 @@
                     {% for p in promotions %}
                         <div>
             <span>
-                <p>{{ p.nom }}</p> | <p>{{ p.categorieDeServices.nom }}</p>
+                <p>{{ p.nom }}</p> | <a
+                        href="{{ path('app_categorie_show', {'nom' : p.categorieDeServices.nom}) }}">{{ p.categorieDeServices.nom }}</a>
             </span>
-                            <a href="{{ path('download_promotion_pdf', {'idpromo': p.id, 'id': user.id}) }}" class="btn btn-primary">
+                            <a href="{{ path('download_promotion_pdf', {'idpromo': p.id, 'id': user.id}) }}"
+                               class="btn btn-primary">
                                 <i class="fas fa-download"></i> Télécharger
                             </a>
                         </div>
@@ -106,7 +104,6 @@
             </div>
             <div class="galerie-form">
                 {% if app.user is not null %}
-
                     {% if app.user.id == user.id %}
                         {{ form_start(form) }}
                         {{ form_row(form.Image) }}

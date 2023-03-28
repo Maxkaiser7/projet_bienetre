@@ -31,10 +31,10 @@ class SecurityController extends AbstractController
         $referer = $request->headers->get('referer');
         $session = $request->getSession();
         $session->set('url', $referer);
-        //dump($referer);die;
-        // get the login error if there is one
+
+        // login error si elle exist
         $error = $authenticationUtils->getLastAuthenticationError();
-        // last username entered by the user
+        // dernier username entré
         $lastUsername = $authenticationUtils->getLastUsername();
         $categories = $entityManager->getRepository(CategorieDeServices::class)->findBy(['valide' => 1]);
 

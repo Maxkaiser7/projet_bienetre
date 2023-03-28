@@ -8,6 +8,7 @@
             {% for p in proposer %}
                 <div class="prestataire-container">
                     {% for i in p.prestataire.images %}
+                        {# on affiche que la photo de profil (ordre 0) #}
                         {% if i.ordre == 0 %}
                             <img id="prestataire_img" src="{{ asset('../uploads/images/' ~ i.image) }}" alt=""/>
                         {% endif %}

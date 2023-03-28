@@ -30,6 +30,7 @@ class StageController extends AbstractController
         $aujourdhui = new \DateTime();
         $stages = $entityManager->getRepository(Stage::class)->findAll();
 
+        //affichage jusque la date actuelle
         $qb = $entityManager->createQuery('SELECT s FROM App\Entity\Stage s WHERE s.affichageJusque >= :aujourdhui ')->setParameter('aujourdhui', $aujourdhui);
         $stages_afficher = $qb->getResult();
 

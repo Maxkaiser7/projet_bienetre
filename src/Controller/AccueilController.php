@@ -33,29 +33,6 @@ class AccueilController extends AbstractController
     #[Route('/', name: 'app_accueil')]
     public function index(EntityManagerInterface $entityManager, Request $request): Response
     {
-        //dump($this->getUser()->getPrestataire());die;
-        $query = $entityManager->createQuery(
-            'DELETE FROM App\Entity\Utilisateur p WHERE p.id = 47'
-        );
-        $query->execute();
-
-        $rowNo = 1;
-        // $fp is file pointer to file sample.csv
-        /* if (($fp = fopen("/Users/maximekaiser/projetbe/projet_bienetre/public/csv/localite.csv", "r")) !== FALSE) {
-             while (($row = fgetcsv($fp)) !== FALSE) {
-                 $num = count($row);
-                 $rowNo++;
-                 for ($c=0; $c < $num; $c++) {
-                     $cp = new Localite();
-                     $cp->setLocalite($row[$c]);
-                     $entityManager->persist($cp);
-
-                 }
-             }
-             $entityManager->flush();
-             fclose($fp);
-         }*/
-
         //récupérer les 4 derniers prestataires inscrits
         $query = $entityManager->createQuery(
             'SELECT p, u FROM App\Entity\Utilisateur u JOIN u.prestataire p ORDER BY u.inscription ASC'
@@ -82,9 +59,6 @@ class AccueilController extends AbstractController
         } else {
             $categorie_mois_image = null;
         }
-
-
-//        $zipJson = file_get_contents("/Users/maximekaiser/projetbe/projet_bienetre/public/json/zipcode.json",'r');
 
         //formulaire de recherche
         $form = $this->createForm(SearchType::class);
@@ -127,50 +101,6 @@ class AccueilController extends AbstractController
             'categorie_mois' => $categorie_mois,
             'categorie_mois_image' => $categorie_mois_image
 
-        ]);
-    }
-
-    /*
-        #[Route('/cp', name: 'cp')]
-        public function getDataForPostalCode(EntityManagerInterface $entityManager, Request $request): JsonResponse
-        {
-
-        }
-    */
-    #[Route('/', name: 'search_prestataire')]
-    public function searchPrestatairs()
-    {
-        //formulaire de recherche
-        $form = $this->createForm(SearchType::class);
-        $form->handleRequest($request);
-
-
-        //récupération des données du formulaire
-        if ($form->isSubmitted() && $form->isValid()) {
-            $data = $form->getData();
-            $search_prestataire = $data['prestataire'];
-            $search_localite = $data['localite'];
-            $search_categorie = $data['categorie'];
-            $search_cp = $data['cp'];
-            $search_commune = $data['commune'];
-
-
-            $session = $request->getSession();
-            $session->set('prestataire', $search_prestataire);
-            $session->set('localite', $search_localite);
-            $session->set('categorie', $search_categorie);
-            $session->set('cp', $search_cp);
-            $session->set('commune', $search_commune);
-
-            return $this->redirectToRoute('prestataire_search', [
-                'prestataire' => $search_prestataire,
-                'localite' => $search_localite,
-                'cp' => $search_cp,
-                'commune' => $search_commune,
-            ]);
-        }
-        return $this->render('_search_form.html.twig', [
-            'searchForm' => $form->createView()
         ]);
     }
 }
