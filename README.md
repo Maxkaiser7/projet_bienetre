@@ -1,5 +1,5 @@
 # projetbe
-(documentation technique et utilisateur à la racine de ce projet)
+(documentation technique et utilisateur envoyées par mail)
 Installation :
 1. git clone https://github.com/Maxkaiser7/projet_bienetre.git
 2. entrez ces 3 lignes dans la console 
