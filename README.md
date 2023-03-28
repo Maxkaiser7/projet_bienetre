@@ -13,7 +13,7 @@ php bin/console make:migration
 php bin/console doctrine:migrations:migrate
 6. Copiez-collez le contenu du fichier à la racine de ce projet DB.md dans 'SQL' de phpMyAdmin
 7. Inscrivez-vous sur le site
-8. Entre ceci dans 'SQL' de phpMyAdmin (remplacez admin@bienetre.be par votre mail)
+8. Entrez ceci dans 'SQL' de phpMyAdmin (remplacez admin@bienetre.be par votre mail)
 UPDATE `utilisateur`
    SET `roles` = '[\"ROLE_ADMIN\"]', `is_verified` = 1
    WHERE `email` = 'admin@bienetre.be';
