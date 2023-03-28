@@ -6,6 +6,7 @@ Installation :
 composer install
 yarn install
 yarn encore dev
+symfony server:start
 3. créez une base de données (phpMyAdmin)
 4. ajoutez le nom de votre base dans le .env à DATABASE_URL
 5. Entrez ces lignes dans la console 
