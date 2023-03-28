@@ -42,11 +42,6 @@ class PrestataireController extends AbstractController
 
         $categories = $entityManager->getRepository(CategorieDeServices::class)->findBy(['valide' => 1]);
 
-        /*$query = $entityManager->createQuery(
-            'SELECT categorieDeServices.id c, prestataire.id presta FROM App:Proposer p JOIN p.categorieDeServices categorieDeServices JOIN p.prestataire prestataire'
-        );
-        $result = $query->getResult();
-*/
         $repository = $entityManager->getRepository(Proposer::class);
 
         $query = $repository->createQueryBuilder('p')
@@ -262,26 +257,26 @@ class PrestataireController extends AbstractController
         //trouver prestatairs similaires
         $prestataires_simi = $entityManager->getRepository(Proposer::class)->findBy(['categorieDeServices' => $categorie]);
         array_shift($prestataires_simi);
-/*
-        //télécharger le pdf de promotion
-        $promotions = $entityManager->getRepository(Promotion::class)->findBy(['prestataire' => $prestataire]);
-        $pdfPath = $this->getParameter('pdf_directory');
-        $response = new Response();
-        $promotionsDownloads = [];
-        for($i = 0; $i<count($promotions); $i++){
-            $disposition[$i] = $response->headers->makeDisposition(
-                ResponseHeaderBag::DISPOSITION_ATTACHMENT,
-                $promotions[$i]->getDocumentPdf()
-            );
-            $response->headers->set('Content-Disposition', $disposition[$i]);
-            $response->headers->set('Content-Type', 'application/pdf');
-            $pdfContent = file_get_contents($pdfPath . '/' . $promotions[$i]->getDocumentPdf());
-            $response->setContent($pdfContent);
-            $promotionDownloads[] = [
-                'name' => $promotions[$i]->getDocumentPdf(),
-                'url' => $this->generateUrl('download_promotion_pdf', ['id' => $promotions[$i]->getId()])
-            ];
-        }*/
+        /*
+                //télécharger le pdf de promotion
+                $promotions = $entityManager->getRepository(Promotion::class)->findBy(['prestataire' => $prestataire]);
+                $pdfPath = $this->getParameter('pdf_directory');
+                $response = new Response();
+                $promotionsDownloads = [];
+                for($i = 0; $i<count($promotions); $i++){
+                    $disposition[$i] = $response->headers->makeDisposition(
+                        ResponseHeaderBag::DISPOSITION_ATTACHMENT,
+                        $promotions[$i]->getDocumentPdf()
+                    );
+                    $response->headers->set('Content-Disposition', $disposition[$i]);
+                    $response->headers->set('Content-Type', 'application/pdf');
+                    $pdfContent = file_get_contents($pdfPath . '/' . $promotions[$i]->getDocumentPdf());
+                    $response->setContent($pdfContent);
+                    $promotionDownloads[] = [
+                        'name' => $promotions[$i]->getDocumentPdf(),
+                        'url' => $this->generateUrl('download_promotion_pdf', ['id' => $promotions[$i]->getId()])
+                    ];
+                }*/
         $promotions = $entityManager->getRepository(Promotion::class)->findBy(['prestataire' => $prestataire]);
         //formulaire de recherche
         $searchform = $this->createForm(SearchType::class);
@@ -323,10 +318,10 @@ class PrestataireController extends AbstractController
 
         ]);
     }
-    /**
-     * @Route("/promotion/download/{id}/{idPromo}", name="download_promotion_pdf")
-     */
-    public function downloadPdf($idpromo,$id, EntityManagerInterface $entityManager)
+
+
+    #[Route('/promotion/download/{id}/{idPromo}', name:'download_promotion_pdf' )]
+    public function downloadPdf($id, EntityManagerInterface $entityManager)
     {
         $prestataire = $entityManager->getRepository(Prestataire::class)->find($id);
 
@@ -335,7 +330,7 @@ class PrestataireController extends AbstractController
         $pdfPath = $this->getParameter('pdf_directory');
         $response = new Response();
         $promotionsDownloads = [];
-        for($i = 0; $i<count($promotions); $i++){
+        for ($i = 0; $i < count($promotions); $i++) {
             $disposition[$i] = $response->headers->makeDisposition(
                 ResponseHeaderBag::DISPOSITION_ATTACHMENT,
                 $promotions[$i]->getDocumentPdf()
@@ -350,8 +345,7 @@ class PrestataireController extends AbstractController
 
     }
 
-    #[
-        Route('/prestataire/show/{id}/like/{userId}', name: 'prestataire_like')]
+    #[Route('/prestataire/show/{id}/like/{userId}', name: 'prestataire_like')]
     public function likePrestataire(EntityManagerInterface $entityManager, Request $request, int $id, int $userId)
     {
 
@@ -407,7 +401,6 @@ class PrestataireController extends AbstractController
         $commune = $session->get('commune');
 
         $session->clear();
-        //dump($session->remove('categorie'));die;
         //trier les données
         $query = $repository->createQueryBuilder('p')
             ->select('p, prestataire, localite, utilisateur, categorieDeServices, codePostal')
@@ -467,7 +460,6 @@ class PrestataireController extends AbstractController
                 'commune' => $commune,
             ]);
         }
-
 
 
         return $this->render('prestataire/prestataire_search.html.twig', [

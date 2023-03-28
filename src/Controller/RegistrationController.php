@@ -81,8 +81,6 @@ class RegistrationController extends AbstractController
             $email->htmlTemplate('registration/confirmation_email.html.twig');
             $email->context(['signedUrl' => $signatureComponents->getSignedUrl()]);
             $mailer->send($email);
-            // do anything else you need here, like send an email
-            //$this->addFlash('success', 'ok');
             $emailVerifier->sendEmailConfirmation('app_verify_email', $user, $email);
             return $this->redirectToRoute('app_login');
 

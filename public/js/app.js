@@ -19,14 +19,7 @@ setInterval(() => {
     }
 },5000)
 
-//like btn
-/*
-const like_btn = document.querySelector('.like-btn');
-like_btn.addEventListener('click', (e) => {
-    like_btn.classList.toggle('dislike')
 
-})
-*/
 //onclick categorie dans la nav
 const btn_categ = document.querySelector('.btn-categ');
 const display_categ = document.querySelector('.display-categ');

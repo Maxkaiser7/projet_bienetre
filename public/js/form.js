@@ -12,18 +12,7 @@ $(document).ready(function () {
                 let zipData = jsonData.filter(function (x) {
                     return x.codePostal === postalCodeText
                 });
-
-                //let options = initOptions
-                /* for (let i = 0; i < options.length; i++) {
-                     let option = options[i]
-                     let region = option.text.normalize('NFD').replace(/[\u0300-\u036f]/g, "").replace(/-/g, " ").toLowerCase();
-                     let dataRegion = zipData[0]['region'].normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase();
-                     if (region === dataRegion) {
-                         $('#registration_form_localite option[value="' + option.value + '"]').prop('selected', true);
-                     }
-                 }*/
                 $('#registration_form_commune option').remove();
-                //$('#registration_form_localite option').remove();
 
                 for (let i = 0; i < zipData.length; i++) {
                     let dataCp = zipData[i].codePostal;

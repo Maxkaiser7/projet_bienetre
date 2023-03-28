@@ -9,6 +9,7 @@
 {% block title %}{{ categorie.nom }}{% endblock %}
 
 {% block body %}
+    {# l'admin peut changer la photo de la catégorie #}
     {% if is_granted('ROLE_ADMIN') %}
         <div class="admin-categ-form">
         {{ form_start(formImageCategorie) }}
