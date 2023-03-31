@@ -2,6 +2,7 @@
 
 namespace App\Security;
 
+use App\Entity\CategorieDeServices;
 use App\Entity\Utilisateur;
 use App\Repository\UtilisateurRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -29,11 +30,12 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
     private $router;
     public const LOGIN_ROUTE = 'app_login';
     private UtilisateurRepository $utilisateurRepository;
-
+    private $entitymanager;
     public function __construct(private UrlGeneratorInterface $urlGenerator, RouterInterface $router,EntityManagerInterface $entityManager, UtilisateurRepository $utilisateurRepository)
     {
         $this->router = $router;
         $this->utilisateurRepository = $utilisateurRepository;
+        $this->entitymanager = $entityManager;
 
     }
 
@@ -62,6 +64,7 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
         $referer = $request->headers->get('referer');
         $session = $request->getSession();
         $url = $session->get('url');
+
         return new RedirectResponse($url);
 
 

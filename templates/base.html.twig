@@ -32,11 +32,14 @@
                         <path d="M23.245 4l-11.245 14.374-11.219-14.374-.781.619 12 15.381 12-15.391-.755-.609z"/>
                     </svg>
                 </button>
-                <div class="display-categ">
-                    {% for c in categories %}
-                        <a href="{{ path('app_categorie_show', {nom: c.nom}) }}">{{ c.nom }}</a>
-                    {% endfor %}
-                </div>
+                {% if categories is defined %}
+                    <div class="display-categ">
+                        {% for c in categories %}
+                            <a href="{{ path('app_categorie_show', {nom: c.nom}) }}">{{ c.nom }}</a>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
             </div>
             <a class="nav-a" href="{{ path('app_prestataire') }}">Prestataires</a>
             <a class="nav-a" href="{{ path('app_stage') }}">Stages</a>
@@ -46,20 +49,19 @@
                 <a href="{{ path('admin') }}">admin</a>
             {% endif %}
         </div>
-        {% if app.user %}
+        {% if app.user or is_granted('ROLE_ADMIN')%}
             <p id="email">
                 {{ app.user.email }}
+            <div class="log">
+                <a href="{{ path('app_logout') }}" id="logout">Déconnexion</a>
+            </div>
             </p>
             {% if app.user.prestataire %}
                 <div class="log">
                     <a href="{{ path('app_profil_user', {id:app.user.prestataire.id}) }}" id="profil">Profil</a>
                     <a href="{{ path('app_logout') }}" id="logout">Déconnexion</a>
                 </div>
-            {% elseif is_granted('ROLE_ADMIN') %}
-                <div class="log">
-                    <a href="{{ path('app_logout') }}" id="logout">Déconnexion</a>
-                </div>
-            {% endif %}
+                {% endif %}
         {% else %}
             <div class="log">
                 <a href="{{ path('inscription') }}" id="login">S'inscrire</a>
@@ -81,22 +83,6 @@
     <header class="header_container">
         {% include '_search_form.html.twig' with {form: searchForm} %}
     </header>
-        {#
-        <div class="header_form">
-            {{ form_start(searchForm) }}
-            {{ form_row(searchForm.prestataire , {'attr': {
-                'placeholder': 'Cherchez un prestataire'
-            }}) }}
-            {{ form_row(searchForm.localite) }}
-            {{ form_row(searchForm.cp) }}
-            {{ form_row(searchForm.commune) }}
-
-            {{ form_row(searchForm.categorie) }}
-
-            <button type="submit" class="btn-submit">Rechercher</button>
-            {{ form_end(searchForm) }}
-        </div>
-        #}
         <div class="container-slide">
             <img src="{{ asset('../images/slider/slider1.jpg') }}" alt="" class="img img-1 show">
             <img src="{{ asset('../images/slider/slider2.jpg') }}" alt="" class="img img-2">
@@ -116,7 +102,6 @@
                                              src="{{ asset('../uploads/images/' ~ i.image) }}"
                                              alt=""/>
                                     {% endif %}
-
                                 </a>
                             {% endfor %}
                             <a href="#">
@@ -135,8 +120,11 @@
                         <div class="prestataire-container_accueil">
                             {% for i in p.prestataire.images %}
                                 <a href="{{ path('prestataire_show',{id: p.prestataire.id}) }}">
-                                    <img id="prestataire_img_accueil" src="{{ asset('../uploads/images/' ~ i.image) }}"
-                                         alt=""/>
+                                    {% if i.ordre == 0 %}
+                                        <img id="prestataire_img_accueil"
+                                             src="{{ asset('../uploads/images/' ~ i.image) }}"
+                                             alt=""/>
+                                    {% endif %}
                                 </a>
                             {% endfor %}
                             <a href="{{ path('prestataire_show',{id: p.prestataire.id}) }}">

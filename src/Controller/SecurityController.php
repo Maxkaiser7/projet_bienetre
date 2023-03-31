@@ -30,6 +30,9 @@ class SecurityController extends AbstractController
         //récupération de la dernière route utilisée
         $referer = $request->headers->get('referer');
         $session = $request->getSession();
+        if ($referer == 'http://127.0.0.1:8000/inscription'){
+            $referer = 'http://127.0.0.1:8000/accueil';
+        }
         $session->set('url', $referer);
 
         // login error si elle exist
@@ -41,11 +44,12 @@ class SecurityController extends AbstractController
         $email = $session->get('_security.last_username');
         $user = $this->utilisateurRepository->findOneByEmail($email);
         $banni = false;
+        /*
         if ($user){
             if(!$user->isVerified() == false){
                 return $this->render('security/error.html.twig', ['message' => 'Votre compte n\'est pas vérifié.']);
             }
-        }
+        }*/
 
         if ($user && $user->isBanni()) {
             $banni = true;
