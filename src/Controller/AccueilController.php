@@ -9,6 +9,7 @@ use App\Entity\Commune;
 use App\Entity\Internaute;
 use App\Entity\Localite;
 use App\Entity\Prestataire;
+use App\Entity\Proposer;
 use App\Entity\Utilisateur;
 use App\Form\SearchType;
 use App\Repository\InternauteRepository;
@@ -33,6 +34,7 @@ class AccueilController extends AbstractController
     #[Route('/', name: 'app_accueil')]
     public function index(EntityManagerInterface $entityManager, Request $request): Response
     {
+
         //récupérer les 4 derniers prestataires inscrits
         $query = $entityManager->createQuery(
             'SELECT p, u FROM App\Entity\Utilisateur u JOIN u.prestataire p ORDER BY u.inscription ASC'

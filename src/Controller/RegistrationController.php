@@ -9,9 +9,11 @@ use App\Entity\Prestataire;
 use App\Entity\Utilisateur;
 use App\Form\RegistrationFormType;
 use App\Security\EmailVerifier;
+use App\Security\LoginFormAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
@@ -21,25 +23,30 @@ use Symfony\Component\Mime\Email;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 use Symfony\Component\VarDumper\VarDumper;
 use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelper;
 use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
+
 class RegistrationController extends AbstractController
 {
     private $verifyEmailHelper;
     private $mailer;
+    private EmailVerifier $emailVerifier;
 
-    public function __construct(VerifyEmailHelperInterface $helper, MailerInterface $mailer){
+    public function __construct(VerifyEmailHelperInterface $helper, MailerInterface $mailer, EmailVerifier $emailVerifier){
         $this->verifyEmailHelper = $helper;
+        $this->emailVerifier = $emailVerifier;
+
         $this->mailer = $mailer;
     }
     /**
      * @throws TransportExceptionInterface
      */
     #[Route('/inscription', name: 'inscription')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher,  UrlGeneratorInterface $urlGenerator, EntityManagerInterface $entityManager): Response
+    public function register(Request $request, LoginFormAuthenticator $authenticator, UserAuthenticatorInterface $userAuthenticator, UserPasswordHasherInterface $userPasswordHasher,  UrlGeneratorInterface $urlGenerator, EntityManagerInterface $entityManager): Response
     {
 
         $user = new Utilisateur();
@@ -60,27 +67,27 @@ class RegistrationController extends AbstractController
             $internaute = new Internaute();
             $internaute->setName($user->getEmail());
             $user->setInternaute($internaute);
-            $user->setIsVerified(true);
 
             //données dans la db
             $entityManager->persist($user);
             $entityManager->flush();
 
-            $signatureComponents = $this->verifyEmailHelper->generateSignature(
-                'app_verify_email',
-                $user->getId(),
-                $user->getEmail()
-            );
             // generate a signed url and email it to the user
-            $email = (new TemplatedEmail())
-                ->from('maxkaiser950@gmail.com')
-                ->to($user->getEmail())
-                ->htmlTemplate('registration/confirmation_email.html.twig')
-                ->context(['signedUrl' => $signatureComponents->getSignedUrl()]);
-            $this->mailer->send($email);
-            // do anything else you need here, like send an email
-            $this->addFlash('success', 'ok');
-            return $this->redirectToRoute('app_login');
+            $this->emailVerifier->sendEmailConfirmation(
+                'app_verify_email',
+                $user,
+                (new TemplatedEmail())
+                    ->from(new Address('maxkaiser950@gmail.com'))
+                    ->to($user->getEmail())
+                    ->subject("Confirmation de votre email")
+                    ->htmlTemplate('registration/confirmation_email.html.twig')
+            );
+
+           return $userAuthenticator->authenticateUser(
+                $user,
+                $authenticator,
+                $request
+            );
 
         }
         $categories = $entityManager->getRepository(CategorieDeServices::class)->findBy(['valide' => 1]);
